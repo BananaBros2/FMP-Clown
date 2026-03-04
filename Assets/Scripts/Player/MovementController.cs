@@ -1,9 +1,7 @@
-using NUnit.Framework;
-using System.Collections.Generic;
+using System.Collections;
 using System.Drawing;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.InputSystem.InputAction;
 
 public class MovementController : MonoBehaviour
 {
@@ -24,7 +22,10 @@ public class MovementController : MonoBehaviour
     [SerializeField]
     BoxCollider2D boxColi;
     [SerializeField]
+    LayerMask solidGroundLayer;
+    [SerializeField]
     LayerMask groundLayer;
+
     [SerializeField]
     Transform groundCheck;
     [SerializeField]
@@ -35,12 +36,16 @@ public class MovementController : MonoBehaviour
     GameObject hookPrefab;
     GameObject currentHook;
 
+    [SerializeField]
+    GameObject ballObject;
+
+
     Vector2 jumpStartVel;
 
     bool jumpHeld = false;
     bool jumpStarted = false;
 
-    int currentDirection = 1;
+    int directionFacing = 1;
     Vector2 currentOmniDirection;
 
 
@@ -57,19 +62,39 @@ public class MovementController : MonoBehaviour
     float dashStartupTime = 0.2f;
     float dashStartupCurTime = 0;
     Vector2 dashDirection;
+    float remainingDashDistance = 0;
 
     Vector2 preservedVel;
     Vector2[] preservedVelList = new Vector2[5];
     int preservedVelCurIndex = 0;
 
-    float ceilingBumpLenience = 0.3f;
+    float ceilingBumpLenience = 0.35f;
 
-    float coyoteTime = 0.125f;
+    float coyoteTime = 0.1f;
     float coyoteCurTime;
     Vector2 coyoteJumpStartVel;
 
 
+    float horizontalVel = 0;
 
+    bool groundedState = false;
+
+    float acceleration = 1;
+
+    bool ballin = false;
+    bool bounced = false;
+
+    Vector2 bouncePosition;
+    float bounceHeight;
+
+    bool canUseBall = true;
+    bool recordHeight = true;
+    float highestHeight = 0;
+    bool ignoreGravityChanges = false;
+    bool reachedBallApex = false;
+
+    bool attemptingWallGrab = false;
+    bool hasGrabbed = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -84,8 +109,7 @@ public class MovementController : MonoBehaviour
 
 
 
-    #region PLAYER_CONTROLS
-
+    #region PLAYER_INPUT
 
     public void OnMove(InputAction.CallbackContext movement)
     { 
@@ -110,18 +134,18 @@ public class MovementController : MonoBehaviour
 
     public void OnWhip(InputAction.CallbackContext whipInput)
     {
-        print("whip");
         if (whipInput.started && !dashStarted)
         {
+            ExitBallState(false);
 
             Vector2 whipDir = currentOmniDirection;
             if (whipDir == Vector2.zero)
             {
-                whipDir = new Vector2(currentDirection, 0);
+                whipDir = new Vector2(directionFacing, 0);
             }
 
             RaycastHit2D hit;
-            hit = Physics2D.Raycast(transform.position, whipDir.normalized, 4, groundLayer);
+            hit = Physics2D.Raycast(transform.position, whipDir.normalized, 4, solidGroundLayer);
 
             //if (currentHook != null) { Destroy(currentHook.gameObject); currentHook = null; }
 
@@ -138,15 +162,61 @@ public class MovementController : MonoBehaviour
             dashStartupCurTime = dashStartupTime;
 
             rb.linearVelocity = Vector2.zero;
+            preservedVelList = new Vector2[5];
             gravityScale = 0;
 
         }
 
     }
 
+    public void OnWallHook(InputAction.CallbackContext wallHookInput)
+    {
+        if (wallHookInput.started)
+        {
+            attemptingWallGrab = true;
 
-    #endregion
+        }
+        else if (wallHookInput.canceled)
+        {
+            attemptingWallGrab = false;
+        }
 
+    }
+
+    public void OnBall(InputAction.CallbackContext ballInput)
+    {
+        if (!ballin && ballInput.started && canUseBall)
+        {
+            DoHitFreeze();
+
+            ballin = true;
+            if (!groundedState)
+            {
+                rb.linearVelocityY = 8;
+                recordHeight = true;
+            }
+
+        }
+        else if (ballin && ballInput.started)
+        {
+            ExitBallState(false);
+        }
+
+    }
+
+
+
+    #endregion PLAYER_INPUT
+
+    private void ExitBallState(bool canStillUse)
+    {
+        ballin = false;
+        bounced = false;
+        canUseBall = canStillUse;
+
+        recordHeight = false;
+        highestHeight = 0;
+    }
 
     private int GetMoveDir()
     {
@@ -166,36 +236,6 @@ public class MovementController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-
-    }
-
-    private void StartJump()
-    {
-        jumpStartVel = rb.linearVelocity;
-        jumpHeld = true;
-        jumpBufferCurTime = 0;
-    }
-
-    //private void JumpApex()
-    //{
-    //    hangTimeTime = 0.015f;
-    //    hangTime = true;
-    //    jumpHeld = false;
-    //}
-
-    //private void HangTime()
-    //{
-    //    if (rb.linearVelocityY < 2 && hangTimeTime > 0)
-    //    {
-    //        rb.linearVelocity += new Vector2(0, 1f);
-    //        hangTimeTime -= Time.fixedDeltaTime;
-    //    }
-        
-    //}
-
-
-    private void StartDash()
     {
 
     }
@@ -235,7 +275,7 @@ public class MovementController : MonoBehaviour
 
         if (!jumpHeld && jumpStarted && jumpPowerRemaining < 2)
         {
-            gravityScale = 1.5f;
+            gravityScale = ignoreGravityChanges ? gravityScale : 1.5f;
             jumpStarted = false;
 
             if (rb.linearVelocity.y > jumpStartVel.y + 8)
@@ -249,15 +289,10 @@ public class MovementController : MonoBehaviour
 
         if (jumpHeld)
         {
-            gravityScale = 1;
+            gravityScale = ignoreGravityChanges ? gravityScale : 1;
         }
 
 
-
-        //if(IsGrounded())
-        //{
-        //    jumpStarted = false;
-        //}
 
     }
 
@@ -268,6 +303,7 @@ public class MovementController : MonoBehaviour
 
         if (IsAgainstWall())
         {
+
             rb.linearVelocityY = Mathf.Max(rb.linearVelocityY, -3);
 
             if (rb.linearVelocity.y > -3 && rb.linearVelocity.y < 2)
@@ -284,10 +320,10 @@ public class MovementController : MonoBehaviour
     {
         Vector2 rayStart = new Vector2(transform.position.x + (boxColi.size.x / 2 + 0.1f) * GetMoveDir(), transform.position.y + (boxColi.size.y / 2));
 
-        if (!Physics2D.OverlapBox(rayStart, new Vector2(0.1f, 0.1f), 0, groundLayer))
+        if (!Physics2D.OverlapBox(rayStart, new Vector2(0.1f, 0.1f), 0, solidGroundLayer))
         {
 
-            RaycastHit2D hit = Physics2D.Raycast(rayStart, -Vector2.up, boxColi.size.y, groundLayer);
+            RaycastHit2D hit = Physics2D.Raycast(rayStart, -Vector2.up, boxColi.size.y, solidGroundLayer);
 
             if (hit)
             {
@@ -304,7 +340,20 @@ public class MovementController : MonoBehaviour
 
     }
 
+    private void SemiSolidClimb()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, boxColi.size.y - 0.1f, groundLayer);
 
+        if (hit)
+        {
+            //transform.position += new Vector3(0, hit.distance, 0);
+            //rb.linearVelocityY += hit.distance*3;
+        }
+
+
+
+
+    }
 
 
 
@@ -315,20 +364,181 @@ public class MovementController : MonoBehaviour
         if (dashStartupCurTime < 0)
         {
             rb.linearVelocity = (currentHook.transform.position - transform.position).normalized * 20;
-            if (Vector2.Distance(transform.position, currentHook.transform.position) < 1)
+
+            float lastDashDistance = remainingDashDistance;
+            remainingDashDistance = Vector2.Distance(transform.position, currentHook.transform.position);
+
+            if (remainingDashDistance < 1)
             {
                 dashStarted = false;
                 gravityScale = 1;
                 if (currentHook != null) { Destroy(currentHook.gameObject); currentHook = null; }
+                canUseBall = true;
 
             }
+            else if (lastDashDistance == remainingDashDistance)
+            {
+                dashStarted = false;
+                gravityScale = 1;
+                if (currentHook != null) { Destroy(currentHook.gameObject); currentHook = null; }
+                canUseBall = true;
+            }
+
             //transform.position = Vector2.MoveTowards(transform.position, currentHook.transform.position, 0.4f);
         }
     } 
 
 
+    private void HandleGravity()
+    {
+        if (!groundedState && rb.linearVelocityY < 2 && rb.linearVelocityY > -2 && jumpHeld)
+        {
+            rb.linearVelocity += new Vector2(0, (gravity * gravityScale * 0.5f));
+        }
+        else
+        {
+            rb.linearVelocity += new Vector2(0, (gravity * gravityScale));
+        }
+
+        // Capping falling speed
+        float maxFallMult = 1;
+        if (currentOmniDirection.y < 0)
+        {
+            maxFallMult = 1.5f;
+        }
+
+        rb.linearVelocityY = Mathf.Max(rb.linearVelocityY, -20 * maxFallMult);
+
+    }
+
+    private void HandleHorizontalMovement()
+    {
+        if ((horizontalMov > 0 && horizontalVel < 0) || (horizontalMov < 0 && horizontalVel > 0))
+        {
+            horizontalVel = (horizontalVel * -1) * 0.5f;
+        }
+
+
+        float accAmount = groundedState ? 1 : 0.75f;
+        if (!groundedState && rb.linearVelocityY < 3)
+        {
+            accAmount = 1f;
+        }
+
+
+        horizontalVel += (horizontalMov / 3) * acceleration * accAmount;
+
+        horizontalVel = Mathf.Clamp(horizontalVel, -1, 1);
+
+        if (horizontalMov == 0)
+        {
+            float decAmount = groundedState ? 1 : 0.2f;
+
+            if (horizontalVel > 0)
+            {
+                horizontalVel = Mathf.Max(horizontalVel - 0.15f * decAmount, 0);
+
+            }
+            else
+            {
+                horizontalVel = Mathf.Min(horizontalVel + 0.15f * decAmount, 0);
+            }
+
+        }
+
+        rb.linearVelocity = new Vector2(horizontalVel * speed, rb.linearVelocity.y);
+    }
+
+    private void HandleBounce()
+    {
+        //transform.position -= new Vector3(0, 0.2f, 0);
+        //DoHitFreeze();
+
+        bouncePosition = transform.position;
+        bounceHeight = highestHeight - transform.position.y;
+        highestHeight = -Mathf.Infinity;
+
+        if (bounceHeight > 2)
+        {
+            rb.linearVelocityY = -preservedVel.y;
+            bounced = true;
+            reachedBallApex = false;
+        }
+        else
+        {
+            ballin = false;
+            bounced = false;
+        }
+    }
+
+    private void HandleBallPhysics()
+    {
+        if (transform.position.y > bouncePosition.y + (bounceHeight * 0.7f) - 1)
+        {
+            reachedBallApex = true;
+            gravityScale = 1f;
+            ignoreGravityChanges = false;
+
+            if (rb.linearVelocityY > 0)
+            {
+                rb.linearVelocityY = Mathf.Max(rb.linearVelocityY * 0.75f, 0);
+                // ?
+            }
+
+        }
+        else if (!reachedBallApex)
+        {
+            gravityScale = 0f;
+        }
+    }
+
+    private void HandleCeilingBump()
+    {
+        RaycastHit2D hit;
+        hit = Physics2D.Raycast(transform.position, Vector2.up, 1, solidGroundLayer);
+
+        if (!hit)
+        {
+            RaycastHit2D hitTL;
+            hitTL = Physics2D.Raycast(new Vector2(transform.position.x - boxColi.size.x / 2, transform.position.y + (boxColi.size.y / 2 + 0.1f)), Vector2.right, boxColi.size.x, solidGroundLayer);
+
+            RaycastHit2D hitTR;
+            hitTR = Physics2D.Raycast(new Vector2(transform.position.x + boxColi.size.x / 2, transform.position.y + (boxColi.size.y / 2 + 0.1f)), Vector2.left, boxColi.size.x, solidGroundLayer);
+
+            bool successfulBump = false;
+            if (hitTR)
+            {
+                if (hitTR.distance < ceilingBumpLenience)
+                {
+                    transform.position = new Vector2(transform.position.x - hitTR.distance - 0.01f, transform.position.y);
+                    rb.linearVelocity = preservedVel;
+                    successfulBump = true;
+                }
+            }
+            if (hitTL)
+            {
+                if (hitTL.distance < ceilingBumpLenience)
+                {
+                    transform.position = new Vector2(transform.position.x + hitTL.distance + 0.01f, transform.position.y);
+                    rb.linearVelocity = preservedVel;
+                    successfulBump = true;
+                }
+            }
+
+            if (ballin && !successfulBump)
+            {
+                reachedBallApex = true;
+                gravityScale = 1f;
+                ignoreGravityChanges = false;
+            }
+
+        }
+    }
+
     private void FixedUpdate()
     {
+        groundedState = IsGrounded(false);
+
 
         if (dashStarted)
         {
@@ -337,81 +547,81 @@ public class MovementController : MonoBehaviour
             return;
         }
 
-        rb.linearVelocity = new Vector2(horizontalMov * speed, rb.linearVelocity.y);
+        HandleHorizontalMovement();
 
-        rb.linearVelocity += new Vector2(0, (gravity * gravityScale));
+        HandleGravity();
 
         MoveWallCheck(GetMoveDir());
 
-        if (IsGrounded(false))
+
+
+        if (groundedState == true)
         {
             gravityScale = 1;
-            rb.linearVelocityY = 0;
+
+            canUseBall = true;
+            if (ballin)
+            {
+                HandleBounce();
+            }
+            //else
+            //{
+            //    rb.linearVelocityY = 0;
+            //}
+                
         }
-        
-        if(!IsGrounded(true))
+
+        hasGrabbed = false;
+        if (attemptingWallGrab)
+        {
+            if (IsAgainstWallPassive(false))
+            {
+                RaycastHit2D wallHit;
+                wallHit = Physics2D.BoxCast(transform.position, new Vector2(0.01f, boxColi.size.y - 0.1f), 0, new Vector2(directionFacing, 0), 2 , groundLayer);
+                print(wallHit.distance);
+                transform.position = transform.position + new Vector3((wallHit.distance - boxColi.size.x / 2) * directionFacing, 0,0);
+                rb.linearVelocityY = 0;
+                hasGrabbed = true;
+            }
+
+        }
+
+        if (groundedState == false && !ballin)
         {
             WallSlide();
+            SemiSolidClimb();
         }
 
-        HandleJump();
-
-
-
-
-        RaycastHit2D hit;
-        hit = Physics2D.Raycast(transform.position, Vector2.up, 1, groundLayer);
-
-
-        if (!hit)
+        if (!ballin)
         {
-            RaycastHit2D hitTL;
-            hitTL = Physics2D.Raycast(new Vector2(transform.position.x - boxColi.size.x / 2, transform.position.y + (boxColi.size.y / 2 + 0.05f)), Vector2.right, boxColi.size.x, groundLayer);
+            HandleJump();
+        }
 
-            RaycastHit2D hitTR;
-            hitTR = Physics2D.Raycast(new Vector2(transform.position.x + boxColi.size.x / 2, transform.position.y + (boxColi.size.y / 2 + 0.05f)), Vector2.left, boxColi.size.x, groundLayer);
-
-            if (hitTR)
-            { 
-                if (hitTR.distance < ceilingBumpLenience)
-                {
-                    transform.position = new Vector2(transform.position.x - hitTR.distance - 0.01f, transform.position.y);
-                    //rb.linearVelocity = preservedVel;
-                }
-            }
-
-            if (hitTL)
-            {
-                if (hitTL.distance < ceilingBumpLenience)
-                {
-                    transform.position = new Vector2(transform.position.x + hitTL.distance + 0.01f, transform.position.y);
-                    rb.linearVelocity = preservedVel;
-                }
-            }
-
+        if (recordHeight)
+        {
+            highestHeight = Mathf.Max(highestHeight, transform.position.y);
         }
 
 
+        if (bounced)
+        {
+            HandleBallPhysics();
+        }
 
+        if (!groundedState)
+        {
+            HandleCeilingBump();
+        }
 
+        
         int moveDir = GetMoveDir();
         if (moveDir != 0)
         {
-            currentDirection = moveDir;
+            directionFacing = Mathf.RoundToInt(moveDir);
         }
 
-        
 
-        preservedVelList[preservedVelCurIndex] = rb.linearVelocity;
-        preservedVelCurIndex++;
-        if (preservedVelCurIndex >= preservedVelList.Length) { preservedVelCurIndex = 0; }
-
-        preservedVel = Vector2.zero;
-        foreach (Vector2 vel in preservedVelList)
-        {
-            preservedVel += vel;
-        }
-        preservedVel = preservedVel / preservedVelList.Length;
+        PreserveVelocity();
 
 
         WasGrounded();
@@ -419,11 +629,35 @@ public class MovementController : MonoBehaviour
 
 
 
-        // Limit falling speed
-        rb.linearVelocityY = Mathf.Max(rb.linearVelocityY, -20);
+        // Landed Physics
+        if (groundedState == false && groundedState != IsGrounded(false))
+        {
+            horizontalVel = 0.2f;
+        }
+
+
+        // TEMP STUFF
+
+        ballObject.SetActive(ballin);
 
     }
 
+    private void PreserveVelocity()
+    {
+        preservedVelList[preservedVelCurIndex] = rb.linearVelocity;
+        preservedVelCurIndex++;
+        if (preservedVelCurIndex >= preservedVelList.Length) { preservedVelCurIndex = 0; }
+
+        preservedVel = Vector2.zero;
+        foreach (Vector2 vel in preservedVelList)
+        {
+            if (vel.magnitude > preservedVel.magnitude)
+            {
+                preservedVel = vel;
+            }
+        }
+
+    }
     private bool IsGrounded(bool extended)
     {
         float size = extended ? 20 : 1;
@@ -441,8 +675,31 @@ public class MovementController : MonoBehaviour
         return coyoteCurTime > 0 ? true : false;
     }
 
-    private bool IsAgainstWall()
+    private bool IsAgainstWall(bool extended = false)
     {
-        return Physics2D.OverlapBox(wallCheck.transform.position, new Vector2(0.2f, boxColi.size.y - 0.1f), 0, groundLayer);
+       float reach = extended ? 2 : 1;
+
+        return Physics2D.OverlapBox(wallCheck.transform.position, new Vector2(0.2f * reach, boxColi.size.y - 0.1f), 0, solidGroundLayer);
+    }
+
+    private bool IsAgainstWallPassive(bool extended = false)
+    {
+        float reach = extended ? 2 : 1;
+
+        return Physics2D.OverlapBox(transform.position + new Vector3(boxColi.size.x / 2, 0,0) * directionFacing, new Vector2(0.2f * reach, boxColi.size.y - 0.1f), 0, solidGroundLayer);
+    }
+
+    private void DoHitFreeze(float duration = 0.125f)
+    {
+
+        StartCoroutine(HitFreeze(duration));
+    }
+
+    IEnumerator HitFreeze(float realTime)
+    {
+        Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(realTime);
+        Time.timeScale = 1;
+
     }
 }
