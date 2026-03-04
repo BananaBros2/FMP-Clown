@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Drawing;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,7 +11,7 @@ public class MovementController : MonoBehaviour
     private float speed = 5f;
 
     [SerializeField]
-    private float jumpHeight = 8f;
+    private float jumpPower = 12.5f;
 
     private float moveDir;
     private float horizontalMov;
@@ -25,6 +24,8 @@ public class MovementController : MonoBehaviour
     LayerMask solidGroundLayer;
     [SerializeField]
     LayerMask groundLayer;
+    [SerializeField]
+    LayerMask semiSolidLayer;
 
     [SerializeField]
     Transform groundCheck;
@@ -59,7 +60,7 @@ public class MovementController : MonoBehaviour
 
 
     bool dashStarted = false;
-    float dashStartupTime = 0.2f;
+    float dashStartupTime = 0.15f;
     float dashStartupCurTime = 0;
     Vector2 dashDirection;
     float remainingDashDistance = 0;
@@ -95,6 +96,7 @@ public class MovementController : MonoBehaviour
 
     bool attemptingWallGrab = false;
     bool hasGrabbed = false;
+    float grabCurDownTime = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -104,6 +106,7 @@ public class MovementController : MonoBehaviour
         wallCheckOffset = boxColi.size.x / 2;
 
 
+        Application.targetFrameRate = 60;
     }
 
 
@@ -185,7 +188,7 @@ public class MovementController : MonoBehaviour
 
     public void OnBall(InputAction.CallbackContext ballInput)
     {
-        if (!ballin && ballInput.started && canUseBall)
+        if (!ballin && ballInput.started && canUseBall && !hasGrabbed)
         {
             DoHitFreeze();
 
@@ -208,6 +211,7 @@ public class MovementController : MonoBehaviour
 
     #endregion PLAYER_INPUT
 
+    #region PHYSICS_HANDLER
     private void ExitBallState(bool canStillUse)
     {
         ballin = false;
@@ -233,14 +237,6 @@ public class MovementController : MonoBehaviour
         wallCheck.transform.localPosition = new Vector2(wallCheckOffset * dir, 0);
     }
 
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-
     private void HandleJump()
     {
         jumpBufferCurTime -= Time.fixedDeltaTime;
@@ -262,6 +258,19 @@ public class MovementController : MonoBehaviour
                 jumpPowerRemaining = 4;
                 jumpStartVel = coyoteJumpStartVel;
             }
+            else if (hasGrabbed && (jumpBufferCurTime > 0) && grabCurDownTime <= 0)
+            {
+                jumpBufferCurTime = 0;
+                jumpStarted = true;
+
+                hasGrabbed = false;
+                grabCurDownTime = 0.6f;
+
+                jumpPowerRemaining = 4;
+                jumpStartVel = rb.linearVelocity;
+                rb.linearVelocityX += -directionFacing * 4;
+
+            }
 
         }
 
@@ -270,7 +279,7 @@ public class MovementController : MonoBehaviour
         if (jumpStarted && jumpPowerRemaining > 0)
         {
             jumpPowerRemaining--;
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpStartVel.y + 12);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpStartVel.y + jumpPower);
         }
 
         if (!jumpHeld && jumpStarted && jumpPowerRemaining < 2)
@@ -300,11 +309,16 @@ public class MovementController : MonoBehaviour
 
     private void WallSlide()
     {
+        float wallSlideSpeedMult = 1;
+        if (currentOmniDirection.y < 0)
+        {
+            wallSlideSpeedMult = 2.25f;
+        }
 
         if (IsAgainstWall())
         {
 
-            rb.linearVelocityY = Mathf.Max(rb.linearVelocityY, -3);
+            rb.linearVelocityY = Mathf.Max(rb.linearVelocityY, -3 * wallSlideSpeedMult);
 
             if (rb.linearVelocity.y > -3 && rb.linearVelocity.y < 2)
             {
@@ -318,7 +332,7 @@ public class MovementController : MonoBehaviour
 
     private void LedgeClimb()
     {
-        Vector2 rayStart = new Vector2(transform.position.x + (boxColi.size.x / 2 + 0.1f) * GetMoveDir(), transform.position.y + (boxColi.size.y / 2));
+        Vector2 rayStart = new Vector2(transform.position.x + (boxColi.size.x / 2 + 0.1f) * GetMoveDir(), transform.position.y + (boxColi.size.y / 2 + 0.1f));
 
         if (!Physics2D.OverlapBox(rayStart, new Vector2(0.1f, 0.1f), 0, solidGroundLayer))
         {
@@ -331,7 +345,7 @@ public class MovementController : MonoBehaviour
                 if (hit.distance > 0.5f)
                 {
                     //print(hit.distance);
-                    transform.position = new Vector2(transform.position.x + moveDir / 8, transform.position.y + (boxColi.size.y - hit.distance) + 0.05f);
+                    transform.position = new Vector2(transform.position.x + moveDir / 8, transform.position.y + (boxColi.size.y - hit.distance + 0.05f) + 0.05f);
                     rb.linearVelocityY = 0;
                 }
             }
@@ -342,12 +356,16 @@ public class MovementController : MonoBehaviour
 
     private void SemiSolidClimb()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, boxColi.size.y - 0.1f, groundLayer);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position - new Vector3(boxColi.size.x / 2, boxColi.size.y / 3, 0) , -Vector2.up, boxColi.size.y / 3 - 0.1f, semiSolidLayer);
 
-        if (hit)
+        if (!hit)
         {
-            //transform.position += new Vector3(0, hit.distance, 0);
-            //rb.linearVelocityY += hit.distance*3;
+            hit = Physics2D.Raycast(transform.position - new Vector3(-boxColi.size.x / 2, boxColi.size.y / 3, 0), -Vector2.up, boxColi.size.y / 3 - 0.1f, semiSolidLayer);
+        }
+
+        if (hit && rb.linearVelocityY < 8 && rb.linearVelocityY > 2.5f)
+        {
+            rb.linearVelocityY = 9;
         }
 
 
@@ -397,7 +415,13 @@ public class MovementController : MonoBehaviour
         }
         else
         {
-            rb.linearVelocity += new Vector2(0, (gravity * gravityScale));
+            float gravityMult = 1;
+            if (currentOmniDirection.y < 0)
+            {
+                gravityMult = 1.5f;
+            }
+
+            rb.linearVelocity += new Vector2(0, (gravity * gravityScale * gravityMult));
         }
 
         // Capping falling speed
@@ -496,7 +520,7 @@ public class MovementController : MonoBehaviour
     {
         RaycastHit2D hit;
         hit = Physics2D.Raycast(transform.position, Vector2.up, 1, solidGroundLayer);
-
+        
         if (!hit)
         {
             RaycastHit2D hitTL;
@@ -511,7 +535,7 @@ public class MovementController : MonoBehaviour
                 if (hitTR.distance < ceilingBumpLenience)
                 {
                     transform.position = new Vector2(transform.position.x - hitTR.distance - 0.01f, transform.position.y);
-                    rb.linearVelocity = preservedVel;
+                    if (!dashStarted) rb.linearVelocity = preservedVel;
                     successfulBump = true;
                 }
             }
@@ -520,7 +544,7 @@ public class MovementController : MonoBehaviour
                 if (hitTL.distance < ceilingBumpLenience)
                 {
                     transform.position = new Vector2(transform.position.x + hitTL.distance + 0.01f, transform.position.y);
-                    rb.linearVelocity = preservedVel;
+                    if (!dashStarted) rb.linearVelocity = preservedVel;
                     successfulBump = true;
                 }
             }
@@ -535,6 +559,25 @@ public class MovementController : MonoBehaviour
         }
     }
 
+    private void PreserveVelocity()
+    {
+        preservedVelList[preservedVelCurIndex] = rb.linearVelocity;
+        preservedVelCurIndex++;
+        if (preservedVelCurIndex >= preservedVelList.Length) { preservedVelCurIndex = 0; }
+
+        preservedVel = Vector2.zero;
+        foreach (Vector2 vel in preservedVelList)
+        {
+            if (vel.magnitude > preservedVel.magnitude)
+            {
+                preservedVel = vel;
+            }
+        }
+
+    }
+
+    #endregion PHYSICS_HANDLER
+
     private void FixedUpdate()
     {
         groundedState = IsGrounded(false);
@@ -543,6 +586,7 @@ public class MovementController : MonoBehaviour
         if (dashStarted)
         {
             HandleDash();
+            HandleCeilingBump();
 
             return;
         }
@@ -572,10 +616,11 @@ public class MovementController : MonoBehaviour
         }
 
         hasGrabbed = false;
-        if (attemptingWallGrab)
+        if (attemptingWallGrab && grabCurDownTime < 0)
         {
             if (IsAgainstWallPassive(false))
             {
+                ExitBallState(true);
                 RaycastHit2D wallHit;
                 wallHit = Physics2D.BoxCast(transform.position, new Vector2(0.01f, boxColi.size.y - 0.1f), 0, new Vector2(directionFacing, 0), 2 , groundLayer);
                 print(wallHit.distance);
@@ -595,7 +640,9 @@ public class MovementController : MonoBehaviour
         if (!ballin)
         {
             HandleJump();
+            
         }
+        grabCurDownTime -= Time.fixedDeltaTime;
 
         if (recordHeight)
         {
@@ -608,7 +655,7 @@ public class MovementController : MonoBehaviour
             HandleBallPhysics();
         }
 
-        if (!groundedState)
+        if (!groundedState && (rb.linearVelocityY > 0))
         {
             HandleCeilingBump();
         }
@@ -642,22 +689,6 @@ public class MovementController : MonoBehaviour
 
     }
 
-    private void PreserveVelocity()
-    {
-        preservedVelList[preservedVelCurIndex] = rb.linearVelocity;
-        preservedVelCurIndex++;
-        if (preservedVelCurIndex >= preservedVelList.Length) { preservedVelCurIndex = 0; }
-
-        preservedVel = Vector2.zero;
-        foreach (Vector2 vel in preservedVelList)
-        {
-            if (vel.magnitude > preservedVel.magnitude)
-            {
-                preservedVel = vel;
-            }
-        }
-
-    }
     private bool IsGrounded(bool extended)
     {
         float size = extended ? 20 : 1;

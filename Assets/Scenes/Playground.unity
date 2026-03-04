@@ -3954,7 +3954,7 @@ Transform:
   m_GameObject: {fileID: 476945431}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: -1.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4088,7 +4088,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MovementController
   rb: {fileID: 476945432}
   speed: 5
-  jumpHeight: 6.5
+  jumpPower: 12.5
   boxColi: {fileID: 0}
   solidGroundLayer:
     serializedVersion: 2
@@ -4096,6 +4096,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 192
+  semiSolidLayer:
+    serializedVersion: 2
+    m_Bits: 0
   groundCheck: {fileID: 381067118}
   wallCheck: {fileID: 333942387}
   hookPrefab: {fileID: 3327819108782107754, guid: 56f4b00a71c11f04ba177c8bc02fcce3, type: 3}
