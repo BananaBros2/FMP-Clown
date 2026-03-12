@@ -67,6 +67,7 @@ public class MovementController : MonoBehaviour
     float dashStartupCurTime = 0;
     Vector2 dashDirection;
     float remainingDashDistance = 0;
+    float dashCooldown = 0;
 
     Vector2 preservedVel;
     Vector2[] preservedVelList = new Vector2[5];
@@ -103,6 +104,7 @@ public class MovementController : MonoBehaviour
 
     public int maxHookCount = 3;
     public GameObject[] hookClips;
+    public GameObject hookHolder;
     int curHookCount = 2;
 
     public Sprite activeHookSprite;
@@ -185,7 +187,7 @@ public class MovementController : MonoBehaviour
 
             dashStarted = true;
             dashStartupCurTime = dashStartupTime;
-
+            dashCooldown = 0.3f;
             rb.linearVelocity = Vector2.zero;
             preservedVelList = new Vector2[5];
             gravityScale = 0;
@@ -616,7 +618,11 @@ public class MovementController : MonoBehaviour
     private void FixedUpdate()
     {
         groundedState = IsGrounded(false);
-        if (groundedState) { curHookCount = maxHookCount; }
+
+        if (groundedState && dashCooldown <= 0 && !ballin) { curHookCount = maxHookCount; }
+        dashCooldown -= Time.fixedDeltaTime;
+
+
 
         if (dashStarted)
         {
@@ -709,7 +715,7 @@ public class MovementController : MonoBehaviour
         WasGrounded();
         coyoteCurTime -= Time.fixedDeltaTime;
 
-
+        
 
         // Landed Physics
         if (groundedState == false && groundedState != IsGrounded(false))
@@ -730,7 +736,8 @@ public class MovementController : MonoBehaviour
             characterSprite.flipX = true;
         }
 
-
+        if (GetMoveDir() != 0)
+        hookHolder.transform.localPosition = new Vector2(-0.5625f * GetMoveDir(), 0);
         for (int i = 0; i < hookClips.Length; i++) 
         {
             SpriteRenderer hookSprite = hookClips[i].GetComponent<SpriteRenderer>();
