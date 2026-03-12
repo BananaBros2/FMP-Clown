@@ -19,6 +19,9 @@ public class MovementController : MonoBehaviour
     //private bool grounded = true;
 
     [SerializeField]
+    SpriteRenderer characterSprite;
+
+    [SerializeField]
     BoxCollider2D boxColi;
     [SerializeField]
     LayerMask solidGroundLayer;
@@ -69,7 +72,7 @@ public class MovementController : MonoBehaviour
     Vector2[] preservedVelList = new Vector2[5];
     int preservedVelCurIndex = 0;
 
-    float ceilingBumpLenience = 0.35f;
+    float ceilingBumpLenience = 1f;
 
     float coyoteTime = 0.1f;
     float coyoteCurTime;
@@ -97,6 +100,20 @@ public class MovementController : MonoBehaviour
     bool attemptingWallGrab = false;
     bool hasGrabbed = false;
     float grabCurDownTime = 0;
+
+    public int maxHookCount = 3;
+    public GameObject[] hookClips;
+    int curHookCount = 2;
+
+    public Sprite activeHookSprite;
+    public Sprite inactiveHookSprite;
+
+
+    float Pixel(float amount = 1)
+    {
+        float pixelSize = 1f / 16f;
+        return amount * pixelSize;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -147,6 +164,8 @@ public class MovementController : MonoBehaviour
                 whipDir = new Vector2(directionFacing, 0);
             }
 
+            if (curHookCount == 0) { return; }
+
             RaycastHit2D hit;
             hit = Physics2D.Raycast(transform.position, whipDir.normalized, 4, solidGroundLayer);
 
@@ -155,11 +174,14 @@ public class MovementController : MonoBehaviour
             if(hit)
             {
                 currentHook = Instantiate(hookPrefab, hit.point, Quaternion.identity);
+                currentHook.GetComponent<HookAimSprite>().SetHookDirection(currentOmniDirection);
             }
             else
             {
                 currentHook = Instantiate(hookPrefab, new Vector2(transform.position.x, transform.position.y) + whipDir.normalized * 4, Quaternion.identity);
+                currentHook.GetComponent<HookAimSprite>().SetHookDirection(currentOmniDirection);
             }
+            curHookCount--;
 
             dashStarted = true;
             dashStartupCurTime = dashStartupTime;
@@ -244,6 +266,8 @@ public class MovementController : MonoBehaviour
 
         if (!jumpStarted)
         {
+            //if (rb.linearVelocityY > 2) { return; }
+
             if (IsGrounded(false) && (jumpBufferCurTime > 0))
             {
                 jumpBufferCurTime = 0;
@@ -332,20 +356,20 @@ public class MovementController : MonoBehaviour
 
     private void LedgeClimb()
     {
-        Vector2 rayStart = new Vector2(transform.position.x + (boxColi.size.x / 2 + 0.1f) * GetMoveDir(), transform.position.y + (boxColi.size.y / 2 + 0.1f));
+        Vector2 rayStart = new Vector2(transform.position.x + (boxColi.size.x / 2 + Pixel()) * GetMoveDir(), transform.position.y + (boxColi.size.y / 2));
 
-        if (!Physics2D.OverlapBox(rayStart, new Vector2(0.1f, 0.1f), 0, solidGroundLayer))
+        if (!Physics2D.OverlapBox(rayStart, new Vector2(Pixel(), Pixel()), 0, solidGroundLayer))
         {
 
-            RaycastHit2D hit = Physics2D.Raycast(rayStart, -Vector2.up, boxColi.size.y, solidGroundLayer);
+            RaycastHit2D hit = Physics2D.Raycast(rayStart, -Vector2.up, boxColi.size.y + Pixel(), solidGroundLayer);
 
             if (hit)
             {
-                print(hit.distance);
+                //print(hit.distance);
                 if (hit.distance > 0.5f)
                 {
                     //print(hit.distance);
-                    transform.position = new Vector2(transform.position.x + moveDir / 8, transform.position.y + (boxColi.size.y - hit.distance + 0.05f) + 0.05f);
+                    transform.position = new Vector2(transform.position.x + moveDir / 8, transform.position.y + (boxColi.size.y - hit.distance) + Pixel());
                     rb.linearVelocityY = 0;
                 }
             }
@@ -356,17 +380,21 @@ public class MovementController : MonoBehaviour
 
     private void SemiSolidClimb()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position - new Vector3(boxColi.size.x / 2, boxColi.size.y / 3, 0) , -Vector2.up, boxColi.size.y / 3 - 0.1f, semiSolidLayer);
-
-        if (!hit)
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(0, boxColi.size.y / 2, 0) , -Vector2.up, boxColi.size.y, semiSolidLayer);
+        if (hit)
         {
-            hit = Physics2D.Raycast(transform.position - new Vector3(-boxColi.size.x / 2, boxColi.size.y / 3, 0), -Vector2.up, boxColi.size.y / 3 - 0.1f, semiSolidLayer);
+            print(hit.distance + " to " + boxColi.size.y / 4);
+            if (hit.distance > boxColi.size.y / 4 && rb.linearVelocityY < 7 && rb.linearVelocityY > 2.5f)
+            {
+                rb.linearVelocityY = 8;
+            }
+
+            //hit = Physics2D.Raycast(transform.position - new Vector3(0, boxColi.size.y / 2, 0), -Vector2.up, boxColi.size.y / 3 - 0.1f, semiSolidLayer);
+
+
         }
 
-        if (hit && rb.linearVelocityY < 8 && rb.linearVelocityY > 2.5f)
-        {
-            rb.linearVelocityY = 9;
-        }
+
 
 
 
@@ -519,35 +547,42 @@ public class MovementController : MonoBehaviour
     private void HandleCeilingBump()
     {
         RaycastHit2D hit;
-        hit = Physics2D.Raycast(transform.position, Vector2.up, 1, solidGroundLayer);
+        hit = Physics2D.Raycast(transform.position, Vector2.up, boxColi.size.y / 2 + Pixel(2), solidGroundLayer);
         
-        if (!hit)
+        if (!hit && rb.linearVelocity.y > 0)
         {
-            RaycastHit2D hitTL;
-            hitTL = Physics2D.Raycast(new Vector2(transform.position.x - boxColi.size.x / 2, transform.position.y + (boxColi.size.y / 2 + 0.1f)), Vector2.right, boxColi.size.x, solidGroundLayer);
 
-            RaycastHit2D hitTR;
-            hitTR = Physics2D.Raycast(new Vector2(transform.position.x + boxColi.size.x / 2, transform.position.y + (boxColi.size.y / 2 + 0.1f)), Vector2.left, boxColi.size.x, solidGroundLayer);
 
             bool successfulBump = false;
-            if (hitTR)
+
+            Vector2 tlOrigin = new Vector2(transform.position.x - boxColi.size.x / 2, transform.position.y + boxColi.size.y / 2 + Pixel(2));
+            if (!Physics2D.OverlapBox(tlOrigin, new Vector2(Pixel(), Pixel()), 0, solidGroundLayer))
             {
-                if (hitTR.distance < ceilingBumpLenience)
+                RaycastHit2D hitTL = Physics2D.Raycast(tlOrigin, Vector2.right, boxColi.size.x - Pixel(0.25f), solidGroundLayer);
+                if (hitTL.distance > (boxColi.size.x) * (1 - ceilingBumpLenience) && hitTL.distance != 0)
                 {
-                    transform.position = new Vector2(transform.position.x - hitTR.distance - 0.01f, transform.position.y);
+                    print("doing my thiung Left");
+                    transform.position = new Vector2(transform.position.x - (boxColi.size.x - hitTL.distance) - Pixel(0.5f), transform.position.y);
                     if (!dashStarted) rb.linearVelocity = preservedVel;
+
                     successfulBump = true;
                 }
             }
-            if (hitTL)
+
+            Vector2 trOrigin = new Vector2(transform.position.x + boxColi.size.x / 2, transform.position.y + boxColi.size.y / 2 + Pixel(2));
+            if (!Physics2D.OverlapBox(trOrigin, new Vector2(Pixel(), Pixel()), 0, solidGroundLayer))
             {
-                if (hitTL.distance < ceilingBumpLenience)
+                RaycastHit2D hitTR = Physics2D.Raycast(trOrigin, Vector2.left, boxColi.size.x - Pixel(0.25f), solidGroundLayer);
+                if (hitTR.distance > (boxColi.size.x) * (1 - ceilingBumpLenience) && hitTR.distance != 0)
                 {
-                    transform.position = new Vector2(transform.position.x + hitTL.distance + 0.01f, transform.position.y);
+                    print("doing my thiung Left");
+                    transform.position = new Vector2(transform.position.x + (boxColi.size.x - hitTR.distance) + Pixel(0.5f), transform.position.y);
                     if (!dashStarted) rb.linearVelocity = preservedVel;
+
                     successfulBump = true;
                 }
             }
+
 
             if (ballin && !successfulBump)
             {
@@ -581,7 +616,7 @@ public class MovementController : MonoBehaviour
     private void FixedUpdate()
     {
         groundedState = IsGrounded(false);
-
+        if (groundedState) { curHookCount = maxHookCount; }
 
         if (dashStarted)
         {
@@ -612,7 +647,7 @@ public class MovementController : MonoBehaviour
             //{
             //    rb.linearVelocityY = 0;
             //}
-                
+
         }
 
         hasGrabbed = false;
@@ -622,9 +657,9 @@ public class MovementController : MonoBehaviour
             {
                 ExitBallState(true);
                 RaycastHit2D wallHit;
-                wallHit = Physics2D.BoxCast(transform.position, new Vector2(0.01f, boxColi.size.y - 0.1f), 0, new Vector2(directionFacing, 0), 2 , groundLayer);
+                wallHit = Physics2D.BoxCast(transform.position, new Vector2(0.01f, boxColi.size.y - 0.1f), 0, new Vector2(directionFacing, 0), 2, groundLayer);
                 print(wallHit.distance);
-                transform.position = transform.position + new Vector3((wallHit.distance - boxColi.size.x / 2) * directionFacing, 0,0);
+                transform.position = transform.position + new Vector3((wallHit.distance - boxColi.size.x / 2) * directionFacing, 0, 0);
                 rb.linearVelocityY = 0;
                 hasGrabbed = true;
             }
@@ -640,7 +675,7 @@ public class MovementController : MonoBehaviour
         if (!ballin)
         {
             HandleJump();
-            
+
         }
         grabCurDownTime -= Time.fixedDeltaTime;
 
@@ -660,7 +695,7 @@ public class MovementController : MonoBehaviour
             HandleCeilingBump();
         }
 
-        
+
         int moveDir = GetMoveDir();
         if (moveDir != 0)
         {
@@ -686,8 +721,35 @@ public class MovementController : MonoBehaviour
         // TEMP STUFF
 
         ballObject.SetActive(ballin);
+        if (directionFacing == 1)
+        {
+            characterSprite.flipX = false;
+        }
+        if (directionFacing == -1)
+        {
+            characterSprite.flipX = true;
+        }
+
+
+        for (int i = 0; i < hookClips.Length; i++) 
+        {
+            SpriteRenderer hookSprite = hookClips[i].GetComponent<SpriteRenderer>();
+
+            if (i + 1 <= curHookCount)
+            {
+                hookSprite.sprite = activeHookSprite;
+            }
+            else
+            {
+                hookSprite.sprite = inactiveHookSprite;
+            }
+            
+        }
 
     }
+
+
+
 
     private bool IsGrounded(bool extended)
     {

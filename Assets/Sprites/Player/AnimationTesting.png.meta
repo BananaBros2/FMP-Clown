@@ -1,0 +1,457 @@
+fileFormatVersion: 2
+guid: 2b1abb1fc2901c64d9df41e3e7aa573f
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1984426422026178697
+    second: AnimationTesting_0
+  - first:
+      213: -7605892451251046112
+    second: AnimationTesting_1
+  - first:
+      213: -2287764627438249947
+    second: AnimationTesting_2
+  - first:
+      213: -5221398577818727444
+    second: AnimationTesting_3
+  - first:
+      213: -4354666779157683027
+    second: AnimationTesting_4
+  - first:
+      213: -3876895605201406702
+    second: AnimationTesting_5
+  - first:
+      213: 1022690179665885958
+    second: AnimationTesting_6
+  - first:
+      213: 3283984627717285931
+    second: AnimationTesting_7
+  - first:
+      213: -3239659691395905561
+    second: AnimationTesting_8
+  - first:
+      213: 1817300078530211528
+    second: AnimationTesting_9
+  - first:
+      213: -8550171958632353999
+    second: AnimationTesting_10
+  - first:
+      213: 3129066655424973013
+    second: AnimationTesting_11
+  - first:
+      213: 7791224015374387984
+    second: AnimationTesting_12
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: AnimationTesting_Idle
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 247
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77fea30eea6e574e0800000000000000
+      internalID: -1984426422026178697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_IdleLong
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 233
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0293b530d11727690800000000000000
+      internalID: -7605892451251046112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_Running
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 219
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 528d6d3413a3040e0800000000000000
+      internalID: -2287764627438249947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_Jump
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 205
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ceb826a58add987b0800000000000000
+      internalID: -5221398577818727444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_Fall
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 191
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da4ac19e2ad1193c0800000000000000
+      internalID: -4354666779157683027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_FallFast
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 177
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21572bcdcff723ac0800000000000000
+      internalID: -3876895605201406702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_WallSlide
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 163
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60bf34acc43513e00800000000000000
+      internalID: 1022690179665885958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_WallGrab
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 149
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b28aeee9e9e039d20800000000000000
+      internalID: 3283984627717285931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 135
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e70235dcaa6a03d0800000000000000
+      internalID: -3239659691395905561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_BallFall
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 121
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ce251ffac8583910800000000000000
+      internalID: 1817300078530211528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_BallGrounded
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 107
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13f663587efa75980800000000000000
+      internalID: -8550171958632353999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_Death
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 93
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d8002b6b8dac6b20800000000000000
+      internalID: 3129066655424973013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_IDK
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 79
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01b02e956fcff1c60800000000000000
+      internalID: 7791224015374387984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 9335dba07f883fe4fb343f5a011ab158
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      AnimationTesting_8: -3239659691395905561
+      AnimationTesting_BallFall: 1817300078530211528
+      AnimationTesting_BallGrounded: -8550171958632353999
+      AnimationTesting_Death: 3129066655424973013
+      AnimationTesting_Fall: -4354666779157683027
+      AnimationTesting_FallFast: -3876895605201406702
+      AnimationTesting_IDK: 7791224015374387984
+      AnimationTesting_Idle: -1984426422026178697
+      AnimationTesting_IdleLong: -7605892451251046112
+      AnimationTesting_Jump: -5221398577818727444
+      AnimationTesting_Running: -2287764627438249947
+      AnimationTesting_WallGrab: 3283984627717285931
+      AnimationTesting_WallSlide: 1022690179665885958
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

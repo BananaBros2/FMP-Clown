@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1492072609765571769}
+  - component: {fileID: 1337636030630304994}
   m_Layer: 0
   m_Name: Hook
   m_TagString: Untagged
@@ -32,6 +33,21 @@ Transform:
   - {fileID: 4665726353424003305}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1337636030630304994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3327819108782107754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aa91d87fb0cde94385cee19626d5904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HookAimSprite
+  spriteRenderer: {fileID: 7196620123022060390}
+  flatHook: {fileID: 5633673456205992788, guid: f438a1ce8bed3d64f977326d628b37a3, type: 3}
+  diagonalHook: {fileID: 723560917, guid: f438a1ce8bed3d64f977326d628b37a3, type: 3}
 --- !u!1 &7520452540569396438
 GameObject:
   m_ObjectHideFlags: 0
@@ -43,7 +59,7 @@ GameObject:
   - component: {fileID: 4665726353424003305}
   - component: {fileID: 7196620123022060390}
   m_Layer: 0
-  m_Name: Circle
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -113,7 +129,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 444265596, guid: 8f5abbacd3e452847948a2deb4218e99, type: 3}
+  m_Sprite: {fileID: 5633673456205992788, guid: f438a1ce8bed3d64f977326d628b37a3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
