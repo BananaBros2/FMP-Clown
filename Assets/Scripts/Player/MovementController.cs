@@ -61,7 +61,7 @@ public class MovementController : MonoBehaviour
 
     int jumpPowerRemaining = 0;
 
-
+    [SerializeField] float dashDistance = 2;
     bool dashStarted = false;
     float dashStartupTime = 0.15f;
     float dashStartupCurTime = 0;
@@ -102,14 +102,26 @@ public class MovementController : MonoBehaviour
     bool hasGrabbed = false;
     float grabCurDownTime = 0;
 
+    [SerializeField] private HairHandler hairHandler;
     public int maxHookCount = 3;
     public GameObject[] hookClips;
-    public GameObject hookHolder;
     int curHookCount = 2;
 
     public Sprite activeHookSprite;
     public Sprite inactiveHookSprite;
 
+    public bool attemptingWallHook = false;
+    public bool stuckOnHook = false;
+    public bool hookOnWall = false;
+    private float timeSinceLastShift = 0;
+    private float shiftTime = 0.3f;
+    private bool attemptHookDetach = false;
+
+    [SerializeField]
+    private Transform cameraTargetPosition;
+
+    [SerializeField]
+    private PlayerAnimations animationHandler;
 
     float Pixel(float amount = 1)
     {
@@ -158,6 +170,9 @@ public class MovementController : MonoBehaviour
     {
         if (whipInput.started && !dashStarted)
         {
+            attemptHookDetach = false;
+
+
             ExitBallState(false);
 
             Vector2 whipDir = currentOmniDirection;
@@ -169,7 +184,7 @@ public class MovementController : MonoBehaviour
             if (curHookCount == 0) { return; }
 
             RaycastHit2D hit;
-            hit = Physics2D.Raycast(transform.position, whipDir.normalized, 4, solidGroundLayer);
+            hit = Physics2D.Raycast(transform.position, whipDir.normalized, dashDistance, solidGroundLayer);
 
             //if (currentHook != null) { Destroy(currentHook.gameObject); currentHook = null; }
 
@@ -177,11 +192,13 @@ public class MovementController : MonoBehaviour
             {
                 currentHook = Instantiate(hookPrefab, hit.point, Quaternion.identity);
                 currentHook.GetComponent<HookAimSprite>().SetHookDirection(currentOmniDirection);
+                hookOnWall = true;
             }
             else
             {
-                currentHook = Instantiate(hookPrefab, new Vector2(transform.position.x, transform.position.y) + whipDir.normalized * 4, Quaternion.identity);
+                currentHook = Instantiate(hookPrefab, new Vector2(transform.position.x, transform.position.y) + whipDir.normalized * dashDistance, Quaternion.identity);
                 currentHook.GetComponent<HookAimSprite>().SetHookDirection(currentOmniDirection);
+                hookOnWall = false;
             }
             curHookCount--;
 
@@ -192,6 +209,11 @@ public class MovementController : MonoBehaviour
             preservedVelList = new Vector2[5];
             gravityScale = 0;
 
+        }
+
+        if (whipInput.canceled)
+        {
+            attemptHookDetach = true;
         }
 
     }
@@ -264,39 +286,53 @@ public class MovementController : MonoBehaviour
     private void HandleJump()
     {
         jumpBufferCurTime -= Time.fixedDeltaTime;
-
-
+        
         if (!jumpStarted)
         {
             //if (rb.linearVelocityY > 2) { return; }
 
-            if (IsGrounded(false) && (jumpBufferCurTime > 0))
+            if (IsGrounded(false) && (jumpBufferCurTime > 0) && !stuckOnHook)
             {
+                print("1");
                 jumpBufferCurTime = 0;
                 jumpStarted = true;
                 jumpPowerRemaining = 4;
                 jumpStartVel = rb.linearVelocity;
             }
-            else if (WasGrounded() && (jumpBufferCurTime > 0))
+            else if (WasGrounded() && (jumpBufferCurTime > 0) && !stuckOnHook)
             {
+                print("2");
                 jumpBufferCurTime = 0;
                 jumpStarted = true;
                 jumpPowerRemaining = 4;
                 jumpStartVel = coyoteJumpStartVel;
             }
-            else if (hasGrabbed && (jumpBufferCurTime > 0) && grabCurDownTime <= 0)
+            else if (stuckOnHook && jumpBufferCurTime > 0)
             {
+                print("3");
+
                 jumpBufferCurTime = 0;
                 jumpStarted = true;
-
-                hasGrabbed = false;
-                grabCurDownTime = 0.6f;
-
                 jumpPowerRemaining = 4;
                 jumpStartVel = rb.linearVelocity;
-                rb.linearVelocityX += -directionFacing * 4;
 
+                stuckOnHook = false;
             }
+
+
+            //else if (hasGrabbed && (jumpBufferCurTime > 0) && grabCurDownTime <= 0)
+            //{
+            //    jumpBufferCurTime = 0;
+            //    jumpStarted = true;
+
+            //    hasGrabbed = false;
+            //    grabCurDownTime = 0.6f;
+
+            //    jumpPowerRemaining = 4;
+            //    jumpStartVel = rb.linearVelocity;
+            //    rb.linearVelocityX += -directionFacing * 4;
+
+            //}
 
         }
 
@@ -418,6 +454,9 @@ public class MovementController : MonoBehaviour
 
             if (remainingDashDistance < 1)
             {
+
+                AttemptWallHook();
+
                 dashStarted = false;
                 gravityScale = 1;
                 if (currentHook != null) { Destroy(currentHook.gameObject); currentHook = null; }
@@ -435,6 +474,44 @@ public class MovementController : MonoBehaviour
             //transform.position = Vector2.MoveTowards(transform.position, currentHook.transform.position, 0.4f);
         }
     } 
+
+
+    private void AttemptWallHook()
+    {
+        if (hookOnWall)
+        {
+            //print("here");
+
+            //
+            transform.position = 
+                new Vector3(currentHook.transform.position.x, Mathf.RoundToInt(currentHook.transform.position.y * 2) / 2, currentHook.transform.position.z);
+            
+            rb.linearVelocity = Vector2.zero;
+
+            stuckOnHook = true;
+        }
+
+        return;
+
+        hasGrabbed = false;
+        if (attemptingWallGrab && grabCurDownTime < 0)
+        {
+            if (IsAgainstWallPassive(false))
+            {
+                ExitBallState(true);
+                RaycastHit2D wallHit;
+                wallHit = Physics2D.BoxCast(transform.position, new Vector2(0.01f, boxColi.size.y - 0.1f), 0, new Vector2(directionFacing, 0), 2, groundLayer);
+                print(wallHit.distance);
+                transform.position = transform.position + new Vector3((wallHit.distance - boxColi.size.x / 2) * directionFacing, 0, 0);
+                rb.linearVelocityY = 0;
+                hasGrabbed = true;
+            }
+
+        }
+    }
+
+
+
 
 
     private void HandleGravity()
@@ -615,8 +692,65 @@ public class MovementController : MonoBehaviour
 
     #endregion PHYSICS_HANDLER
 
+    private void UpdateHairOffset()
+    {
+        Vector2 currentOffset = new Vector2(0.3f, 0);
+        
+        float hairGravity = Mathf.Clamp(0.3f - rb.linearVelocity.magnitude / 40, 0, 0.2f);
+        currentOffset = new Vector2(-rb.linearVelocityX / 50, -rb.linearVelocityY / 50 - hairGravity);
+
+        if (directionFacing < 0)
+        {
+            //currentOffset = new Vector2(-0.3f, 0);
+        }
+
+        hairHandler.partOffset = currentOffset.normalized * 0.2f;
+    }
+
+
+    Vector2 smoothVelocity;
+
     private void FixedUpdate()
     {
+
+        PreserveVelocity();
+        WasGrounded();
+        coyoteCurTime -= Time.fixedDeltaTime;
+
+        UpdateHairOffset();
+
+        smoothVelocity = (smoothVelocity * 19 + preservedVel) / 20;
+        cameraTargetPosition.localPosition = Vector2.zero + (smoothVelocity / 2);
+
+
+        animationHandler.ChangeAnimation(PlayerAnimations.TargetAnimation.DEATH);
+
+
+        if (stuckOnHook)
+        {
+            timeSinceLastShift -= Time.fixedDeltaTime;
+            if (currentOmniDirection.y != 0)
+            {
+                if (timeSinceLastShift <= 0)
+                {
+                    timeSinceLastShift = shiftTime;
+                    transform.position = new Vector3(transform.position.x, transform.position.y + currentOmniDirection.y, transform.position.z);
+                }
+                //print(currentOmniDirection.y);
+            }
+
+            HandleJump();
+
+            if (attemptHookDetach)
+            {
+                stuckOnHook = false;
+            }
+
+            return;
+        }
+
+
+
         groundedState = IsGrounded(false);
 
         if (groundedState && dashCooldown <= 0 && !ballin) { curHookCount = maxHookCount; }
@@ -656,21 +790,31 @@ public class MovementController : MonoBehaviour
 
         }
 
-        hasGrabbed = false;
-        if (attemptingWallGrab && grabCurDownTime < 0)
-        {
-            if (IsAgainstWallPassive(false))
-            {
-                ExitBallState(true);
-                RaycastHit2D wallHit;
-                wallHit = Physics2D.BoxCast(transform.position, new Vector2(0.01f, boxColi.size.y - 0.1f), 0, new Vector2(directionFacing, 0), 2, groundLayer);
-                print(wallHit.distance);
-                transform.position = transform.position + new Vector3((wallHit.distance - boxColi.size.x / 2) * directionFacing, 0, 0);
-                rb.linearVelocityY = 0;
-                hasGrabbed = true;
-            }
 
-        }
+
+
+
+
+        //hasGrabbed = false;
+        //if (attemptingWallGrab && grabCurDownTime < 0)
+        //{
+        //    if (IsAgainstWallPassive(false))
+        //    {
+        //        ExitBallState(true);
+        //        RaycastHit2D wallHit;
+        //        wallHit = Physics2D.BoxCast(transform.position, new Vector2(0.01f, boxColi.size.y - 0.1f), 0, new Vector2(directionFacing, 0), 2, groundLayer);
+        //        print(wallHit.distance);
+        //        transform.position = transform.position + new Vector3((wallHit.distance - boxColi.size.x / 2) * directionFacing, 0, 0);
+        //        rb.linearVelocityY = 0;
+        //        hasGrabbed = true;
+        //    }
+
+        //}
+
+
+
+
+
 
         if (groundedState == false && !ballin)
         {
@@ -709,12 +853,6 @@ public class MovementController : MonoBehaviour
         }
 
 
-        PreserveVelocity();
-
-
-        WasGrounded();
-        coyoteCurTime -= Time.fixedDeltaTime;
-
         
 
         // Landed Physics
@@ -736,8 +874,13 @@ public class MovementController : MonoBehaviour
             characterSprite.flipX = true;
         }
 
+
         if (GetMoveDir() != 0)
-        hookHolder.transform.localPosition = new Vector2(-0.5625f * GetMoveDir(), 0);
+        {
+            bool hairFlip = (GetMoveDir() > 0) ? false : true;
+            hairHandler.SetFlipState(hairFlip);
+        }
+
         for (int i = 0; i < hookClips.Length; i++) 
         {
             SpriteRenderer hookSprite = hookClips[i].GetComponent<SpriteRenderer>();

@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Hair
+    uniqueID: 2084999505
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
