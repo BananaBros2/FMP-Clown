@@ -38,7 +38,7 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Hair
+  - name: Outline
     uniqueID: 2084999505
     locked: 0
   - name: Default

@@ -1,0 +1,309 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc2acaac6c5d45c9b52f770dfd9e6bfb, type: 3}
+  m_Name: AutoTileTemplate
+  m_EditorClassIdentifier: Unity.2D.Tilemap.Extras.Editor::UnityEngine.Tilemaps.AutoTileTemplate
+  width: 175
+  height: 76
+  maskType: 1
+  sprites:
+  - x: 11
+    y: 44
+    mask: 504
+  - x: 22
+    y: 44
+    mask: 504
+  - x: 33
+    y: 44
+    mask: 504
+  - x: 110
+    y: 11
+    mask: 440
+  - x: 132
+    y: 22
+    mask: 184
+  - x: 121
+    y: 11
+    mask: 248
+  - x: 0
+    y: 22
+    mask: 432
+  - x: 22
+    y: 22
+    mask: 432
+  - x: 44
+    y: 22
+    mask: 432
+  - x: 132
+    y: 0
+    mask: 176
+  - x: 99
+    y: 33
+    mask: 16
+  - x: 110
+    y: 33
+    mask: 16
+  - x: 121
+    y: 33
+    mask: 16
+  - x: 11
+    y: 22
+    mask: 216
+  - x: 33
+    y: 22
+    mask: 216
+  - x: 55
+    y: 22
+    mask: 216
+  - x: 143
+    y: 0
+    mask: 152
+  - x: 33
+    y: 11
+    mask: 510
+  - x: 33
+    y: 0
+    mask: 510
+  - x: 66
+    y: 44
+    mask: 506
+  - x: 77
+    y: 44
+    mask: 506
+  - x: 88
+    y: 44
+    mask: 506
+  - x: 22
+    y: 11
+    mask: 507
+  - x: 22
+    y: 0
+    mask: 507
+  - x: 11
+    y: 11
+    mask: 447
+  - x: 11
+    y: 0
+    mask: 447
+  - x: 110
+    y: 66
+    mask: 446
+  - x: 110
+    y: 55
+    mask: 446
+  - x: 110
+    y: 44
+    mask: 446
+  - x: 44
+    y: 0
+    mask: 442
+  - x: 66
+    y: 0
+    mask: 442
+  - x: 143
+    y: 44
+    mask: 443
+  - x: 66
+    y: 55
+    mask: 191
+  - x: 77
+    y: 55
+    mask: 191
+  - x: 88
+    y: 55
+    mask: 191
+  - x: 44
+    y: 11
+    mask: 190
+  - x: 66
+    y: 11
+    mask: 190
+  - x: 55
+    y: 11
+    mask: 187
+  - x: 77
+    y: 11
+    mask: 187
+  - x: 0
+    y: 11
+    mask: 255
+  - x: 0
+    y: 0
+    mask: 255
+  - x: 143
+    y: 55
+    mask: 254
+  - x: 55
+    y: 0
+    mask: 250
+  - x: 77
+    y: 0
+    mask: 250
+  - x: 121
+    y: 66
+    mask: 251
+  - x: 121
+    y: 55
+    mask: 251
+  - x: 121
+    y: 44
+    mask: 251
+  - x: 66
+    y: 33
+    mask: 144
+  - x: 77
+    y: 33
+    mask: 144
+  - x: 88
+    y: 33
+    mask: 144
+  - x: 0
+    y: 66
+    mask: 438
+  - x: 0
+    y: 55
+    mask: 438
+  - x: 0
+    y: 44
+    mask: 438
+  - x: 99
+    y: 0
+    mask: 434
+  - x: 99
+    y: 11
+    mask: 182
+  - x: 132
+    y: 33
+    mask: 178
+  - x: 99
+    y: 66
+    mask: 48
+  - x: 99
+    y: 55
+    mask: 48
+  - x: 99
+    y: 44
+    mask: 48
+  - x: 55
+    y: 66
+    mask: 146
+  - x: 55
+    y: 55
+    mask: 146
+  - x: 55
+    y: 44
+    mask: 146
+  - x: 11
+    y: 55
+    mask: 511
+  - x: 22
+    y: 55
+    mask: 511
+  - x: 33
+    y: 55
+    mask: 511
+  - x: 99
+    y: 22
+    mask: 186
+  - x: 110
+    y: 22
+    mask: 186
+  - x: 121
+    y: 22
+    mask: 186
+  - x: 44
+    y: 66
+    mask: 219
+  - x: 44
+    y: 55
+    mask: 219
+  - x: 44
+    y: 44
+    mask: 219
+  - x: 88
+    y: 0
+    mask: 218
+  - x: 88
+    y: 11
+    mask: 155
+  - x: 143
+    y: 22
+    mask: 154
+  - x: 132
+    y: 66
+    mask: 24
+  - x: 132
+    y: 55
+    mask: 24
+  - x: 132
+    y: 44
+    mask: 24
+  - x: 66
+    y: 22
+    mask: 56
+  - x: 77
+    y: 22
+    mask: 56
+  - x: 88
+    y: 22
+    mask: 56
+  - x: 110
+    y: 0
+    mask: 62
+  - x: 143
+    y: 33
+    mask: 58
+  - x: 121
+    y: 0
+    mask: 59
+  - x: 0
+    y: 33
+    mask: 54
+  - x: 22
+    y: 33
+    mask: 54
+  - x: 44
+    y: 33
+    mask: 54
+  - x: 132
+    y: 11
+    mask: 50
+  - x: 11
+    y: 33
+    mask: 27
+  - x: 33
+    y: 33
+    mask: 27
+  - x: 55
+    y: 33
+    mask: 27
+  - x: 143
+    y: 11
+    mask: 26
+  - x: 11
+    y: 66
+    mask: 63
+  - x: 22
+    y: 66
+    mask: 63
+  - x: 33
+    y: 66
+    mask: 63
+  - x: 66
+    y: 66
+    mask: 18
+  - x: 77
+    y: 66
+    mask: 18
+  - x: 88
+    y: 66
+    mask: 18

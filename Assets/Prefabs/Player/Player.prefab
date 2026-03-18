@@ -296,9 +296,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2084999505
-  m_SortingLayer: -1
-  m_SortingOrder: 4
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 1183776350934868942, guid: 82695d0cf0c7522439ce51813ff17c11, type: 3}
   m_Color: {r: 0.854902, g: 0.9960785, b: 0.9960785, a: 1}
@@ -388,9 +388,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2084999505
-  m_SortingLayer: -1
-  m_SortingOrder: 2
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 2514006266230073704, guid: 82695d0cf0c7522439ce51813ff17c11, type: 3}
   m_Color: {r: 0.5686275, g: 0.854902, b: 0.9960785, a: 1}
@@ -785,9 +785,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2084999505
-  m_SortingLayer: -1
-  m_SortingOrder: 3
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8004823238151671000, guid: 82695d0cf0c7522439ce51813ff17c11, type: 3}
   m_Color: {r: 0.5686275, g: 0.854902, b: 0.9960785, a: 1}
@@ -1662,9 +1662,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2084999505
-  m_SortingLayer: -1
-  m_SortingOrder: 5
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -3652917792765811414, guid: 82695d0cf0c7522439ce51813ff17c11, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1877,9 +1877,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2084999505
-  m_SortingLayer: -1
-  m_SortingOrder: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 5521198760874012997, guid: 82695d0cf0c7522439ce51813ff17c11, type: 3}
   m_Color: {r: 0.43137258, g: 0.7019608, b: 0.97647065, a: 1}
