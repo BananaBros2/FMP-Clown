@@ -231,6 +231,17 @@
                 },
                 {
                     "name": "",
+                    "id": "0d56b1fb-5ddc-4226-8ad9-c7b0e319c48a",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "49ff0fce-2989-4307-aeb7-8f674881dab7",
                     "path": "<Keyboard>/space",
                     "interactions": "",
@@ -244,6 +255,17 @@
                     "name": "",
                     "id": "30dbb4bd-fb69-4767-9b60-7dc3522feb36",
                     "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "56953d96-b9c9-43a1-85b0-cc538b33d8c7",
+                    "path": "<Keyboard>/l",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -297,6 +319,17 @@
                 },
                 {
                     "name": "",
+                    "id": "097c2b68-12d9-4400-a40c-88161c1beb2d",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Whip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "fd649cd5-4ed5-457e-8317-05e35a8eb975",
                     "path": "<Keyboard>/k",
                     "interactions": "",
@@ -330,8 +363,19 @@
                 },
                 {
                     "name": "",
+                    "id": "d7d3fad5-1bfd-4917-bca1-b18db8f893c2",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ball",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "8955be48-e646-457e-ab80-3b85753f9016",
-                    "path": "<Keyboard>/l",
+                    "path": "<Keyboard>/j",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -342,7 +386,7 @@
                 {
                     "name": "",
                     "id": "0ba8382d-f7eb-491c-bd72-14229b8ee0b6",
-                    "path": "<Keyboard>/v",
+                    "path": "<Keyboard>/z",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

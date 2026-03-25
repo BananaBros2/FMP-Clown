@@ -55,7 +55,15 @@ public class HairHandler : MonoBehaviour
     private void SetAnchorPosition()
     {
         float flip = flipAnchorPosition ? -1 : 1;
-        hairAnchor.transform.localPosition = new Vector2(hairAnchorTargetPosition.x * flip, hairAnchorTargetPosition.y);
+        float additionalOffset = flipAnchorPosition ? 0.0625f : 0;
+
+        hairAnchor.transform.localPosition = 
+            new Vector2(hairAnchorTargetPosition.x * flip + additionalOffset, hairAnchorTargetPosition.y);
+        
+        foreach(Transform hairPart in hairParts)
+        {
+            hairPart.localScale = new Vector3(flip, 1, 1);
+        }
     }
 
 }

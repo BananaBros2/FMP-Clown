@@ -100,11 +100,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: HookGotIcon_0
+      name: HookClip
       rect:
         serializedVersion: 2
-        x: 7
-        y: 9
+        x: 0
+        y: 0
         width: 5
         height: 5
       alignment: 0
@@ -122,11 +122,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HookGotIcon_1
+      name: HookClip_Gone
       rect:
         serializedVersion: 2
-        x: 7
-        y: 3
+        x: 6
+        y: 0
         width: 5
         height: 5
       alignment: 0
@@ -157,8 +157,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      HookGotIcon_0: -5517353292423753829
-      HookGotIcon_1: 1481795184
+      HookClip: -5517353292423753829
+      HookClip_Gone: 1481795184
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

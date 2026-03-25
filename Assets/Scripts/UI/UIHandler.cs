@@ -5,15 +5,19 @@ public class UIHandler : MonoBehaviour
 {
     bool gamePaused = false;
 
-    [SerializeField]
-    GameObject pauseMenu;
+    [SerializeField] private GameObject pauseMenu;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
-        pauseMenu.SetActive(gamePaused);
+        pauseMenu.SetActive(gamePaused); // Set initial state (Good for if I forget to turn the UI off)
     }
 
+
+    /// <summary>
+    /// Handle pause input
+    /// </summary>
+    /// <param name="pause"></param>
     public void OnPause(InputAction.CallbackContext pause)
     {
         if (pause.started)
@@ -22,10 +26,8 @@ public class UIHandler : MonoBehaviour
 
             pauseMenu.SetActive(gamePaused);
         }
-
-
-
     }
+
 
     public void SetPauseState(bool state)
     {

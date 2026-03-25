@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PlayerAnimations : MonoBehaviour
 {
+    private Animator animator;
+
     public enum TargetAnimation
     {
         IDLE,
@@ -18,62 +20,59 @@ public class PlayerAnimations : MonoBehaviour
         DEATH
     }
 
-    private TargetAnimation targetAnimation;
-
-    private Animator animator;
+    Dictionary<TargetAnimation, string> animDict = new Dictionary<TargetAnimation, string>();
 
     private bool switchAnimation = false;
-
-
-    Dictionary<TargetAnimation, string> animDict = new Dictionary<TargetAnimation, string>();
 
 
 
     private void Awake()
     {
-        animator = transform.GetComponent<Animator>();
+        animator = transform.GetComponent<Animator>(); // Set animator component
 
+        SetupAnimationDictionary();
+
+    }
+
+
+    private void SetupAnimationDictionary()
+    {
         animDict.Add(TargetAnimation.IDLE, "Do_Idle");
         animDict.Add(TargetAnimation.RUNNING, "Do_Run");
         animDict.Add(TargetAnimation.JUMP, "Do_Jump");
         animDict.Add(TargetAnimation.FALL, "Do_Fall");
+        animDict.Add(TargetAnimation.FASTFALL, "Do_FastFall");
         animDict.Add(TargetAnimation.WALLSLIDE, "Do_WallSlide");
         animDict.Add(TargetAnimation.WALLHOOK, "Do_WallHook");
         animDict.Add(TargetAnimation.WHIP, "Do_Whip");
         animDict.Add(TargetAnimation.BALLRIDE, "Do_BallRide");
         animDict.Add(TargetAnimation.DEATH, "Do_Death");
-
-
     }
 
-
-    private void Update()
-    {
-        
-    }
 
     public void ChangeAnimation(TargetAnimation newAnim)
     {
         switchAnimation = true;
 
+        // Switch to new animation (if not done already)
         if (!animator.GetBool(animDict[newAnim]))
         {
+            //print("Chang9ing animation");
             animator.SetBool("Do_Idle", false);
             animator.SetBool("Do_Run", false);
             animator.SetBool("Do_Jump", false);
             animator.SetBool("Do_Fall", false);
+            //animator.SetBool("Do_FastFall", false);
             animator.SetBool("Do_WallSlide", false);
             animator.SetBool("Do_WallHook", false);
             animator.SetBool("Do_Whip", false);
             animator.SetBool("Do_BallRide", false);
-            //animator.SetBool("Do_Death", false);
+            animator.SetBool("Do_Death", false);
 
             animator.SetBool(animDict[newAnim], true);
         }
 
-
-
-
-
     }
+
+
 }

@@ -136,7 +136,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: AnimationTesting_Idle
+      name: AnimationTesting_Idle_1
       rect:
         serializedVersion: 2
         x: 0
@@ -158,7 +158,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AnimationTesting_IdleLong
+      name: AnimationTesting_IdleLong_1
       rect:
         serializedVersion: 2
         x: 0
@@ -180,7 +180,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AnimationTesting_Running
+      name: AnimationTesting_Running_1
       rect:
         serializedVersion: 2
         x: 0
@@ -202,7 +202,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AnimationTesting_Jump
+      name: AnimationTesting_Jump_1
       rect:
         serializedVersion: 2
         x: 0
@@ -224,7 +224,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AnimationTesting_Fall
+      name: AnimationTesting_Fall_1
       rect:
         serializedVersion: 2
         x: 0
@@ -246,7 +246,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AnimationTesting_FallFast
+      name: AnimationTesting_FallFast_1
       rect:
         serializedVersion: 2
         x: 0
@@ -268,7 +268,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AnimationTesting_WallSlide
+      name: AnimationTesting_WallSlide_1
       rect:
         serializedVersion: 2
         x: 0
@@ -290,7 +290,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AnimationTesting_WallGrab
+      name: AnimationTesting_WallGrab_1
       rect:
         serializedVersion: 2
         x: 0
@@ -356,7 +356,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AnimationTesting_BallGrounded
+      name: AnimationTesting_BallGrounded_1
       rect:
         serializedVersion: 2
         x: 0
@@ -421,6 +421,600 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_Idle_2
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 247
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9edd4c0614eef024cbf82cf1c31f0d43
+      internalID: 632844388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_Idle_3
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 247
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 743405cd5b73bef44bb7ae73d3f0756f
+      internalID: 866512071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_Idle_4
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 247
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f03012c93dae35478f9edc0fcd3f493
+      internalID: -548089370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_IdleLong_2
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 233
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 126b9b2dc1b74914e99719df3717389b
+      internalID: -457585420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_IdleLong_3
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 233
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d995baf6366be740bb78dcf918efba0
+      internalID: -488281577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_IdleLong_4
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 233
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf1ea45e543a9944eb96688394eb69fb
+      internalID: 1904074118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_Running_2
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 219
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40d1cbe9a50c7d149a4ca79e4482ed43
+      internalID: -1312911625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_Running_3
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 219
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1a490402cd2f45458f5f6db528e93cf
+      internalID: 1881277074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_Running_4
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 219
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfbb0eb950ebcc540b715cc4db505666
+      internalID: 128063463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_Jump_2
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 205
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 617f4d2e24867b14584ddf20f8373083
+      internalID: 185871642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_Jump_3
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 205
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 168f5e53f11169d48a46647e2abbabf2
+      internalID: 384944472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_Jump_4
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 205
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f10b59267141fe54f95bc3a6f8e304f1
+      internalID: -1582161248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_Fall_2
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 191
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3c2966a43f41bd418c8eca634b183d9
+      internalID: 1035486801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_Fall_3
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 191
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23b9f48bb27881840be7217c3ab497b5
+      internalID: 1469399386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_Fall_4
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 191
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 07367fb8c370ac94e95d334e7b1cebaa
+      internalID: 112847661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_FallFast_2
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 177
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fee9299268252124ba9ac49ca1b94ecf
+      internalID: 762779736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_FallFast_3
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 177
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cfd2ac005185b504b9e2e162ae57e8b3
+      internalID: -1537996180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_FallFast_4
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 177
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2953990ad67bf8478a63178145ede9d
+      internalID: 2058653759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_WallSlide_2
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 163
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 012bcab1ad652174ea6c7a60586c9296
+      internalID: -1738689607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_WallSlide_3
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 163
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e6752eea15897443877f8ce34b638fc
+      internalID: -355318588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_WallSlide_4
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 163
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ebc438f42225084388925b6fae7d9f6
+      internalID: 205863342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_WallGrab_2
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 149
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e387dffeb4583849ba674f55fa13ace
+      internalID: 310871511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_WallGrab_3
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 149
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 796cef49f2ccc474a9cb99969c895aaa
+      internalID: -1260473569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_WallGrab_4
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 149
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffdb9de4275e3da4a952e84b8e3f1e41
+      internalID: 2002215235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_BallGrounded_2
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 107
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74c02c9a54e8d8d43bcd877749cecd26
+      internalID: -1142810907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_BallGrounded_3
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 107
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6aae0107bef58554a89fabd97bdb165f
+      internalID: 775601272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimationTesting_BallGrounded_4
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 107
+        width: 9
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5555556, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06dc7bbec5b31b54483a8851aedc6af0
+      internalID: 488782722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -439,17 +1033,44 @@ TextureImporter:
     nameFileIdTable:
       AnimationTesting_8: -3239659691395905561
       AnimationTesting_BallFall: 1817300078530211528
-      AnimationTesting_BallGrounded: -8550171958632353999
+      AnimationTesting_BallGrounded_1: -8550171958632353999
+      AnimationTesting_BallGrounded_2: -1142810907
+      AnimationTesting_BallGrounded_3: 775601272
+      AnimationTesting_BallGrounded_4: 488782722
       AnimationTesting_Death: 3129066655424973013
-      AnimationTesting_Fall: -4354666779157683027
-      AnimationTesting_FallFast: -3876895605201406702
+      AnimationTesting_FallFast_1: -3876895605201406702
+      AnimationTesting_FallFast_2: 762779736
+      AnimationTesting_FallFast_3: -1537996180
+      AnimationTesting_FallFast_4: 2058653759
+      AnimationTesting_Fall_1: -4354666779157683027
+      AnimationTesting_Fall_2: 1035486801
+      AnimationTesting_Fall_3: 1469399386
+      AnimationTesting_Fall_4: 112847661
       AnimationTesting_IDK: 7791224015374387984
-      AnimationTesting_Idle: -1984426422026178697
-      AnimationTesting_IdleLong: -7605892451251046112
-      AnimationTesting_Jump: -5221398577818727444
-      AnimationTesting_Running: -2287764627438249947
-      AnimationTesting_WallGrab: 3283984627717285931
-      AnimationTesting_WallSlide: 1022690179665885958
+      AnimationTesting_IdleLong_1: -7605892451251046112
+      AnimationTesting_IdleLong_2: -457585420
+      AnimationTesting_IdleLong_3: -488281577
+      AnimationTesting_IdleLong_4: 1904074118
+      AnimationTesting_Idle_1: -1984426422026178697
+      AnimationTesting_Idle_2: 632844388
+      AnimationTesting_Idle_3: 866512071
+      AnimationTesting_Idle_4: -548089370
+      AnimationTesting_Jump_1: -5221398577818727444
+      AnimationTesting_Jump_2: 185871642
+      AnimationTesting_Jump_3: 384944472
+      AnimationTesting_Jump_4: -1582161248
+      AnimationTesting_Running_1: -2287764627438249947
+      AnimationTesting_Running_2: -1312911625
+      AnimationTesting_Running_3: 1881277074
+      AnimationTesting_Running_4: 128063463
+      AnimationTesting_WallGrab_1: 3283984627717285931
+      AnimationTesting_WallGrab_2: 310871511
+      AnimationTesting_WallGrab_3: -1260473569
+      AnimationTesting_WallGrab_4: 2002215235
+      AnimationTesting_WallSlide_1: 1022690179665885958
+      AnimationTesting_WallSlide_2: -1738689607
+      AnimationTesting_WallSlide_3: -355318588
+      AnimationTesting_WallSlide_4: 205863342
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

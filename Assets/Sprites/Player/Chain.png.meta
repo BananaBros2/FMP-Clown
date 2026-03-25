@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 0
   alignment: 9
@@ -100,16 +100,16 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Chain_0
+      name: Chain_Sprite
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 29
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+        x: 1
+        y: 14
+        width: 28
+        height: 7
+      alignment: 9
+      pivot: {x: 0, y: 0.5}
+      border: {x: 10, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
@@ -117,6 +117,50 @@ TextureImporter:
       bones: []
       spriteID: ff59731318a5f1980800000000000000
       internalID: -8566028455312386561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chain_Outline
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 7
+        width: 29
+        height: 7
+      alignment: 9
+      pivot: {x: 0, y: 0.5}
+      border: {x: 11, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76f54944cf826da40a3a857296333c99
+      internalID: 1242651542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chain_OutlineThick
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 29
+        height: 7
+      alignment: 9
+      pivot: {x: 0, y: 0.5}
+      border: {x: 11, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f21fd12e74700924bbc0551d47872c4d
+      internalID: 337120983
       vertices: []
       indices: 
       edges: []
@@ -135,7 +179,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Chain_0: -8566028455312386561
+      Chain_Outline: 1242651542
+      Chain_OutlineThick: 337120983
+      Chain_Sprite: -8566028455312386561
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

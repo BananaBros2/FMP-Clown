@@ -2,25 +2,17 @@ using UnityEngine;
 
 public class PauseScreenScript : MonoBehaviour
 {
-
-    [SerializeField]
-    UIHandler uiHandler;
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
+    [SerializeField] private UIHandler uiHandler;
 
     public void ResumePressed()
     {
+        // Resume Game
         uiHandler.SetPauseState(false);
     }
 
     public void ExitApplicationPressed()
     {
+        // Quit Game
         Application.Quit();
     }
 }

@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class RoomCameraManager : MonoBehaviour
 {
-    [Header("References")]
-    public GameObject roomCam; // Camera Controller
+    [SerializeField] private GameObject roomCam; // Camera Controller
+
+    [SerializeField] private string roomName;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            roomCam.GetComponent<CinemachineCamera>().Priority = 11; // Increase the camera (location's) priority so that the camera pans over to the created area 
+            // Increase the camera (location's) priority so that the camera pans over to the created area 
+            roomCam.GetComponent<CinemachineCamera>().Priority = 11;  
         }
     }
 

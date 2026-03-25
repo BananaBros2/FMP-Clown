@@ -1,0 +1,353 @@
+fileFormatVersion: 2
+guid: a184c1de7ef5c3145bda65051b8338d3
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5369554101669296820
+    second: ControlScheme_0
+  - first:
+      213: -7279922916778843899
+    second: ControlScheme_1
+  - first:
+      213: 4453392371096484986
+    second: ControlScheme_2
+  - first:
+      213: -4839493000964482020
+    second: ControlScheme_3
+  - first:
+      213: -3701446453537104241
+    second: ControlScheme_4
+  - first:
+      213: 423987722135410621
+    second: ControlScheme_5
+  - first:
+      213: -7329491581081182273
+    second: ControlScheme_6
+  - first:
+      213: -10161085531427624
+    second: ControlScheme_7
+  - first:
+      213: -4759992607826269186
+    second: ControlScheme_8
+  - first:
+      213: 1366069803797925205
+    second: ControlScheme_9
+  - first:
+      213: 4051625568997983561
+    second: ControlScheme_10
+  - first:
+      213: -1072548649931745208
+    second: ControlScheme_11
+  - first:
+      213: 4309529014746533424
+    second: ControlScheme_12
+  - first:
+      213: -5626262384689830569
+    second: ControlScheme_13
+  - first:
+      213: 8437243095516858215
+    second: ControlScheme_14
+  - first:
+      213: 5281450552982500041
+    second: ControlScheme_15
+  - first:
+      213: -4994797211637273617
+    second: ControlScheme_16
+  - first:
+      213: -8108144552892508286
+    second: ControlScheme_17
+  - first:
+      213: 8619970595768646842
+    second: ControlScheme_18
+  - first:
+      213: -7484355395099689144
+    second: ControlScheme_19
+  - first:
+      213: 5815856601535137717
+    second: ControlScheme_20
+  - first:
+      213: -6182144146693224288
+    second: ControlScheme_21
+  - first:
+      213: -9219581104185274976
+    second: ControlScheme_22
+  - first:
+      213: 8231228456279165523
+    second: ControlScheme_23
+  - first:
+      213: 1231243417580716123
+    second: ControlScheme_24
+  - first:
+      213: -7382991175774303729
+    second: ControlScheme_25
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Controls_Ball
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 6
+        width: 36
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4582cf5ef28b75b0800000000000000
+      internalID: -5369554101669296820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Controls_Grapple
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 32
+        width: 40
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 501eb298da488fa90800000000000000
+      internalID: -7279922916778843899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Controls_Jump
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 58
+        width: 52
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7cf3a434c0adcd30800000000000000
+      internalID: 4453392371096484986
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Controls_Movement
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 84
+        width: 73
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1cd580a1caa6dcb0800000000000000
+      internalID: -4839493000964482020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Controls_PLUS
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 89
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8e9ac5cf02d1acc0800000000000000
+      internalID: -3701446453537104241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Controls_HOLD
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 47
+        width: 33
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: febaf3b466aeeaab0800000000000000
+      internalID: -4994797211637273617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 9b7c4e4d75b4f1443a9108438cf7e75e
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      ControlScheme_10: 4051625568997983561
+      ControlScheme_11: -1072548649931745208
+      ControlScheme_12: 4309529014746533424
+      ControlScheme_13: -5626262384689830569
+      ControlScheme_14: 8437243095516858215
+      ControlScheme_15: 5281450552982500041
+      ControlScheme_17: -8108144552892508286
+      ControlScheme_18: 8619970595768646842
+      ControlScheme_19: -7484355395099689144
+      ControlScheme_20: 5815856601535137717
+      ControlScheme_21: -6182144146693224288
+      ControlScheme_22: -9219581104185274976
+      ControlScheme_23: 8231228456279165523
+      ControlScheme_24: 1231243417580716123
+      ControlScheme_25: -7382991175774303729
+      ControlScheme_5: 423987722135410621
+      ControlScheme_6: -7329491581081182273
+      ControlScheme_7: -10161085531427624
+      ControlScheme_8: -4759992607826269186
+      ControlScheme_9: 1366069803797925205
+      Controls_Ball: -5369554101669296820
+      Controls_Grapple: -7279922916778843899
+      Controls_HOLD: -4994797211637273617
+      Controls_Jump: 4453392371096484986
+      Controls_Movement: -4839493000964482020
+      Controls_PLUS: -3701446453537104241
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
