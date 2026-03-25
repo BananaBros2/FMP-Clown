@@ -180,4 +180,16 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
 
 
+    private void DoHitFreeze(float duration = 0.125f)
+    {
+        StartCoroutine(HitFreeze(duration));
+    }
+    IEnumerator HitFreeze(float realTime)
+    {
+        Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(realTime);
+        Time.timeScale = 1;
+
+    }
+
 }
