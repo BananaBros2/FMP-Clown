@@ -87,6 +87,7 @@ public class MovementController : MonoBehaviour
     Vector2 whipDir;
     bool triggerEndHook;
     float recentDash = 0;
+    bool endDashFloatiness = false;
 
     private int hookDurability = 6;
     private int curHookDurability;
@@ -343,11 +344,17 @@ public class MovementController : MonoBehaviour
 
         curDashCooldown -= Time.fixedDeltaTime;
         recentDash -= Time.fixedDeltaTime;
+        if ((endDashFloatiness && recentDash < 0) || groundedState)
+        {
+            endDashFloatiness = false;
+            ignoreGravityChanges = false;
+            AlterGravityScale(1);
+        }
         if (hookThrown)
         {
             HandleHookGrapple();
             HandleCeilingBump();
-            HandleDownBump();
+            HandleDownBump(); // MESSY TEMP FIX
             HandleRightBump();
             HandleLeftBump();
 
@@ -392,9 +399,11 @@ public class MovementController : MonoBehaviour
     #region BASIC MOVEMENT
     private void HandleHorizontalMovement()
     {
-        //if (ballin) {
+        if (endDashFloatiness) { return; }
 
         isRunning = Mathf.Abs(horizontalMov) > 0 ? true : false;
+
+        float slowdown = 0;
 
         // Quick Turn-around
         if ((horizontalMov > 0 && horizontalVel < 0) || (horizontalMov < 0 && horizontalVel > 0))
@@ -415,11 +424,11 @@ public class MovementController : MonoBehaviour
 
         horizontalVel = Mathf.Clamp(horizontalVel, -1, 1);
 
-
         //Deceleration
         if (horizontalMov == 0)
         {
             float decAmount = groundedState ? 1 : 0.2f;
+            slowdown = 0.5f;
 
             if (horizontalVel > 0)
             {
@@ -433,6 +442,8 @@ public class MovementController : MonoBehaviour
 
         }
 
+        if (groundedState) { slowdown = 0.3f; }
+
         // Landed Physics
         //if (groundedState == false && groundedState != IsGrounded(false))
         //{
@@ -441,14 +452,47 @@ public class MovementController : MonoBehaviour
 
 
         // Final Horizontal Velocity
-        rb.linearVelocity = new Vector2(horizontalVel * runSpeed, rb.linearVelocity.y);
+        print(slowdown);
+        float newHorizontalSpeed = horizontalVel * runSpeed;
+
+        if (newHorizontalSpeed > rb.linearVelocityX && newHorizontalSpeed > 0) // If right movement surpasses current right velocity
+        {
+            rb.linearVelocity = new Vector2(newHorizontalSpeed, rb.linearVelocity.y);
+        }
+        else if (newHorizontalSpeed < rb.linearVelocityX && newHorizontalSpeed < 0) // If left movement surpasses current left velocity
+        {
+            rb.linearVelocity = new Vector2(newHorizontalSpeed, rb.linearVelocity.y);
+        }
+        else if (slowdown > 0)
+        {
+            if (rb.linearVelocity.x > newHorizontalSpeed + 1) // Intended speed is slower than current speed (positive)
+            {
+                print("hec");
+                newHorizontalSpeed = Mathf.Max(rb.linearVelocity.x - (10 * slowdown), 0);
+                rb.linearVelocity = new Vector2(newHorizontalSpeed, rb.linearVelocity.y);
+            }
+            else if (rb.linearVelocity.x < newHorizontalSpeed - 1)  // Intended speed is slower than current speed (negative)
+            {
+                print("option 222");
+                newHorizontalSpeed = Mathf.Min(rb.linearVelocity.x + (10 * slowdown), 0);
+                rb.linearVelocity = new Vector2(newHorizontalSpeed, rb.linearVelocity.y);
+            }
+            else
+            {
+                print("third");
+                rb.linearVelocity = new Vector2(newHorizontalSpeed, rb.linearVelocity.y);
+            }
+
+
+        }
+
     }
 
     private void HandleJump()
     {
         jumpBufferCurTime -= Time.fixedDeltaTime;
 
-        if (ballInAir) { return; }
+        if (ballInAir || endDashFloatiness) { return; }
 
         isJumping = false;
 
@@ -493,6 +537,7 @@ public class MovementController : MonoBehaviour
         if (jumpStarted && jumpPowerRemaining > 0) // Apply jump force x times
         {
             jumpPowerRemaining--;
+            print("hey bich2");
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpStartVel.y + jumpPower);
         }
 
@@ -505,19 +550,20 @@ public class MovementController : MonoBehaviour
         }
         else if (!jumpHeld && jumpStarted && jumpPowerRemaining < 2) // Variable Jumping
         {
-            gravityScale = ignoreGravityChanges ? gravityScale : 1.5f; // Increase gravity to quicken jump
+            AlterGravityScale(1.3f); // Increase gravity to quicken jump
             jumpStarted = false;
 
             if (rb.linearVelocity.y > jumpStartVel.y + 8) // Reduce upwards velocity if too strong
             {
+                print("hey bich1");
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x,
                     Mathf.Max(jumpStartVel.y / 0.95f, jumpStartVel.y + 8));
             }
         }
 
-        if (jumpHeld || !enableVariableJumping) // Apply normal gravity scale
+        if (jumpHeld || !enableVariableJumping) // Scale of gravity while jump button is held
         {
-            gravityScale = ignoreGravityChanges ? gravityScale : 1f;
+            AlterGravityScale(1);
         }
 
         if (rb.linearVelocityY > 0 && !groundedState)
@@ -641,7 +687,7 @@ public class MovementController : MonoBehaviour
             if (ballin && !successfulBump)
             {
                 reachedBallApex = true;
-                gravityScale = 1f;
+                AlterGravityScale(1, true);
                 ignoreGravityChanges = false;
             }
 
@@ -737,12 +783,12 @@ public class MovementController : MonoBehaviour
             //Debug.DrawLine(trOrigin, trOrigin - new Vector2(boxColi.size.x / 2 - Pixel(0.25f), 0), Color.blue, 1f);
 
 
-            if (ballin && !successfulBump)
-            {
-                reachedBallApex = true;
-                gravityScale = 1f;
-                ignoreGravityChanges = false;
-            }
+            //if (ballin && !successfulBump)
+            //{
+            //    reachedBallApex = true;
+            //    gravityScale = 1f;
+            //    ignoreGravityChanges = false;
+            //}
 
         }
     }
@@ -964,10 +1010,18 @@ public class MovementController : MonoBehaviour
     {
         AttemptWallHook();
 
+        print("uh human resources");
+        horizontalMov = 0;
+        rb.linearVelocity = whipDir * 8;
+        if (whipDir.y >= 0) { rb.linearVelocityY += 5; }
         hookThrown = false;
         isWhipping = false;
         triggerEndHook = false;
-        gravityScale = 1;
+
+        ignoreGravityChanges = true;
+        AlterGravityScale(0.3f, true);
+        recentDash = 0.2f;
+        endDashFloatiness = true;
 
         if (currentHook != null) 
         {
@@ -988,7 +1042,7 @@ public class MovementController : MonoBehaviour
 
 
         canUseBall = true;
-        recentDash = 1;
+
     }
 
     private void AttemptWallHook()
@@ -1193,7 +1247,7 @@ public class MovementController : MonoBehaviour
         if (transform.position.y > bouncePosition.y + (bounceHeight * 0.7f) - 1)
         {
             reachedBallApex = true;
-            gravityScale = 1f;
+            AlterGravityScale(1f);
             ignoreGravityChanges = false;
 
             if (rb.linearVelocityY > 0)
@@ -1205,7 +1259,7 @@ public class MovementController : MonoBehaviour
         }
         else if (!reachedBallApex)
         {
-            gravityScale = 0f;
+            AlterGravityScale(0);
         }
     }
 
@@ -1215,7 +1269,7 @@ public class MovementController : MonoBehaviour
         ballInAir = false;
         bounced = false;
         canUseBall = canStillUse;
-        gravityScale = 1f;
+        AlterGravityScale(1);
         
         recordHeight = false;
         highestHeight = 0;
@@ -1229,24 +1283,24 @@ public class MovementController : MonoBehaviour
 
     private void HandleGravity()
     {
-        if (groundedState)
+        if (groundedState) // If on ground
         {
-            gravityScale = 1;
+            AlterGravityScale(1);
         }
 
         isFalling = false;
 
-        if (rb.linearVelocityY < 0 && !groundedState)
+        if (rb.linearVelocityY < 0 && !groundedState) // Set isFalling variable
         {
             isFalling = true;
         }
 
-        if (!groundedState && rb.linearVelocityY < 2 && rb.linearVelocityY > -2 && jumpHeld)
+        if (!groundedState && rb.linearVelocityY < 2 && rb.linearVelocityY > -2 && jumpHeld) // Extended Jump apex
         {
             isFalling = true;
-            rb.linearVelocity += new Vector2(0, (gravity * gravityScale * 0.5f));
+            rb.linearVelocity += new Vector2(0, (gravity * gravityScale * 0.4f));
         }
-        else
+        else // Normal gravity if not doing the held apex
         {
             float gravityMult = 1;
             if (currentOmniDirection.y < 0 && enableFastFalling)
@@ -1260,13 +1314,28 @@ public class MovementController : MonoBehaviour
 
 
         float maxFallMult = 1;
-        if (currentOmniDirection.y < 0 && enableFastFalling)
+        if (currentOmniDirection.y < 0 && enableFastFalling) // Fast falling
         {
             isFastFalling = true;
-            maxFallMult = 1.5f;
+            maxFallMult = 1.3f;
         }
 
-        rb.linearVelocityY = Mathf.Max(rb.linearVelocityY, -20 * maxFallMult);
+        rb.linearVelocityY = Mathf.Max(rb.linearVelocityY, -15 * maxFallMult);
+
+    }
+
+    private void AlterGravityScale(float newScale = 1, bool highPriority = false)
+    {
+        if (!ignoreGravityChanges || highPriority)
+        {
+            gravityScale = newScale;
+        }
+
+    }
+
+    private void AlterVelocity(Vector2 newVelocity)
+    {
+        rb.linearVelocity = newVelocity;
 
     }
 
@@ -1577,7 +1646,6 @@ public class MovementController : MonoBehaviour
             //Debug.DrawLine(tlOrigin, tlOrigin - new Vector2(0, boxColi.size.y / 2 - Pixel(0.25f)), Color.red, 1f);
             //Debug.DrawLine(trOrigin, trOrigin + new Vector2(0, boxColi.size.y / 2 - Pixel(0.25f)), Color.blue, 1f);
 
-            print("HandleRightBump " + successfulBump);
         }
     }
 
@@ -1625,7 +1693,6 @@ public class MovementController : MonoBehaviour
             Debug.DrawLine(tlOrigin, tlOrigin - new Vector2(0, boxColi.size.y / 2 - Pixel(0.25f)), Color.red, 1f);
             Debug.DrawLine(trOrigin, trOrigin + new Vector2(0, boxColi.size.y / 2 - Pixel(0.25f)), Color.blue, 1f);
 
-            print("HandleLeftBump " + successfulBump);
         }
     }
 

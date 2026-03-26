@@ -20,7 +20,7 @@ public class DataPersistenceManager : MonoBehaviour
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
-            print("uh oh already data manager");
+            Debug.LogWarning("Already data existing manager");
             return;
         }
         instance = this;
@@ -52,7 +52,7 @@ public class DataPersistenceManager : MonoBehaviour
 
         if (this.gameData == null)
         {
-            print("No save data found");
+            Debug.LogWarning("No save data found");
             NewGame();
         }
 
@@ -61,7 +61,6 @@ public class DataPersistenceManager : MonoBehaviour
             dataPersistenceObj.LoadData(gameData);
         }
 
-        print("loaded deaths " + gameData.deathCount);
     }
 
     public void SaveGame()
@@ -70,8 +69,6 @@ public class DataPersistenceManager : MonoBehaviour
         {
             dataPersistenceObj.SaveData(ref gameData);
         }
-
-        print("death count equals " + gameData.deathCount);
 
         dataHandler.Save(gameData);
     }
