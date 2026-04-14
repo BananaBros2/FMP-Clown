@@ -4,8 +4,8 @@ using UnityEngine.InputSystem;
 
 public class MovementController : MonoBehaviour
 {
-    // ========================================================================#
     #region VARIABLES
+    // ========================================================================#
 
     [Header("References")]
     [SerializeField] private Transform groundCheck;
@@ -75,6 +75,7 @@ public class MovementController : MonoBehaviour
     [SerializeField] bool nullVelocityOnThrow = true;
     private int curHookCount = 2;
     private GameObject currentHook;
+    private GameObject currentChain;
     private bool hookThrown;
     private bool isWhipping;
     private float dashStartupTime = 0.125f;
@@ -89,6 +90,8 @@ public class MovementController : MonoBehaviour
     float recentDash = 0;
     bool endDashFloatiness = false;
 
+
+
     private int hookDurability = 6;
     private int curHookDurability;
 
@@ -100,6 +103,7 @@ public class MovementController : MonoBehaviour
     private float timeTillNextShift = 0;
     private float shiftTime = 0.3f;
     private bool attemptHookDetach = false;
+
     enum HookHitType
     {
         None, Wall, Ceiling, Floor
@@ -118,6 +122,7 @@ public class MovementController : MonoBehaviour
     Vector2 bouncePosition;
     float bounceHeight;
     bool ballInAir;
+
 
     [Header("Quality of Life")]
     [SerializeField, Range(0f,1f)] private float ceilingBumpLenience = 1f;
@@ -144,7 +149,6 @@ public class MovementController : MonoBehaviour
 
     Vector2 smoothVelocity;
 
-    int targetAnimation = 0;
 
     bool isRunning = false;
     bool isJumping = false;
@@ -160,9 +164,31 @@ public class MovementController : MonoBehaviour
     Vector2 lastPosition;
     Vector2 placementVelocity;
 
-    #endregion VARIABLES
-    // ========================================================================#
+    bool disableControls = false;
+    InputAction.CallbackContext iaStoredMove;
+    InputAction.CallbackContext iaStoredJump;
+    InputAction.CallbackContext iaStoredWhip;
+    InputAction.CallbackContext iaStoredBall;
 
+    bool momentumFrozen;
+    Vector2 heldMomentum;
+
+    float cannonTime = 0;
+    CannonScript currentCannon;
+    bool usingCannon;
+    bool triggerCannon;
+
+    bool inWater;
+    Vector2 waterVelocity;
+    float timeSinceLastSwim = 0;
+
+    // ========================================================================#
+    #endregion VARIABLES
+
+
+
+    #region MONOBEHAVIOUR
+    // ========================================================================#
 
     void Start()
     {
@@ -175,10 +201,17 @@ public class MovementController : MonoBehaviour
         wallCheckOffset = boxColi.size.x / 2; 
 
         Application.targetFrameRate = 60; // Move elsewhere
+
+        disableControls = true;
     }
 
     private void FixedUpdate()
     {
+        if (momentumFrozen)
+        {
+            return;
+        }
+
         HandleMovement(); // All movement
 
         HandleCamera(); // Camerawork after movement logic
@@ -195,15 +228,27 @@ public class MovementController : MonoBehaviour
         }
     }
 
-
     // ========================================================================#
+    #endregion MONOBEHAVIOUR
+
+
+
     #region PLAYER INPUT
+    // ========================================================================#
 
     /// <summary>
     /// Handle Movement Input
     /// </summary>
     public void OnMove(InputAction.CallbackContext movement)
     { 
+        if (disableControls) 
+        {
+            horizontalMov = 0;
+            currentOmniDirection = Vector2.zero;
+            iaStoredMove = movement;
+            return; 
+        }
+
         horizontalMov = movement.ReadValue<Vector2>().x; // Get horizontal value
 
         currentOmniDirection = movement.ReadValue<Vector2>(); // Get movement vector
@@ -219,11 +264,20 @@ public class MovementController : MonoBehaviour
 
     }
 
+
     /// <summary>
     /// Handle Jump Input
     /// </summary>
     public void OnJump(InputAction.CallbackContext jump)
     {
+        if (disableControls)
+        {
+            jumpBufferCurTime = 0;
+            jumpHeld = false;
+            iaStoredJump = jump;
+            return;
+        }
+
         if (!enableJumping) { return; } // If for whatever reason this is needed
 
         if (jump.started)
@@ -231,7 +285,14 @@ public class MovementController : MonoBehaviour
             // Handle jump with jumpBuffer timer, longer timer if falling quickly
             jumpBufferCurTime = Mathf.Min(minJumpBuffer * Mathf.Max(-rb.linearVelocityY / 10, 1), maxJumpBuffer);
             jumpHeld = true;
+
+            if (usingCannon)
+            {
+                triggerCannon = true;
+            }
+
         }
+
         if (jump.canceled)
         {
             jumpHeld = false;
@@ -239,12 +300,20 @@ public class MovementController : MonoBehaviour
 
     }
 
+
     /// <summary>
     /// Handle Whip Input
     /// </summary>
     public void OnWhip(InputAction.CallbackContext whipInput)
     {
-        if (!enableHookUse) { return; } // Disable hook usage if desired
+        if (disableControls)
+        {
+            attemptHookDetach = false;
+            iaStoredWhip = whipInput;
+            return;
+        }
+
+        if (!enableHookUse || usingCannon) { return; } // Disable hook usage if desired
 
         if (whipInput.started && !hookThrown)
         {
@@ -263,6 +332,7 @@ public class MovementController : MonoBehaviour
 
     }
 
+
     /// <summary>
     /// Handle ??? Input
     /// </summary>
@@ -280,16 +350,23 @@ public class MovementController : MonoBehaviour
 
     }
 
+
     /// <summary>
     /// Handle Ball Input
     /// </summary>
     public void OnBall(InputAction.CallbackContext ballInput)
     {
-        if (!enableBallUse) { return; } // Disable ball usage if desired
+        if (disableControls)
+        {
+            iaStoredBall = ballInput;
+            return;
+        }
+
+        if (!enableBallUse || usingCannon) { return; } // Disable ball usage if desired
 
         if (!ballin && ballInput.started && canUseBall) // NEEDS AND !GRABBED
         {
-            DoHitFreeze(); // Freeze game briefly
+            GameManager.Instance.DoHitFreeze(); // Freeze game briefly
 
             ballin = true;
             ballInAir = true;
@@ -315,17 +392,33 @@ public class MovementController : MonoBehaviour
 
     }
 
+    // ========================================================================#
     #endregion PLAYER INPUT
-    // ========================================================================#
 
 
 
-    // ========================================================================#
     #region PHYSICS LOGIC
-
+    // ========================================================================#
 
     private void HandleMovement()
     {
+
+        if (cannonTime > 0)
+        {
+            cannonTime -= Time.fixedDeltaTime;
+
+            RaycastHit2D hit;
+            hit = Physics2D.BoxCast(transform.position, new Vector2(boxColi.size.x + Pixel(), boxColi.size.y + Pixel()), 0, Vector2.zero, 0, groundLayer);
+            if (hit)
+            {
+                print(hit.transform.gameObject.layer + " " + groundLayer.value);
+                cannonTime = 0;
+            }
+
+            return;
+        }
+
+
         PreserveVelocity(); // Store velocity
 
         placementVelocity = (Vector2)transform.position - lastPosition;
@@ -337,7 +430,6 @@ public class MovementController : MonoBehaviour
         MoveWallCheck(GetMoveDir());
 
         if (HandleWallHook()) { return; } // Wall Hooking
-
 
         if (GetMoveDir() != 0 && !isWhipping && !hookThrown) { directionFacing = GetMoveDir(); }
 
@@ -354,15 +446,22 @@ public class MovementController : MonoBehaviour
         {
             HandleHookGrapple();
             HandleCeilingBump();
+
             HandleDownBump(); // MESSY TEMP FIX
-            HandleRightBump();
-            HandleLeftBump();
+            HandleRightBump(); // MESSY TEMP FIX
+            HandleLeftBump(); // MESSY TEMP FIX
 
             return;
         }
 
         // Hook Refill on Ground
-        if (groundedState && curDashCooldown <= 0 && !ballInAir) { curHookCount = maxHookCount; }
+        if (groundedState && curDashCooldown <= 0 && !ballInAir) { RefillHookUses(); }
+
+        if (inWater)
+        {
+            HandleWaterPhysics();
+            return;
+        }
 
         HandleHorizontalMovement();
 
@@ -396,7 +495,9 @@ public class MovementController : MonoBehaviour
     }
 
 
+
     #region BASIC MOVEMENT
+
     private void HandleHorizontalMovement()
     {
         if (endDashFloatiness) { return; }
@@ -406,8 +507,9 @@ public class MovementController : MonoBehaviour
         float slowdown = 0;
 
         // Quick Turn-around
-        if ((horizontalMov > 0 && horizontalVel < 0) || (horizontalMov < 0 && horizontalVel > 0))
+        if (groundedState && ((horizontalMov > 0 && horizontalVel < 0) || (horizontalMov < 0 && horizontalVel > 0)))
         {
+            print("hey");
             horizontalVel = (horizontalVel * -1) * 0.5f;
         }
 
@@ -452,7 +554,7 @@ public class MovementController : MonoBehaviour
 
 
         // Final Horizontal Velocity
-        print(slowdown);
+        //print(slowdown);
         float newHorizontalSpeed = horizontalVel * runSpeed;
 
         if (newHorizontalSpeed > rb.linearVelocityX && newHorizontalSpeed > 0) // If right movement surpasses current right velocity
@@ -467,19 +569,19 @@ public class MovementController : MonoBehaviour
         {
             if (rb.linearVelocity.x > newHorizontalSpeed + 1) // Intended speed is slower than current speed (positive)
             {
-                print("hec");
+                //print("hec");
                 newHorizontalSpeed = Mathf.Max(rb.linearVelocity.x - (10 * slowdown), 0);
                 rb.linearVelocity = new Vector2(newHorizontalSpeed, rb.linearVelocity.y);
             }
             else if (rb.linearVelocity.x < newHorizontalSpeed - 1)  // Intended speed is slower than current speed (negative)
             {
-                print("option 222");
+                //print("option 222");
                 newHorizontalSpeed = Mathf.Min(rb.linearVelocity.x + (10 * slowdown), 0);
                 rb.linearVelocity = new Vector2(newHorizontalSpeed, rb.linearVelocity.y);
             }
             else
             {
-                print("third");
+                //print("third");
                 rb.linearVelocity = new Vector2(newHorizontalSpeed, rb.linearVelocity.y);
             }
 
@@ -537,7 +639,6 @@ public class MovementController : MonoBehaviour
         if (jumpStarted && jumpPowerRemaining > 0) // Apply jump force x times
         {
             jumpPowerRemaining--;
-            print("hey bich2");
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpStartVel.y + jumpPower);
         }
 
@@ -694,104 +795,45 @@ public class MovementController : MonoBehaviour
         }
     }
 
-
-
     /// <summary>
     /// COME BACK HERE LATER
     /// </summary>
     /// <param name="vector2Dir"></param>
-    private void HandleSurfaceBump(Vector2 vector2Dir)
-    {
-        Vector2 newBoxiColi;
-        Vector2 newLinearVelocity;
-        float bumpLenience;
-        float dir;
+    //private void HandleSurfaceBump(Vector2 vector2Dir)
+    //{
+    //    Vector2 newBoxiColi;
+    //    Vector2 newLinearVelocity;
+    //    float bumpLenience;
+    //    float dir;
 
-        if (vector2Dir == Vector2.up)
-        {
-            newBoxiColi = boxColi.size;
-            newLinearVelocity = new Vector2(rb.linearVelocityX, rb.linearVelocityY);
-            bumpLenience = 0.7f;
-            dir = 1;
-        }
-        else if (vector2Dir == Vector2.down)
-        {
-            newBoxiColi = boxColi.size;
-            newLinearVelocity = new Vector2(rb.linearVelocityX, -rb.linearVelocityY);
-            bumpLenience = 0.7f;
-            dir = -1;
-        }
-        else if (vector2Dir != Vector2.left) 
-        {
-            newBoxiColi = new Vector2(boxColi.size.y, boxColi.size.x);
-            newLinearVelocity = new Vector2(-rb.linearVelocityY, rb.linearVelocityX);
-            bumpLenience = 0.7f;
-            dir = -1;
-        }
-        else if (vector2Dir != Vector2.right) 
-        {
-            newBoxiColi = new Vector2(boxColi.size.y, boxColi.size.x);
-            newLinearVelocity = new Vector2(-rb.linearVelocityY, rb.linearVelocityX);
-            bumpLenience = 0.7f;
-            dir = 1;
-        }
-
-
-
-
-
-
-
-
-        RaycastHit2D hit; // Check if center of character has space to move down
-        hit = Physics2D.Raycast(transform.position, Vector2.up, boxColi.size.y / 2 + Pixel(2), solidGroundLayer);
-        if (!hit && rb.linearVelocity.y > 0)
-        {
-            bool successfulBump = false; // Track bump status
-
-            // Check wall towards right (Checks if ray starts inside a wall first)
-            Vector2 tlOrigin = new Vector2(transform.position.x - boxColi.size.x / 2, transform.position.y + boxColi.size.y / 2 + Pixel(3));
-            if (!Physics2D.OverlapBox(tlOrigin, new Vector2(Pixel(), Pixel()), 0, solidGroundLayer))
-            {
-                // Check if left side is clear
-                RaycastHit2D hitTL = Physics2D.Raycast(tlOrigin, Vector2.right, boxColi.size.x - Pixel(0.25f), solidGroundLayer);
-                if (hitTL.distance > (boxColi.size.x) * (1 - ceilingBumpLenience) && hitTL.distance != 0)
-                {
-                    transform.position = new Vector2(transform.position.x - (boxColi.size.x - hitTL.distance) - Pixel(0.5f), transform.position.y);
-                    if (!hookThrown) rb.linearVelocity = preservedVel;
-
-                    successfulBump = true;
-                }
-            }
-
-            // Check wall towards left (Checks if ray starts inside a wall first)
-            Vector2 trOrigin = new Vector2(transform.position.x + boxColi.size.x / 2, transform.position.y + boxColi.size.y / 2 + Pixel(3));
-            if (!Physics2D.OverlapBox(trOrigin, new Vector2(Pixel(), Pixel()), 0, solidGroundLayer))
-            {
-                // Check if right side is clear
-                RaycastHit2D hitTR = Physics2D.Raycast(trOrigin, Vector2.left, boxColi.size.x - Pixel(0.25f), solidGroundLayer);
-                if (hitTR.distance > (boxColi.size.x) * (1 - ceilingBumpLenience) && hitTR.distance != 0)
-                {
-                    transform.position = new Vector2(transform.position.x + (boxColi.size.x - hitTR.distance) + Pixel(0.5f), transform.position.y);
-                    if (!hookThrown) rb.linearVelocity = preservedVel;
-
-                    successfulBump = true;
-                }
-            }
-
-            //Debug.DrawLine(tlOrigin, tlOrigin + new Vector2(boxColi.size.x / 2 - Pixel(0.25f), 0), Color.red, 1f);
-            //Debug.DrawLine(trOrigin, trOrigin - new Vector2(boxColi.size.x / 2 - Pixel(0.25f), 0), Color.blue, 1f);
-
-
-            //if (ballin && !successfulBump)
-            //{
-            //    reachedBallApex = true;
-            //    gravityScale = 1f;
-            //    ignoreGravityChanges = false;
-            //}
-
-        }
-    }
+    //    if (vector2Dir == Vector2.up)
+    //    {
+    //        newBoxiColi = boxColi.size;
+    //        newLinearVelocity = new Vector2(rb.linearVelocityX, rb.linearVelocityY);
+    //        bumpLenience = 0.7f;
+    //        dir = 1;
+    //    }
+    //    else if (vector2Dir == Vector2.down)
+    //    {
+    //        newBoxiColi = boxColi.size;
+    //        newLinearVelocity = new Vector2(rb.linearVelocityX, -rb.linearVelocityY);
+    //        bumpLenience = 0.7f;
+    //        dir = -1;
+    //    }
+    //    else if (vector2Dir != Vector2.left) 
+    //    {
+    //        newBoxiColi = new Vector2(boxColi.size.y, boxColi.size.x);
+    //        newLinearVelocity = new Vector2(-rb.linearVelocityY, rb.linearVelocityX);
+    //        bumpLenience = 0.7f;
+    //        dir = -1;
+    //    }
+    //    else if (vector2Dir != Vector2.right) 
+    //    {
+    //        newBoxiColi = new Vector2(boxColi.size.y, boxColi.size.x);
+    //        newLinearVelocity = new Vector2(-rb.linearVelocityY, rb.linearVelocityX);
+    //        bumpLenience = 0.7f;
+    //        dir = 1;
+    //    }
 
 
 
@@ -800,12 +842,55 @@ public class MovementController : MonoBehaviour
 
 
 
+    //    RaycastHit2D hit; // Check if center of character has space to move down
+    //    hit = Physics2D.Raycast(transform.position, Vector2.up, boxColi.size.y / 2 + Pixel(2), solidGroundLayer);
+    //    if (!hit && rb.linearVelocity.y > 0)
+    //    {
+    //        bool successfulBump = false; // Track bump status
+
+    //        // Check wall towards right (Checks if ray starts inside a wall first)
+    //        Vector2 tlOrigin = new Vector2(transform.position.x - boxColi.size.x / 2, transform.position.y + boxColi.size.y / 2 + Pixel(3));
+    //        if (!Physics2D.OverlapBox(tlOrigin, new Vector2(Pixel(), Pixel()), 0, solidGroundLayer))
+    //        {
+    //            // Check if left side is clear
+    //            RaycastHit2D hitTL = Physics2D.Raycast(tlOrigin, Vector2.right, boxColi.size.x - Pixel(0.25f), solidGroundLayer);
+    //            if (hitTL.distance > (boxColi.size.x) * (1 - ceilingBumpLenience) && hitTL.distance != 0)
+    //            {
+    //                transform.position = new Vector2(transform.position.x - (boxColi.size.x - hitTL.distance) - Pixel(0.5f), transform.position.y);
+    //                if (!hookThrown) rb.linearVelocity = preservedVel;
+
+    //                successfulBump = true;
+    //            }
+    //        }
+
+    //        // Check wall towards left (Checks if ray starts inside a wall first)
+    //        Vector2 trOrigin = new Vector2(transform.position.x + boxColi.size.x / 2, transform.position.y + boxColi.size.y / 2 + Pixel(3));
+    //        if (!Physics2D.OverlapBox(trOrigin, new Vector2(Pixel(), Pixel()), 0, solidGroundLayer))
+    //        {
+    //            // Check if right side is clear
+    //            RaycastHit2D hitTR = Physics2D.Raycast(trOrigin, Vector2.left, boxColi.size.x - Pixel(0.25f), solidGroundLayer);
+    //            if (hitTR.distance > (boxColi.size.x) * (1 - ceilingBumpLenience) && hitTR.distance != 0)
+    //            {
+    //                transform.position = new Vector2(transform.position.x + (boxColi.size.x - hitTR.distance) + Pixel(0.5f), transform.position.y);
+    //                if (!hookThrown) rb.linearVelocity = preservedVel;
+
+    //                successfulBump = true;
+    //            }
+    //        }
+
+    //        //Debug.DrawLine(tlOrigin, tlOrigin + new Vector2(boxColi.size.x / 2 - Pixel(0.25f), 0), Color.red, 1f);
+    //        //Debug.DrawLine(trOrigin, trOrigin - new Vector2(boxColi.size.x / 2 - Pixel(0.25f), 0), Color.blue, 1f);
 
 
+    //        //if (ballin && !successfulBump)
+    //        //{
+    //        //    reachedBallApex = true;
+    //        //    gravityScale = 1f;
+    //        //    ignoreGravityChanges = false;
+    //        //}
 
-
-
-
+    //    }
+    //}
 
     private void MoveWallCheck(int dir)
     {
@@ -822,10 +907,63 @@ public class MovementController : MonoBehaviour
         return horizontalMov > 0 ? 1 : -1;
 
     }
+
     #endregion BASIC MOVEMENT
 
 
+    #region WATER PHYSICS
+
+    private void HandleWaterPhysics()
+    {
+        bool isSwimming = true;
+        Vector2 swimDir = currentOmniDirection;
+        if (jumpHeld) { swimDir += Vector2.up; }
+
+        if (swimDir.magnitude == 0)
+        {
+            isSwimming = false;
+        }
+
+
+        RefillHookUses();
+        canUseBall = true;
+
+        if (isSwimming)
+        {
+            timeSinceLastSwim = 0;
+            waterVelocity += swimDir.normalized;
+            waterVelocity += Vector2.down / 20;
+            waterVelocity *= 0.8f;
+        }
+        else
+        {
+            timeSinceLastSwim += Time.fixedDeltaTime;
+            if (waterVelocity.y > -4 && timeSinceLastSwim > 0.3f)
+            {
+                waterVelocity += Vector2.down / 6;
+            }
+            waterVelocity *= 0.85f;
+        }
+
+        if (waterVelocity.magnitude > 5)
+        {
+            waterVelocity = waterVelocity.normalized * 5;
+        }
+
+        if (ballin)
+        {
+            waterVelocity += Vector2.up;
+        }
+        
+        rb.linearVelocity = waterVelocity;
+
+    }
+
+    #endregion WATER PHYSICS
+
+
     #region HOOK LOGIC
+
     /// <summary>
     /// Handle initial logic for throwing the hook
     /// </summary>
@@ -884,7 +1022,6 @@ public class MovementController : MonoBehaviour
         if (!infiniteHooks) { curHookCount--; } // Decrease hook count
 
     }
-
     private HookHitType GetHookHitDirection(Vector2 whipDir, RaycastHit2D hit)
     {
         if (Mathf.Abs(whipDir.x) > 0 && whipDir.y == 0)
@@ -934,12 +1071,12 @@ public class MovementController : MonoBehaviour
 
         return HookHitType.None;
     }
-
+    
     IEnumerator LaunchWhip()
     {
-        GameObject chain = Instantiate(chainPrefab, currentHook.transform.position, Quaternion.identity);
-        chain.GetComponent<SetupPlayerWhip>().playerTransform = transform;
-        chain.GetComponent<SetupPlayerWhip>().targetPoint = currentHook.transform.GetComponent<HookAimSprite>().GetChainTarget();
+        currentChain = Instantiate(chainPrefab, currentHook.transform.position, Quaternion.identity);
+        currentChain.GetComponent<SetupPlayerWhip>().playerTransform = transform;
+        currentChain.GetComponent<SetupPlayerWhip>().targetPoint = currentHook.transform.GetComponent<HookAimSprite>().GetChainTarget();
 
         yield return new WaitForSecondsRealtime(0.08f);
 
@@ -948,14 +1085,31 @@ public class MovementController : MonoBehaviour
 
         while (!triggerEndHook)
         {
+            if (!momentumFrozen)
+            {
+                if (currentHook == null) { break; }
 
-            rb.linearVelocity = (currentHook.transform.position - transform.position).normalized * hookSpeed;
+                float maxHookSpeed = 12;
+                if (inWater)
+                {
+                    maxHookSpeed /= 2;
+                }
+
+                hookSpeed = Mathf.Min(hookSpeed + 6, maxHookSpeed);
+                rb.linearVelocity = (currentHook.transform.position - transform.position).normalized * hookSpeed;
+
+            }
+
+
             yield return new WaitForSeconds(0.1f);
-            hookSpeed = Mathf.Min(hookSpeed + 6, 20);
+
         }
 
-        HandleGrappleEnd();
-        Destroy(chain.gameObject);
+        if (currentHook != null)
+        {
+            HandleGrappleEnd();
+            Destroy(currentChain.gameObject);
+        }
 
     }
 
@@ -1008,20 +1162,61 @@ public class MovementController : MonoBehaviour
 
     private void HandleGrappleEnd()
     {
+        //GameManager.Instance.DoHitFreeze(0.05f);
         AttemptWallHook();
 
         print("uh human resources");
-        horizontalMov = 0;
-        rb.linearVelocity = whipDir * 8;
-        if (whipDir.y >= 0) { rb.linearVelocityY += 5; }
+
+        // Cancel out velocity held from before grapple
+        horizontalVel = 0;
+        //jumpPower = 0;
+
+        recentDash = 0.2f;
+        endDashFloatiness = true;
+
+        rb.linearVelocity = Vector2.zero;
+
+        if (whipDir.y > 0)
+        {
+            rb.linearVelocityY = 6;
+        }
+        else if (whipDir.y < 0)
+        {
+            rb.linearVelocityY = -4;
+        }
+
+        rb.linearVelocityX = whipDir.x * 6;
+        if (whipDir.x > 0 && horizontalMov < 0)
+        {
+            recentDash = 0.1f;
+            rb.linearVelocityX = 4;
+        }
+        else if (whipDir.x < 0 && horizontalMov > 0)
+        {
+            recentDash = 0.1f;
+            rb.linearVelocityX = -4;
+        }
+        //rb.linearVelocity = new Vector2(whipDir.x * 8, whipDir.y * 8);
+
+        horizontalVel = rb.linearVelocityX;
+
+
+        if (momentumFrozen)
+        {
+            heldMomentum = rb.linearVelocity;
+            rb.linearVelocity = Vector2.zero;
+        }
+
+
+
+        if (whipDir.y >= 0 && !groundedState) { rb.linearVelocityY += 5; }
         hookThrown = false;
         isWhipping = false;
         triggerEndHook = false;
 
         ignoreGravityChanges = true;
         AlterGravityScale(0.3f, true);
-        recentDash = 0.2f;
-        endDashFloatiness = true;
+
 
         if (currentHook != null) 
         {
@@ -1087,6 +1282,7 @@ public class MovementController : MonoBehaviour
     {
         if (stuckOnHook)
         {
+            rb.linearVelocity = Vector2.zero;
 
             timeTillNextShift -= Time.fixedDeltaTime;
             if (currentOmniDirection.y != 0 && timeTillNextShift <= 0)
@@ -1131,9 +1327,10 @@ public class MovementController : MonoBehaviour
 
                         if (currentOmniDirection.y > 0)
                         {
+                            print("ANTOINESS");
                             stuckOnHook = false;
                             attemptHookDetach = false;
-                            rb.linearVelocityY = 15;
+                            rb.linearVelocityY = 8;
                             horizontalVel = directionFacing / 1.5f;
 
                             return true;
@@ -1152,15 +1349,8 @@ public class MovementController : MonoBehaviour
                         {
                             attemptHookDetach = true;
                         }
-                        print(curHookDurability);
                     }
                 }
-
-
-
-
-
-
 
 
             }
@@ -1178,10 +1368,47 @@ public class MovementController : MonoBehaviour
 
         return false;
     }
+    
+    private void CancelHook()
+    {
+        triggerEndHook = true;
+        StopCoroutine(LaunchWhip());
+
+        hookThrown = false;
+        isWhipping = false;
+        triggerEndHook = false;
+
+        if (currentHook != null)
+        {
+            currentHook.GetComponent<BreakHookSpawner>().BreakHook(whipDir * 3);
+
+            Destroy(currentHook.gameObject);
+            currentHook = null;
+        }
+        if (currentChain != null)
+        {
+            Destroy(currentChain.gameObject);
+        }
+
+    }
+
+    public void RefillHookUses(int amount = -1)
+    {
+        if (amount == -1)
+        {
+            curHookCount = maxHookCount;
+        }
+        else
+        {
+            curHookCount = Mathf.Min(curHookCount + amount, maxHookCount);
+        }
+    }
+
     #endregion HOOK LOGIC
 
 
     #region BALL LOGIC
+
     private void HandleBallPhysics()
     {
         if (recordHeight)
@@ -1215,7 +1442,7 @@ public class MovementController : MonoBehaviour
     private void CheckBounce()
     {
         //transform.position -= new Vector3(0, 0.2f, 0);
-        //DoHitFreeze();
+        //GameManager.Instance.DoHitFreeze();
 
         bouncePosition = transform.position;
         bounceHeight = highestHeight - transform.position.y;
@@ -1241,7 +1468,6 @@ public class MovementController : MonoBehaviour
             bounced = false;
         }
     }
-
     private void HandleBallBounce()
     {
         if (transform.position.y > bouncePosition.y + (bounceHeight * 0.7f) - 1)
@@ -1262,7 +1488,6 @@ public class MovementController : MonoBehaviour
             AlterGravityScale(0);
         }
     }
-
     private void ExitBallState(bool canStillUse)
     {
         ballin = false;
@@ -1278,6 +1503,7 @@ public class MovementController : MonoBehaviour
         ChangeColliderSize(normalColiSize);
 
     }
+    
     #endregion BALL LOGIC
 
 
@@ -1302,18 +1528,18 @@ public class MovementController : MonoBehaviour
         }
         else // Normal gravity if not doing the held apex
         {
-            float gravityMult = 1;
+            float gravityMult = 0.9f;
             if (currentOmniDirection.y < 0 && enableFastFalling)
             {
                 isFastFalling = true;
-                gravityMult = 1.5f;
+                gravityMult = 1.3f;
             }
 
             rb.linearVelocity += new Vector2(0, (gravity * gravityScale * gravityMult));
         }
 
 
-        float maxFallMult = 1;
+        float maxFallMult = 0.9f;
         if (currentOmniDirection.y < 0 && enableFastFalling) // Fast falling
         {
             isFastFalling = true;
@@ -1367,19 +1593,137 @@ public class MovementController : MonoBehaviour
 
     }
 
+
+    public void FreezeMomentum()
+    {
+        momentumFrozen = true;
+        heldMomentum = rb.linearVelocity;
+        rb.linearVelocity = Vector2.zero;
+
+        DisablePlayerControls(true);
+    }
+
+    public void ResumeMomentum()
+    {
+        rb.linearVelocity = heldMomentum;
+        momentumFrozen = false;
+
+        DisablePlayerControls(false);
+    }
+
+
     private void ChangeColliderSize(Vector2 newSize)
     {
         boxColi.size = newSize;
         groundCheck.localPosition = new Vector3(0, -boxColi.size.y / 2, 0);
     }
 
+    // ========================================================================#
     #endregion PHYSICS LOGIC
+
+
+
+    #region OBSTACLES
     // ========================================================================#
 
+    public void EnterCannon(CannonScript cannon)
+    {
+        currentCannon = cannon;
 
+        RefillHookUses();
+
+        RemoveAllVelocity();
+        ExitBallState(true);
+        if (hookThrown)
+        {
+            CancelHook(); 
+        }
+
+        cannonTime = 0.3f;
+        StartCoroutine(CannonControls());
+        
+    }
+
+    IEnumerator CannonControls()
+    {
+        usingCannon = true;
+
+        float cannonLaunchTimer = 0.7f;
+        Vector2 cannonDirection = currentOmniDirection;
+        currentCannon.ChangeCannonDirection(cannonDirection);
+
+        while (cannonLaunchTimer > 0)
+        {
+            cannonTime = 0.4f;
+            cannonLaunchTimer -= 0.1f;
+
+            if (cannonDirection != currentOmniDirection)
+            {
+                cannonDirection = currentOmniDirection;
+                currentCannon.ChangeCannonDirection(cannonDirection);
+            }
+
+            if (triggerCannon)
+            {
+                cannonLaunchTimer = 0;
+            }
+            else
+            {
+                yield return new WaitForSeconds(0.1f);
+            }
+
+        }
+
+        usingCannon = false;
+        triggerCannon = false;
+
+        rb.linearVelocity = currentCannon.GetCannonDirection().normalized * 15;
+        horizontalVel = rb.linearVelocityX;
+
+    }
 
     // ========================================================================#
+    #endregion OBSTACLES
+
+
+
     #region CHECKS
+    // ========================================================================#
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Water"))
+        {
+            horizontalVel = 0;
+            inWater = true;
+            waterVelocity = rb.linearVelocity;
+        }
+
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Water"))
+        {
+            inWater = false;
+        }
+
+    }
+
+
+    public void DisablePlayerControls(bool state = true)
+    {
+        disableControls = state;
+
+        if (!state) // Refresh input
+        {
+            if (iaStoredMove.action != null) OnMove(iaStoredMove);
+            if (iaStoredJump.action != null) OnJump(iaStoredJump);
+            if (iaStoredWhip.action != null) OnWhip(iaStoredWhip);
+            if (iaStoredBall.action != null) OnBall(iaStoredBall);
+        }
+
+    }
 
     private bool IsGrounded(bool extended)
     {
@@ -1419,13 +1763,13 @@ public class MovementController : MonoBehaviour
     /// <returns></returns>
     float Pixel(float amount = 1) { return amount * pixelSize; }
 
+    // ========================================================================#
     #endregion CHECKS
-    // ========================================================================#
 
 
 
-    // ========================================================================#
     #region VISUALS
+    // ========================================================================#
 
     private void HandleVisuals()
     {
@@ -1522,35 +1866,13 @@ public class MovementController : MonoBehaviour
         hairHandler.partOffset = currentOffset.normalized * 0.2f;
     }
 
-    private void DoHitFreeze(float duration = 0.125f)
-    {
-        StartCoroutine(HitFreeze(duration));
-    }
-    IEnumerator HitFreeze(float realTime)
-    {
-        Time.timeScale = 0;
-        yield return new WaitForSecondsRealtime(realTime);
-        Time.timeScale = 1;
 
-    }
-
-    #endregion VISUALS
     // ========================================================================#
-
-
-
-
-
-
-
-
-
-
+    #endregion VISUALS
 
 
 
     // TO FIX/COMPRESS
-
 
     private void HandleDownBump()
     {

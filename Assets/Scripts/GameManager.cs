@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour, IDataPersistence
 {
     [SerializeField] GameObject playerPrefab;
 
     private GameObject currentPlayerObject;
+    public GameObject cineCam;
 
+    private string currentRoom = "Unknown";
     private int currentCheckpoint = 0;
 
     private bool sceneLoading = false;
@@ -63,6 +67,8 @@ public class GameManager : MonoBehaviour, IDataPersistence
             }
         }
 
+        cineCam = GameObject.FindGameObjectWithTag("MainCamera");
+        cineCam.GetComponent<CinemachineBrain>().DefaultBlend.Time = 0f;
         SpawnPlayerCharacter(spawnPosition);
     }
 
@@ -133,6 +139,8 @@ public class GameManager : MonoBehaviour, IDataPersistence
         }
 
 
+        cineCam = GameObject.FindGameObjectWithTag("MainCamera");
+        cineCam.GetComponent<CinemachineBrain>().DefaultBlend.Time = 0f;
         SpawnPlayerCharacter(spawnPosition);
     }
 
@@ -141,7 +149,25 @@ public class GameManager : MonoBehaviour, IDataPersistence
     {
         currentPlayerObject = Instantiate(playerPrefab, startPosition, Quaternion.identity);
         SetupCameras();
+        StartCoroutine(TEMPTOLETPLAYERMOVE());
+        
     }
+
+    IEnumerator TEMPTOLETPLAYERMOVE()
+    {
+        yield return new WaitForSeconds(0.5f);
+        currentPlayerObject.transform.GetComponent<MovementController>().DisablePlayerControls(false);
+        cineCam.GetComponent<CinemachineBrain>().DefaultBlend.Time = 0.45f;
+    }
+
+    IEnumerator RoomTransition()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        currentPlayerObject.GetComponent<MovementController>().ResumeMomentum();
+
+    }
+
 
     private void SetupCameras()
     {
@@ -151,6 +177,17 @@ public class GameManager : MonoBehaviour, IDataPersistence
             trackingTargetScript.SetupTarget();
         }
     }
+
+    public void HandleRoomTransition(string sourceRoom)
+    {
+        if (currentRoom == sourceRoom) { return; }
+        currentRoom = sourceRoom;
+        currentPlayerObject.GetComponent<MovementController>().FreezeMomentum();
+        StartCoroutine(RoomTransition());
+    }
+
+
+
 
     public GameObject GetPlayerObject()
     {
@@ -180,7 +217,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
 
 
-    private void DoHitFreeze(float duration = 0.125f)
+    public void DoHitFreeze(float duration = 0.125f)
     {
         StartCoroutine(HitFreeze(duration));
     }
@@ -191,5 +228,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
         Time.timeScale = 1;
 
     }
+
+
 
 }

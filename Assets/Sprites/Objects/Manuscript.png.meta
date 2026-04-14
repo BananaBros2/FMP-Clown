@@ -1,19 +1,31 @@
 fileFormatVersion: 2
-guid: 8f5abbacd3e452847948a2deb4218e99
+guid: 35e10d68abda5f2468a66a30d571f101
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1426486914805705407
-    second: Hook_0
+      213: 7316835574637898454
+    second: Manuscript_0
   - first:
-      213: 3503496110771497594
-    second: Hook_1
+      213: 6084534131051557194
+    second: Manuscript_1
   - first:
-      213: 7747190604827721102
-    second: Hook_2
+      213: 7389434123929424457
+    second: Manuscript_2
   - first:
-      213: 1093959692298237582
-    second: Hook_3
+      213: 1584232926848708926
+    second: Manuscript_3
+  - first:
+      213: -7936725412787752551
+    second: Manuscript_4
+  - first:
+      213: -3044606437490404907
+    second: Manuscript_5
+  - first:
+      213: -209805114745409449
+    second: Manuscript_6
+  - first:
+      213: -5631765070742740505
+    second: Manuscript_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,89 +121,177 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TempHook_0
+      name: Manu_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 9
-        height: 9
+        width: 15
+        height: 19
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: d261cd6f1a41b32488084b0bcb11b672
-      internalID: 444265596
+      spriteID: 6daab3a503f9a8560800000000000000
+      internalID: 7316835574637898454
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TempHook_1
+      name: Manu_1
       rect:
         serializedVersion: 2
-        x: 10
+        x: 15
         y: 0
-        width: 9
-        height: 9
+        width: 15
+        height: 19
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 55f09492c3c611f4a832f50319757ef3
-      internalID: -1801332426
+      spriteID: a4171111e8b907450800000000000000
+      internalID: 6084534131051557194
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TempHook_2
-      rect:
-        serializedVersion: 2
-        x: 20
-        y: 0
-        width: 9
-        height: 9
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8e3e5cdab3d999f4986f1045821dba71
-      internalID: -799234066
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TempHook_3
+      name: Manu_2
       rect:
         serializedVersion: 2
         x: 30
         y: 0
-        width: 9
-        height: 9
+        width: 15
+        height: 19
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 6be6cd60f376f2640a1c7ea70efe525f
-      internalID: 151216425
+      spriteID: 94296ff4f2b8c8660800000000000000
+      internalID: 7389434123929424457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Manu_3
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 0
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e317b4e04735cf510800000000000000
+      internalID: 1584232926848708926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Manu_4
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 0
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99178f2a9461bd190800000000000000
+      internalID: -7936725412787752551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Manu_5
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 0
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d1548c73926fb5d0800000000000000
+      internalID: -3044606437490404907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Manu_6
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 0
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7503a871c5f961df0800000000000000
+      internalID: -209805114745409449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Manu_7
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 0
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e12deba183f7d1b0800000000000000
+      internalID: -5631765070742740505
       vertices: []
       indices: 
       edges: []
@@ -200,7 +300,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: f65cf2042e1af494ea1de77ef07bbded
+    spriteID: f8f3ec5716a6555479761bea944407b6
     internalID: 0
     vertices: []
     indices: 
@@ -212,10 +312,14 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      TempHook_0: 444265596
-      TempHook_1: -1801332426
-      TempHook_2: -799234066
-      TempHook_3: 151216425
+      Manu_0: 7316835574637898454
+      Manu_1: 6084534131051557194
+      Manu_2: 7389434123929424457
+      Manu_3: 1584232926848708926
+      Manu_4: -7936725412787752551
+      Manu_5: -3044606437490404907
+      Manu_6: -209805114745409449
+      Manu_7: -5631765070742740505
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

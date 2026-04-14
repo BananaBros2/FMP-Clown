@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 2793ced5219e84243884ef13f502c47b
+guid: 7264fc778acf2c04598f369f6ad9e414
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -9002857251858937488
-    second: BallTemp_0
+      213: -6809907661698028246
+    second: Cannon_0
+  - first:
+      213: -7488512282933653102
+    second: Cannon_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +49,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -100,23 +103,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BallTemp_0
+      name: Cannon_A_Diagonal
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 13
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        y: 30
+        width: 30
+        height: 30
+      alignment: 9
+      pivot: {x: 0.36666667, y: 0.36666667}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0790663570d6f0380800000000000000
-      internalID: -9002857251858937488
+      spriteID: a2d2747ef095e71a0800000000000000
+      internalID: -6809907661698028246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cannon_A_Straight
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 30
+        width: 20
+        height: 29
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3448276}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 291179721c5731890800000000000000
+      internalID: -7488512282933653102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cannon_B_Straight
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 0
+        width: 20
+        height: 29
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3448276}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae70f3e2d408e1f4ba2441fdb054ff60
+      internalID: -1544903389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cannon_B_Diagonal
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 30
+        height: 30
+      alignment: 9
+      pivot: {x: 0.36666667, y: 0.36666667}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f15dd67e1e21d28499480cf5e8a77a8d
+      internalID: -631483463
       vertices: []
       indices: 
       edges: []
@@ -125,7 +194,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 0a356831e88e37f48b1364888a2cf68d
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +204,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BallTemp_0: -9002857251858937488
+      Cannon_A_Diagonal: -6809907661698028246
+      Cannon_A_Straight: -7488512282933653102
+      Cannon_B_Diagonal: -631483463
+      Cannon_B_Straight: -1544903389
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
