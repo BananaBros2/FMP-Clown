@@ -123,7 +123,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4769808979306858736}
+  - {fileID: 401380743266811853}
   m_Father: {fileID: 5981405938708759754}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1654866659984439122
@@ -175,7 +175,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: a78f5493f2567d144b9c54de9081ca09, type: 3}
+  m_Sprite: {fileID: 600787656912180804, guid: cdf982f9c26a04b42aee036a4d07d061, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -812,7 +812,7 @@ GameObject:
   - component: {fileID: 4769808979306858736}
   - component: {fileID: 1089151447524871533}
   m_Layer: 0
-  m_Name: HairHolder
+  m_Name: HairHolder2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -827,7 +827,7 @@ Transform:
   m_GameObject: {fileID: 3457731203887195467}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.46875, y: 0.96875, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -836,7 +836,7 @@ Transform:
   - {fileID: 2690757325031278397}
   - {fileID: 779462686617035440}
   - {fileID: 30844765902733440}
-  m_Father: {fileID: 849797412218490015}
+  m_Father: {fileID: 401380743266811853}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1089151447524871533
 MonoBehaviour:
@@ -1024,6 +1024,12 @@ MonoBehaviour:
   semiSolidLayer:
     serializedVersion: 2
     m_Bits: 128
+  metallicLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  bouncyLayer:
+    serializedVersion: 2
+    m_Bits: 512
   gravity: -0.981
   runSpeed: 5
   jumpPower: 12
@@ -1049,8 +1055,24 @@ MonoBehaviour:
   enableFastFalling: 1
   enableCeilingBump: 1
   enableLedgeClimb: 1
-  enableHookLeeway: 1
+  enableHookLeeway: 0
   enableSemiSolidClimb: 1
+  characterVisuals:
+  - {fileID: 1654866659984439122}
+  - {fileID: 5216462702199349651}
+  - {fileID: 191815795121849963}
+  - {fileID: 8569086065491854682}
+  - {fileID: 2248748077153916547}
+  - {fileID: 1432341837282369214}
+  - {fileID: 9028513996588622850}
+  - {fileID: 5768176638030631082}
+  - {fileID: 8366283103918086325}
+  - {fileID: 704126877411017768}
+  - {fileID: 4045430135306719793}
+  - {fileID: 1888180726167446360}
+  - {fileID: 298888476952778205}
+  - {fileID: 6877489972029773384}
+  - {fileID: 3771018981586200768}
   onBallSpritePos: {x: 0.03125, y: -0.21875}
   onBallColiSize: {x: 0.5625, y: 1.5}
 --- !u!114 &8598638274301650503
@@ -1733,11 +1755,43 @@ Transform:
   m_GameObject: {fileID: 7268034639573449544}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.40625, z: 0}
+  m_LocalPosition: {x: 0, y: -0.34375, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5981405938708759754}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8300438490288361816
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 401380743266811853}
+  m_Layer: 0
+  m_Name: HairHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &401380743266811853
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8300438490288361816}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.46875, y: 0.96875, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4769808979306858736}
+  m_Father: {fileID: 849797412218490015}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8506113284843882842
 GameObject:

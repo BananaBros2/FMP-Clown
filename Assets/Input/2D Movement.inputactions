@@ -352,6 +352,17 @@
                 },
                 {
                     "name": "",
+                    "id": "56eb4568-1748-41e1-8613-9c352de6c402",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Whip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "20e9887f-ea6b-4b46-9f55-ca4952b0966c",
                     "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
@@ -387,6 +398,17 @@
                     "name": "",
                     "id": "0ba8382d-f7eb-491c-bd72-14229b8ee0b6",
                     "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ball",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4ade2946-bd24-48ed-9519-97e1708692c2",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

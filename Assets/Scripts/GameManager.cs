@@ -85,13 +85,13 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
         if (sceneLoading) { return; }
 
-        StartCoroutine(LoadScene());
+        StartCoroutine(ReloadScene());
 
     }
 
 
 
-    IEnumerator LoadScene()
+    IEnumerator ReloadScene()
     {
         yield return null;
 
@@ -142,6 +142,48 @@ public class GameManager : MonoBehaviour, IDataPersistence
         cineCam = GameObject.FindGameObjectWithTag("MainCamera");
         cineCam.GetComponent<CinemachineBrain>().DefaultBlend.Time = 0f;
         SpawnPlayerCharacter(spawnPosition);
+    }
+
+
+    IEnumerator LoadScene(string levelName)
+    {
+        yield return null;
+
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(levelName);
+
+        asyncOperation.allowSceneActivation = false;
+
+        while (!asyncOperation.isDone)
+        {
+            //print("Loading: " + (asyncOperation.progress * 100) + "%");
+
+            if (asyncOperation.progress >= 0.9f)
+            {
+                asyncOperation.allowSceneActivation = true;
+
+            }
+
+            yield return null;
+        }
+
+        sceneLoading = false;
+
+        currentCheckpoint = 0;
+        Vector3 startPosition = Vector3.zero;
+
+        CheckPoint[] checkPoints = FindObjectsByType<CheckPoint>(FindObjectsSortMode.None);
+        foreach (CheckPoint checkPoint in checkPoints)
+        {
+            if (checkPoint.GetID() == 0)
+            {
+                startPosition = checkPoint.GetSpawnPosition();
+                break;
+            }
+        }
+
+        cineCam = GameObject.FindGameObjectWithTag("MainCamera");
+        cineCam.GetComponent<CinemachineBrain>().DefaultBlend.Time = 0f;
+        SpawnPlayerCharacter(startPosition);
     }
 
 
@@ -199,8 +241,32 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
     }
 
+    public void SwitchLevel(int levelID = 0)
+    {
+        string levelName = "Level 1";
 
+        switch (levelID)
+        {
+            case 0:
+                levelName = "Tutorial";
+                break;
+            case 1:
+                levelName = "Level 1";
+                break;
+            case 2:
+                levelName = "Level 2";
+                break;
+            case 3:
+                levelName = "Level 3";
+                break;
+            default:
+                Debug.LogError("You and I both know this level doesn't exist");
+                break;
+        }
 
+        StartCoroutine(LoadScene(levelName));
+
+    }
 
 
     public void LoadData(GameData data)

@@ -19,7 +19,7 @@ public class HairHandler : MonoBehaviour
     private void Awake()
     {
         hairAnchor = GetComponent<Transform>();
-        hairAnchorTargetPosition = transform.localPosition;
+        hairAnchorTargetPosition = transform.parent.localPosition;
     }
 
     private void Update()
@@ -55,15 +55,15 @@ public class HairHandler : MonoBehaviour
     private void SetAnchorPosition()
     {
         float flip = flipAnchorPosition ? -1 : 1;
-        float additionalOffset = flipAnchorPosition ? 0.0625f : 0;
+        float anchorPoint = flipAnchorPosition ? 0.46875f : -0.46875f;
 
-        hairAnchor.transform.localPosition = 
-            new Vector2(hairAnchorTargetPosition.x * flip + additionalOffset, hairAnchorTargetPosition.y);
-        
-        foreach(Transform hairPart in hairParts)
+        hairAnchor.transform.parent.localPosition =
+            new Vector2(anchorPoint, hairAnchorTargetPosition.y);
+
+        foreach (Transform hairPart in hairParts)
         {
             hairPart.localScale = new Vector3(flip, 1, 1);
         }
     }
-
+    
 }

@@ -196,10 +196,10 @@ TextureImporter:
       name: P_Run_0
       rect:
         serializedVersion: 2
-        x: 16
-        y: 196
+        x: 1
+        y: 195
         width: 13
-        height: 13
+        height: 23
       alignment: 9
       pivot: {x: 0.53846157, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -218,10 +218,10 @@ TextureImporter:
       name: P_Run_1
       rect:
         serializedVersion: 2
-        x: 33
-        y: 196
+        x: 15
+        y: 195
         width: 13
-        height: 13
+        height: 23
       alignment: 9
       pivot: {x: 0.53846157, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -240,10 +240,10 @@ TextureImporter:
       name: P_Run_2
       rect:
         serializedVersion: 2
-        x: 49
-        y: 196
+        x: 29
+        y: 195
         width: 13
-        height: 13
+        height: 23
       alignment: 9
       pivot: {x: 0.53846157, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -262,10 +262,10 @@ TextureImporter:
       name: P_Run_3
       rect:
         serializedVersion: 2
-        x: 66
-        y: 196
+        x: 43
+        y: 195
         width: 13
-        height: 13
+        height: 23
       alignment: 9
       pivot: {x: 0.53846157, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -284,10 +284,10 @@ TextureImporter:
       name: P_Run_4
       rect:
         serializedVersion: 2
-        x: 80
-        y: 196
+        x: 57
+        y: 195
         width: 13
-        height: 13
+        height: 23
       alignment: 9
       pivot: {x: 0.53846157, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -306,10 +306,10 @@ TextureImporter:
       name: P_Run_5
       rect:
         serializedVersion: 2
-        x: 93
-        y: 196
+        x: 71
+        y: 195
         width: 13
-        height: 13
+        height: 23
       alignment: 9
       pivot: {x: 0.53846157, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -328,10 +328,10 @@ TextureImporter:
       name: P_Run_6
       rect:
         serializedVersion: 2
-        x: 107
-        y: 196
+        x: 85
+        y: 195
         width: 13
-        height: 13
+        height: 23
       alignment: 9
       pivot: {x: 0.53846157, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -350,10 +350,10 @@ TextureImporter:
       name: P_Run_7
       rect:
         serializedVersion: 2
-        x: 120
-        y: 196
+        x: 99
+        y: 195
         width: 13
-        height: 13
+        height: 23
       alignment: 9
       pivot: {x: 0.53846157, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -372,10 +372,10 @@ TextureImporter:
       name: P_Run_8
       rect:
         serializedVersion: 2
-        x: 135
-        y: 196
+        x: 113
+        y: 195
         width: 13
-        height: 13
+        height: 23
       alignment: 9
       pivot: {x: 0.53846157, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -394,10 +394,10 @@ TextureImporter:
       name: P_Run_9
       rect:
         serializedVersion: 2
-        x: 152
-        y: 196
+        x: 127
+        y: 195
         width: 13
-        height: 13
+        height: 23
       alignment: 9
       pivot: {x: 0.53846157, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -416,10 +416,10 @@ TextureImporter:
       name: P_Run_10
       rect:
         serializedVersion: 2
-        x: 166
-        y: 196
+        x: 141
+        y: 195
         width: 13
-        height: 13
+        height: 23
       alignment: 9
       pivot: {x: 0.53846157, y: -0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -438,12 +438,12 @@ TextureImporter:
       name: P_Run_11
       rect:
         serializedVersion: 2
-        x: 184
-        y: 196
-        width: 13
-        height: 13
+        x: 155
+        y: 195
+        width: 14
+        height: 23
       alignment: 9
-      pivot: {x: 0.53846157, y: 0}
+      pivot: {x: 0.5714286, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -452,6 +452,248 @@ TextureImporter:
       bones: []
       spriteID: e89d430ff7054b320800000000000000
       internalID: 2572769797556459918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_Jump
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 160
+        width: 15
+        height: 23
+      alignment: 9
+      pivot: {x: 0.53333336, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 462bb027d697f6b409f67943ad8de5ea
+      internalID: 236970731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_Fall
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 160
+        width: 15
+        height: 23
+      alignment: 9
+      pivot: {x: 0.53333336, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95fbcec8888b64442b42a7554ab0dc01
+      internalID: 562911099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_FastFall
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 160
+        width: 15
+        height: 23
+      alignment: 9
+      pivot: {x: 0.53333336, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a31a035a11160c74dbc03c07c4c4e29c
+      internalID: -393574594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_Wallslide
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 124
+        width: 14
+        height: 23
+      alignment: 9
+      pivot: {x: 0.5, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f58248e4f45903748bd9371915c64e34
+      internalID: -45483883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_WallHook_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 93
+        width: 16
+        height: 23
+      alignment: 9
+      pivot: {x: 0.4375, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8fcbcbcb4a9b99342aeadbe2292efdf8
+      internalID: 1161482052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_WallHook_1
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 93
+        width: 15
+        height: 23
+      alignment: 9
+      pivot: {x: 0.40000004, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87cba4996255ded4ba3b8b0205435a9e
+      internalID: 1236982521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_WallHook_2
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 93
+        width: 15
+        height: 23
+      alignment: 9
+      pivot: {x: 0.40000004, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d65ac3e7882b52c44995f8b603a7ae44
+      internalID: 870344821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_WallHook_3
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 93
+        width: 15
+        height: 23
+      alignment: 9
+      pivot: {x: 0.40000004, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01b30185db9c9c645bc1433d32f05eeb
+      internalID: -1569819217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_WallHook_4
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 93
+        width: 15
+        height: 23
+      alignment: 9
+      pivot: {x: 0.40000004, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bebf948e94adf3c41b8ff17ef1b09df0
+      internalID: -218931892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_Idle_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 230
+        width: 13
+        height: 22
+      alignment: 9
+      pivot: {x: 0.53846157, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fdc1fa123e9addb419436c286d7d2b84
+      internalID: 600787656912180804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_WallHook_5
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 93
+        width: 15
+        height: 23
+      alignment: 9
+      pivot: {x: 0.40000004, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a3de772746751841a6fd6e34d238e84
+      internalID: 301686918
       vertices: []
       indices: 
       edges: []
@@ -470,6 +712,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      P_Fall: 562911099
+      P_FastFall: -6573777416417220690
+      P_Idle_0: 600787656912180804
+      P_Jump: 600787656912180804
       P_Run_0: 7777069500747275281
       P_Run_1: 5458758677676582336
       P_Run_10: 2645544960966311433
@@ -482,8 +728,13 @@ TextureImporter:
       P_Run_7: -5335293324663507051
       P_Run_8: 7184684719435276893
       P_Run_9: 2187212451455908630
-      PlayerSprites_0: 600787656912180804
-      PlayerSprites_1: -6573777416417220690
+      P_WallHook_0: 1161482052
+      P_WallHook_1: 1236982521
+      P_WallHook_2: 870344821
+      P_WallHook_3: -1569819217
+      P_WallHook_4: -218931892
+      P_WallHook_5: 301686918
+      P_Wallslide: -45483883
       PlayerSprites_10: 1226698290922342999
       PlayerSprites_12: 4906320411871050636
       PlayerSprites_14: 6911948736729229215

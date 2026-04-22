@@ -15,6 +15,8 @@ public class DataPersistenceManager : MonoBehaviour
 
     private FileDataHandler dataHandler;
 
+    [SerializeField] private bool allowSaving = true;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -65,6 +67,8 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void SaveGame()
     {
+        if (!allowSaving) { return; }
+
         foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
         {
             dataPersistenceObj.SaveData(ref gameData);

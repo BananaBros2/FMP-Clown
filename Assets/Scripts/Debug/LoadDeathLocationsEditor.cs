@@ -1,6 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(LoadDeathLocations))]
 public class LoadDeathLocationsEditor : Editor
 {
@@ -15,3 +16,4 @@ public class LoadDeathLocationsEditor : Editor
         }
     }
 }
+#endif
