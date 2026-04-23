@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour, IDataPersistence
 {
     [SerializeField] GameObject playerPrefab;
 
+    
     private GameObject currentPlayerObject;
     public GameObject cineCam;
+    public UIHandler uiHandler;
+    [SerializeField] private GameObject blackSquareOfDoom;
 
     private bool environmentPaused;
 
@@ -73,8 +77,20 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
         cineCam = GameObject.FindGameObjectWithTag("MainCamera");
         cineCam.GetComponent<CinemachineBrain>().DefaultBlend.Time = 0f;
+
         SpawnPlayerCharacter(spawnPosition);
     }
+
+    public void ControlDoomSquare(bool activity)
+    {
+        blackSquareOfDoom.SetActive(activity);
+    }
+
+    public void IHateScreenTransitioning()
+    {
+        ControlDoomSquare(false);
+    }
+
 
     public void UpdateCheckpoint(int newCheckpoint)
     {
@@ -145,6 +161,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
         cineCam = GameObject.FindGameObjectWithTag("MainCamera");
         cineCam.GetComponent<CinemachineBrain>().DefaultBlend.Time = 0f;
+
         SpawnPlayerCharacter(spawnPosition);
     }
 

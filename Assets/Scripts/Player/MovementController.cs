@@ -21,6 +21,7 @@ public class MovementController : MonoBehaviour
     [SerializeField] private GameObject dustPrefab;
     [SerializeField] private GameObject deathConfetti;
     [SerializeField] private Transform cameraTargetPosition;
+    [SerializeField] private ScreenTransition screenTransition;
     private Rigidbody2D rb;
     private BoxCollider2D boxColi;
 
@@ -221,6 +222,8 @@ public class MovementController : MonoBehaviour
 
     void Start()
     {
+        screenTransition.OpenUpScreen();
+
         rb = transform.GetComponent<Rigidbody2D>();
         boxColi = transform.GetComponent<BoxCollider2D>();
         normalColiSize = boxColi.size;
@@ -547,7 +550,7 @@ public class MovementController : MonoBehaviour
         {
             if (surfaceVelRef != null)
             {
-                print("on top of surface");
+                //print("on top of surface");
                 surfaceSideOn = "Top";
                 groundedState = true;
             }
@@ -591,7 +594,7 @@ public class MovementController : MonoBehaviour
             {
                 if (surfaceVelRef != null)
                 {
-                    print("on side of surface");
+                    //print("on side of surface");
                     surfaceSideOn = "Side";
                 }
 
@@ -1901,7 +1904,15 @@ public class MovementController : MonoBehaviour
             charSprite.enabled = false;
         }
 
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(0.2f);
+        screenTransition.CloseScreen();
+
+        while (screenTransition.screenClose)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        GameManager.Instance.ControlDoomSquare(true);
         GameManager.Instance.deathLocations.Add(transform.position);
         GameManager.Instance.RespawnAtCheckpoint();
     }

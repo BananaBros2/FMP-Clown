@@ -7,7 +7,6 @@ public class UIHandler : MonoBehaviour
 
     [SerializeField] private GameObject pauseMenu;
 
-
     void Start()
     {
         pauseMenu.SetActive(gamePaused); // Set initial state (Good for if I forget to turn the UI off)

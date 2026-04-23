@@ -514,7 +514,7 @@ GameObject:
   - component: {fileID: 2600447394475053052}
   m_Layer: 0
   m_Name: PlayerUI
-  m_TagString: Untagged
+  m_TagString: UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -548,6 +548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   pauseMenu: {fileID: 4158278793556939496}
+  blackSquareOfDoom: {fileID: 0}
 --- !u!114 &2600447394475053052
 MonoBehaviour:
   m_ObjectHideFlags: 0
