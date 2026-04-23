@@ -501,7 +501,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: P_FastFall
+      name: P_JumpTransition
       rect:
         serializedVersion: 2
         x: 35
@@ -531,7 +531,7 @@ TextureImporter:
         width: 14
         height: 23
       alignment: 9
-      pivot: {x: 0.5, y: -0}
+      pivot: {x: 0.5714286, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -553,7 +553,7 @@ TextureImporter:
         width: 16
         height: 23
       alignment: 9
-      pivot: {x: 0.4375, y: 0}
+      pivot: {x: 0.5625, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -575,7 +575,7 @@ TextureImporter:
         width: 15
         height: 23
       alignment: 9
-      pivot: {x: 0.40000004, y: 0}
+      pivot: {x: 0.53333336, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -597,7 +597,7 @@ TextureImporter:
         width: 15
         height: 23
       alignment: 9
-      pivot: {x: 0.40000004, y: -0}
+      pivot: {x: 0.53333336, y: -0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -619,7 +619,7 @@ TextureImporter:
         width: 15
         height: 23
       alignment: 9
-      pivot: {x: 0.40000004, y: -0}
+      pivot: {x: 0.53333336, y: -0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -641,7 +641,7 @@ TextureImporter:
         width: 15
         height: 23
       alignment: 9
-      pivot: {x: 0.40000004, y: 0}
+      pivot: {x: 0.53333336, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -685,7 +685,7 @@ TextureImporter:
         width: 15
         height: 23
       alignment: 9
-      pivot: {x: 0.40000004, y: 0}
+      pivot: {x: 0.53333336, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -694,6 +694,468 @@ TextureImporter:
       bones: []
       spriteID: 0a3de772746751841a6fd6e34d238e84
       internalID: 301686918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_FallTransition
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 160
+        width: 15
+        height: 23
+      alignment: 9
+      pivot: {x: 0.53333336, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aca776ed62f461242b6d54d18e47fd51
+      internalID: 1031443078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_JumpDust_1
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 74
+        width: 17
+        height: 7
+      alignment: 9
+      pivot: {x: 0.47058824, y: 0.2857143}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2def996efd40e1245b26a4e0672bfae9
+      internalID: -1831185534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_JumpDust_2
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 74
+        width: 17
+        height: 7
+      alignment: 9
+      pivot: {x: 0.47058824, y: 0.2857143}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ca258d10c2528a41bb4ad3044a42831
+      internalID: 1860672479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_JumpDust_3
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 74
+        width: 17
+        height: 7
+      alignment: 9
+      pivot: {x: 0.47058824, y: 0.2857143}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4aa39a08891aa734cac1e5d3c119f9f0
+      internalID: 3561037995832689329
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_JumpDust_4
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 74
+        width: 17
+        height: 7
+      alignment: 9
+      pivot: {x: 0.47058824, y: 0.2857143}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa49665e55dc2b44ab68085509e88a61
+      internalID: 5670999935819666744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_JumpDust_5
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 74
+        width: 17
+        height: 7
+      alignment: 9
+      pivot: {x: 0.47058824, y: 0.2857143}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b7079c3ce0ed7540b2573cee037c566
+      internalID: -6556743904625465184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_JumpDust_6
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 74
+        width: 17
+        height: 7
+      alignment: 9
+      pivot: {x: 0.47058824, y: 0.2857143}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66aede6df2c2bd648805bfed94058d7b
+      internalID: -246038392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Confetti_1
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 66
+        width: 3
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec44de1961428eb4495999666c6ab279
+      internalID: -1803914462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Confetti_2
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 61
+        width: 3
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa2b7600a7fe4fb43bf39695a05361fd
+      internalID: -874569484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Confetti_3
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 66
+        width: 3
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b906e1851c1bf5643be52b9320de8df9
+      internalID: 714852787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Confetti_4
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 61
+        width: 3
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43a7a2910f40a3a4fbd605278b4175a5
+      internalID: 962202247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Confetti_6
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 61
+        width: 3
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f1c44702c8fe4f4288d5da8c890a185
+      internalID: -534212806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Confetti_5
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 66
+        width: 3
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b45befd8755319d458a975a315a73344
+      internalID: -522112440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Confetti_7
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 66
+        width: 3
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1649cb56b9b653e43842fc3d2106a2ee
+      internalID: -1291784629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Confetti_8
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 61
+        width: 3
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5007458a52f9ad448301010402ba759
+      internalID: 672392761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Confetti_10
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 61
+        width: 3
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a994ba9d7ffcb0149bbebe7710efe75b
+      internalID: -253334791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Confetti_9
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 66
+        width: 3
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3011f1d4616d3dd48bd2cbf81f89c121
+      internalID: -100140688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_Death
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 34
+        width: 15
+        height: 23
+      alignment: 9
+      pivot: {x: 0.53333336, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e7c0f36f62ed344b9ee260c66f0da25
+      internalID: 1962617579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_Swim_1
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 123
+        width: 15
+        height: 24
+      alignment: 9
+      pivot: {x: 0.4666667, y: 0.083333336}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4514ed44a5dd2174dae5608dd8641f07
+      internalID: 1517360674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_Swim_2
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 123
+        width: 15
+        height: 24
+      alignment: 9
+      pivot: {x: 0.4666667, y: 0.083333336}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5325a3a6ee3c9ab4e9fba1b62c3c9955
+      internalID: -1638445653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: P_Swim_3
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 123
+        width: 15
+        height: 24
+      alignment: 9
+      pivot: {x: 0.4666667, y: 0.083333336}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2110b30cb2735c143ba292997df64d3e
+      internalID: -1160748495
       vertices: []
       indices: 
       edges: []
@@ -712,10 +1174,28 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      Confetti_1: -1803914462
+      Confetti_10: 1650604073877677656
+      Confetti_2: -874569484
+      Confetti_3: 714852787
+      Confetti_4: 962202247
+      Confetti_5: -522112440
+      Confetti_6: -534212806
+      Confetti_7: -1907178489979809653
+      Confetti_8: 672392761
+      Confetti_9: -100140688
+      P_Death: 1962617579
       P_Fall: 562911099
-      P_FastFall: -6573777416417220690
+      P_FallTransition: 1031443078
       P_Idle_0: 600787656912180804
       P_Jump: 600787656912180804
+      P_JumpDust_1: -1831185534
+      P_JumpDust_2: 1860672479
+      P_JumpDust_3: 3561037995832689329
+      P_JumpDust_4: 5670999935819666744
+      P_JumpDust_5: -6556743904625465184
+      P_JumpDust_6: -246038392
+      P_JumpTransition: -393574594
       P_Run_0: 7777069500747275281
       P_Run_1: 5458758677676582336
       P_Run_10: 2645544960966311433
@@ -728,6 +1208,9 @@ TextureImporter:
       P_Run_7: -5335293324663507051
       P_Run_8: 7184684719435276893
       P_Run_9: 2187212451455908630
+      P_Swim_1: 1517360674
+      P_Swim_2: -1638445653
+      P_Swim_3: -1160748495
       P_WallHook_0: 1161482052
       P_WallHook_1: 1236982521
       P_WallHook_2: 870344821
@@ -740,20 +1223,15 @@ TextureImporter:
       PlayerSprites_14: 6911948736729229215
       PlayerSprites_16: -3731662067933768952
       PlayerSprites_18: -527969473550898579
-      PlayerSprites_2: 3561037995832689329
       PlayerSprites_20: -4696992072520464199
       PlayerSprites_22: 2296633166852407765
       PlayerSprites_24: -8331322116368789667
       PlayerSprites_26: 7659029137066544238
       PlayerSprites_28: 8805975539182170407
       PlayerSprites_29: 8548618440016749387
-      PlayerSprites_3: 5670999935819666744
       PlayerSprites_30: 3723365212929536919
       PlayerSprites_31: 5786896978501575650
       PlayerSprites_32: -1177311437
-      PlayerSprites_4: -6556743904625465184
-      PlayerSprites_6: -1907178489979809653
-      PlayerSprites_8: 1650604073877677656
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

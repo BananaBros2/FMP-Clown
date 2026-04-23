@@ -32,9 +32,15 @@ public class SurfaceVelocity : MonoBehaviour
     {
         if (collision.transform.CompareTag("Player"))
         {
-            owningGroup.DetectedPlayer();
+            owningGroup.DetectedPlayer(true);
         }
     }
-
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.transform.CompareTag("Player"))
+        {
+            owningGroup.DetectedPlayer(false);
+        }
+    }
 
 }

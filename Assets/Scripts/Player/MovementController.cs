@@ -18,6 +18,8 @@ public class MovementController : MonoBehaviour
     [SerializeField] private SpriteRenderer characterSprite;
     [SerializeField] private HairHandler hairHandler;
     [SerializeField] private GameObject[] hookClips;
+    [SerializeField] private GameObject dustPrefab;
+    [SerializeField] private GameObject deathConfetti;
     [SerializeField] private Transform cameraTargetPosition;
     private Rigidbody2D rb;
     private BoxCollider2D boxColi;
@@ -52,6 +54,10 @@ public class MovementController : MonoBehaviour
     Vector2 presSurfaceVel;
     Vector2[] presSurfaceVelList = new Vector2[8];
     int presSurfaceVelCurIndex = 0;
+    string surfaceSideOn;
+
+    bool playerDied = false;
+
 
     [Header("Running")]
     [SerializeField] private float runSpeed = 5f;
@@ -169,6 +175,9 @@ public class MovementController : MonoBehaviour
     bool isFalling = false;
     bool isFastFalling = false;
     bool isWallSliding = false;
+    bool isSwimming = false;
+    int wallHookAnimValue = 0;
+
     //bool isFastFalling = false;
     Vector2 normalSpritePos;
     [SerializeField] private Vector2 onBallSpritePos;
@@ -422,6 +431,8 @@ public class MovementController : MonoBehaviour
 
     private void HandleMovement()
     {
+        if (playerDied) { return; }
+
         groundedState = IsGrounded(false);
         WasGrounded(); // Handle Coyote Time
         coyoteCurTime -= Time.fixedDeltaTime;
@@ -523,9 +534,9 @@ public class MovementController : MonoBehaviour
     {
         bool detachedFromSurface = true;
 
-        // Physics2D.boxcast is so ass ;[
+        // Physics2D.boxcast is so ass ;(
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position - new Vector3(boxColi.size.x / 2, 0, 0), Vector2.down, boxColi.size.y / 2 + Pixel(5), groundLayer);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(boxColi.size.x / 2 - Pixel(), 0, 0), Vector2.down, boxColi.size.y, groundLayer);
         if (!hit)
         {
             // Check right side of player for ground
@@ -534,30 +545,31 @@ public class MovementController : MonoBehaviour
 
         if (hit)
         {
-            // Check left side of player for ground
-
-            if (hit) // If detected ground 
+            if (surfaceVelRef != null)
             {
-                //print("hit");
-                if (hit.transform.CompareTag("ComplexSurface"))
+                print("on top of surface");
+                surfaceSideOn = "Top";
+                groundedState = true;
+            }
+
+            if (hit.transform.CompareTag("ComplexSurface"))
+            {
+                detachedFromSurface = false; // Detected to still be on same (complex) surface
+
+
+                SurfaceVelocity surfaceObject = hit.transform.GetComponent<SurfaceVelocity>();
+                if (surfaceObject != surfaceVelRef)
                 {
-                    detachedFromSurface = false; // Detected to still be on same (complex) surface
-
-
-                    SurfaceVelocity surfaceObject = hit.transform.GetComponent<SurfaceVelocity>();
-                    if (surfaceObject != surfaceVelRef)
-                    {
-                        // On different (complex) surface, transfer to new surface
-                        surfaceVelRef = hit.transform.GetComponent<SurfaceVelocity>();
-                        surfaceVelRef.playerToMove = this;
-                        //print("contacted surface");
-                    }
+                    // On different (complex) surface, transfer to new surface
+                    surfaceVelRef = hit.transform.GetComponent<SurfaceVelocity>();
+                    surfaceVelRef.playerToMove = this;
+                    //print("contacted surface");
                 }
             }
 
 
         }
-        else
+        else if (wallCheck.transform.localPosition.x != 0 && rb.linearVelocityY < -1) 
         {
             int wallDirection = GetMoveDir();
             hit = Physics2D.Raycast(transform.position, Vector2.down, boxColi.size.y / 2 + Pixel(5), groundLayer); // Check middle of character
@@ -574,9 +586,15 @@ public class MovementController : MonoBehaviour
 
 
             }
-
+            
             if (hit) // If detected ground 
             {
+                if (surfaceVelRef != null)
+                {
+                    print("on side of surface");
+                    surfaceSideOn = "Side";
+                }
+
                 if (hit.transform.CompareTag("ComplexSurface"))
                 {
                     detachedFromSurface = false; // Detected to still be on same (complex) surface
@@ -592,19 +610,40 @@ public class MovementController : MonoBehaviour
             }
 
         }
-
-        if (detachedFromSurface && surfaceVelRef != null)
+        else if (surfaceVelRef != null)
         {
             rb.linearVelocity = presSurfaceVel;
             horizontalVel = rb.linearVelocity.x;
             surfaceVelRef.playerToMove = null;
             surfaceVelRef = null;
-
         }
+        //if (detachedFromSurface && surfaceVelRef != null)
+        //{
+        //    rb.linearVelocity = presSurfaceVel;
+        //    horizontalVel = rb.linearVelocity.x;
+        //    surfaceVelRef.playerToMove = null;
+        //    surfaceVelRef = null;
+
+        //}
 
 
     }
 
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.transform.CompareTag("ComplexSurface"))
+        {
+            if (collision.transform.GetComponent<SurfaceVelocity>() == surfaceVelRef)
+            {
+                rb.linearVelocity = presSurfaceVel;
+                horizontalVel = rb.linearVelocity.x;
+                surfaceVelRef.playerToMove = null;
+                surfaceVelRef = null;
+            }
+        }
+
+
+    }
 
     #region BASIC MOVEMENT
 
@@ -630,8 +669,9 @@ public class MovementController : MonoBehaviour
         }
 
         // Acceleration
-        float accAmount = groundedState ? 1 : 0.75f;
-        if (!groundedState && rb.linearVelocityY < 3)
+        float accAmount = groundedState ? 1 : 0.75f; // Less control if airborne
+
+        if (!groundedState && rb.linearVelocityY < 3) // More airborne control if reached apex of jump/falling
         {
             accAmount = 1f;
         }
@@ -727,6 +767,9 @@ public class MovementController : MonoBehaviour
                 jumpStarted = true;
                 jumpPowerRemaining = 4;
                 jumpStartVel = new Vector2(rb.linearVelocity.x, surfaceVel.y); 
+
+                GameObject newDust = Instantiate(dustPrefab, groundCheck.position, Quaternion.identity);
+                newDust.GetComponent<Rigidbody2D>().linearVelocity = surfaceVel;
             }
             else if (WasGrounded() && (jumpBufferCurTime > 0) && !stuckOnHook)
             {
@@ -735,6 +778,9 @@ public class MovementController : MonoBehaviour
                 jumpStarted = true;
                 jumpPowerRemaining = 4;
                 jumpStartVel = coyoteJumpStartVel;
+
+                GameObject newDust = Instantiate(dustPrefab, groundCheck.position, Quaternion.identity);
+                newDust.GetComponent<Rigidbody2D>().linearVelocity = surfaceVel;
             }
             else if (stuckOnHook && jumpBufferCurTime > 0)
             {
@@ -862,13 +908,17 @@ public class MovementController : MonoBehaviour
     private void WallSlide()
     {
         float wallSlideSpeedMult = 1;
-        if (currentOmniDirection.y < 0)
+        if (currentOmniDirection.y < 0) // Fast wall sliding
         {
-            isWallSliding = true;
             wallSlideSpeedMult = 2.25f;
         }
 
         rb.linearVelocityY = Mathf.Max(rb.linearVelocityY, -3 * wallSlideSpeedMult);
+
+        if (rb.linearVelocityY < 0)
+        {
+            isWallSliding = true;
+        }
 
         HandleJump();
     }
@@ -1049,7 +1099,7 @@ public class MovementController : MonoBehaviour
 
     private void HandleWaterPhysics()
     {
-        bool isSwimming = true;
+        isSwimming = true;
         Vector2 swimDir = currentOmniDirection;
         if (jumpHeld) { swimDir += Vector2.up; }
 
@@ -1104,6 +1154,8 @@ public class MovementController : MonoBehaviour
     private void ThrowHook()
     {
         hookThrown = true;
+        GameManager.Instance.PauseEnvironment(true);
+
         curHookDurability = hookDurability;
         //ExitBallState(false);
 
@@ -1243,6 +1295,8 @@ public class MovementController : MonoBehaviour
     
     IEnumerator LaunchWhip()
     {
+        
+
         currentChain = Instantiate(chainPrefab, currentHook.transform.position, Quaternion.identity);
         currentChain.GetComponent<SetupPlayerWhip>().playerTransform = transform;
         currentChain.GetComponent<SetupPlayerWhip>().targetPoint = currentHook.transform.GetComponent<HookAimSprite>().GetChainTarget();
@@ -1295,6 +1349,8 @@ public class MovementController : MonoBehaviour
         {
             return;
         }
+
+        GameManager.Instance.PauseEnvironment(false);
 
         if (!isWhipping)
         {
@@ -1450,6 +1506,30 @@ public class MovementController : MonoBehaviour
     {
         if (stuckOnHook)
         {
+            // Wall Hook animation setup
+            if (curHookDurability > 4)
+            {
+                wallHookAnimValue = 4;
+            }
+            else if (curHookDurability > 2)
+            {
+                wallHookAnimValue = 3;
+            }
+            else if (curHookDurability == 2)
+            {
+                wallHookAnimValue = 2;
+            }
+            else if (curHookDurability == 1)
+            {
+                wallHookAnimValue = 1;
+            }
+            print("wall hookijg: " + curHookDurability);
+
+
+
+
+
+
             rb.linearVelocity = Vector2.zero;
 
             timeTillNextShift -= Time.fixedDeltaTime;
@@ -1487,15 +1567,13 @@ public class MovementController : MonoBehaviour
 
                 if (examineWall)
                 {
-
+                    
                     hit = Physics2D.Linecast(targetNewPos, targetNewPos + new Vector2((boxColi.size.x + Pixel(2)) * directionFacing, 0), solidGroundLayer);
                     if (!hit)
                     {
-                        print("no more wall (long)");
 
                         if (currentOmniDirection.y > 0)
                         {
-                            print("ANTOINESS");
                             stuckOnHook = false;
                             attemptHookDetach = false;
                             rb.linearVelocityY = 8;
@@ -1529,6 +1607,7 @@ public class MovementController : MonoBehaviour
             {
                 stuckOnHook = false;
                 attemptHookDetach = false;
+                wallHookAnimValue = 0;
             }
 
             return true;
@@ -1802,6 +1881,31 @@ public class MovementController : MonoBehaviour
         groundCheck.localPosition = new Vector3(0, -boxColi.size.y / 2 + Pixel(), 0);
     }
 
+
+    public void TriggerDeath()
+    {
+        playerDied = true;
+        rb.linearVelocity = Vector2.zero;
+        StartCoroutine(DeathTiming());
+    }
+
+    IEnumerator DeathTiming()
+    {
+        yield return new WaitForSeconds(0.2f);
+        Instantiate(deathConfetti, transform.position, Quaternion.identity);
+
+
+        yield return new WaitForSeconds(0.1f);
+        foreach (SpriteRenderer charSprite in characterVisuals)
+        {
+            charSprite.enabled = false;
+        }
+
+        yield return new WaitForSeconds(0.6f);
+        GameManager.Instance.deathLocations.Add(transform.position);
+        GameManager.Instance.RespawnAtCheckpoint();
+    }
+
     // ========================================================================#
     #endregion PHYSICS LOGIC
 
@@ -1846,6 +1950,7 @@ public class MovementController : MonoBehaviour
 
         while (cannonLaunchTimer > 0)
         {
+            transform.position = currentCannon.transform.position;
             cannonTime = 0.4f;
             cannonLaunchTimer -= 0.1f;
 
@@ -1896,7 +2001,7 @@ public class MovementController : MonoBehaviour
     public void PlayerMoveRequest(Vector3 displacement)
     {
         transform.position = transform.position + displacement;
-        //surfaceVel = displacement * 50; // Turn displacement into velocity
+        surfaceVel = displacement * 50; // Turn displacement into velocity
     }
 
     private void HandleBouncyBlocks()
@@ -2020,8 +2125,8 @@ public class MovementController : MonoBehaviour
 
     private bool IsGrounded(bool extended)
     {
-        float size = extended ? 20 : 1;
-        return Physics2D.OverlapBox(groundCheck.position, new Vector2(boxColi.size.x - 0.03f, Pixel(3) * size), 0, groundLayer);
+
+        return Physics2D.OverlapBox(groundCheck.position, new Vector2(boxColi.size.x - 0.03f, Pixel(3)), 0, groundLayer);
     }
 
     private bool WasGrounded()
@@ -2056,6 +2161,7 @@ public class MovementController : MonoBehaviour
     /// <returns></returns>
     float Pixel(float amount = 1) { return amount * pixelSize; }
 
+
     // ========================================================================#
     #endregion CHECKS
 
@@ -2071,7 +2177,9 @@ public class MovementController : MonoBehaviour
 
         RequestCharacterAnimation();
 
-        if (usingCannon)
+        if (playerDied) { return; }
+
+        if (usingCannon )
         {
             foreach (SpriteRenderer charSprite in characterVisuals)
             {
@@ -2126,8 +2234,24 @@ public class MovementController : MonoBehaviour
 
     private void RequestCharacterAnimation()
     {
-
-        if (isFastFalling)
+        if (playerDied)
+        {
+            animationHandler.ChangeAnimation(PlayerAnimations.TargetAnimation.DEATH);
+        }
+        else if (isSwimming)
+        {
+            print("hello");
+            animationHandler.ChangeAnimation(PlayerAnimations.TargetAnimation.SWIM);
+        }
+        else if (wallHookAnimValue > 0)
+        {
+            animationHandler.ChangeAnimation(PlayerAnimations.TargetAnimation.WALLHOOK, wallHookAnimValue);
+        }
+        else if (isWallSliding)
+        {
+            animationHandler.ChangeAnimation(PlayerAnimations.TargetAnimation.WALLSLIDE);
+        }
+        else if (isFastFalling)
         {
             animationHandler.ChangeAnimation(PlayerAnimations.TargetAnimation.FALL);
         }

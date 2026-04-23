@@ -13,13 +13,18 @@ public class MovingBlock : MonoBehaviour
     Vector2 nextPos;
 
     [SerializeField] bool waitForPlayer = true;
+    [SerializeField] bool stopWhenNoPlayer = false;
     bool playerDetected = false;
+    bool finishedTrack = true;
 
     [SerializeField] List<SurfaceVelocity> velocitySharers = new List<SurfaceVelocity>();
 
+    List<Vector2> childOffsets = new List<Vector2>();
+
     [Header("Track Control")]
     public Vector3[] stageTrack;
-    public int currentPoint = 0;
+    [SerializeField] private int startPoint;
+    private int currentPoint = 0;
     public bool loop; // Whether will loop back to start point
     [UnityEngine.Range(0.04f, 1)] public float pointSizeDebug = 0.2f; // Size of track points
 
@@ -29,11 +34,14 @@ public class MovingBlock : MonoBehaviour
 
     private float gridSize = 0.625f; // Used to translate units into tile size (just so I don't need to work in units of 0.625 to allign to grid)
 
+
     private void Start()
     {
+        currentPoint = startPoint;
+
         foreach (Transform child in transform.GetComponentsInChildren<Transform>())
         {
-            if (child != transform) // Exclude the parent itself
+            if (child != transform && child.parent == transform) // Exclude the parent itself and only allow children directly under
             {
                 childObjs.Add(child.gameObject);
             }
@@ -46,14 +54,18 @@ public class MovingBlock : MonoBehaviour
 
         foreach (GameObject child in childObjs)
         {
-            child.transform.position = startingPos;
+            childOffsets.Add((Vector2)child.transform.localPosition);
+            child.transform.position = startingPos + (Vector2)child.transform.localPosition;
         }
         nextPos = transform.GetChild(0).position;
     }
 
     void FixedUpdate()
     {
-        if (waitForPlayer && !playerDetected) { return; }
+        if (GameManager.Instance.GetEnvironmentPausedStatus()) { return; }
+        if (waitForPlayer && !playerDetected && !stopWhenNoPlayer) { print("hey"); return; }
+        if (stopWhenNoPlayer && finishedTrack) { return; }
+
 
         Vector2 targetPosition = new Vector2(stageTrack[currentPoint].x * gridSize + offset.x, stageTrack[currentPoint].y * gridSize + offset.y);
         float platformSpeed = (stageTrack[currentPoint].z + stageTrack[Mathf.Clamp(currentPoint - flipped, 0, stageTrack.Length - 1)].z) / 2; // Mmm math
@@ -77,12 +89,18 @@ public class MovingBlock : MonoBehaviour
                 currentPoint += flipped;
             }
 
+            if (currentPoint == startPoint && stopWhenNoPlayer)
+            {
+                finishedTrack = true;
+            }
         }
 
         Vector2 lastChildPos = transform.GetChild(0).position;
+        int childListIndex = 0;
         foreach (GameObject child in childObjs)
         {
-            child.transform.position = nextPos;
+            child.transform.position = nextPos + childOffsets[childListIndex];
+            childListIndex++;
         }
         objectDisplacement = (Vector2)transform.GetChild(0).position - lastChildPos;
       
@@ -95,11 +113,14 @@ public class MovingBlock : MonoBehaviour
 
     }
 
-    public void DetectedPlayer()
+    public void DetectedPlayer(bool state)
     {
+        if (!stopWhenNoPlayer && !state) { return; }
+
         if (waitForPlayer)
         {
-            playerDetected = true;
+            playerDetected = state;
+            finishedTrack = false;
         }
     }
 

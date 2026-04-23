@@ -2,24 +2,20 @@ using UnityEngine;
 
 public class DamageHandler : MonoBehaviour
 {
+    MovementController movementController;
 
     private void Start()
     {
-        
+        movementController = GetComponent<MovementController>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Hazard"))
         {
-            KillPlayer();
+            movementController.TriggerDeath();
+            this.enabled = false;
         }
     }
 
-    public void KillPlayer()
-    {
-        GameManager.Instance.deathLocations.Add(transform.position);
-        GameManager.Instance.RespawnAtCheckpoint();
-        //Destroy(this.gameObject);
-    }
 }

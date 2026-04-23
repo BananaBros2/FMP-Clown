@@ -1012,6 +1012,8 @@ MonoBehaviour:
   - {fileID: 5916126280698111993}
   - {fileID: 4630412412657427413}
   - {fileID: 7191695512697898278}
+  dustPrefab: {fileID: 8675199320369965313, guid: a9230b3cad2497d4da25a37cc9f4c3cf, type: 3}
+  deathConfetti: {fileID: 205929328685032352, guid: a08e5a6ed89869642a4e06f2b06545ab, type: 3}
   cameraTargetPosition: {fileID: 3094993434779603257}
   hookPrefab: {fileID: 3327819108782107754, guid: 56f4b00a71c11f04ba177c8bc02fcce3, type: 3}
   chainPrefab: {fileID: 1073662984838247649, guid: 99b42afd2afbd4442aecfe142846ac6f, type: 3}
@@ -1055,7 +1057,7 @@ MonoBehaviour:
   enableFastFalling: 1
   enableCeilingBump: 1
   enableLedgeClimb: 1
-  enableHookLeeway: 0
+  enableHookLeeway: 1
   enableSemiSolidClimb: 1
   characterVisuals:
   - {fileID: 1654866659984439122}

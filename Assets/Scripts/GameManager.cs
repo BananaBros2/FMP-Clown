@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour, IDataPersistence
     private GameObject currentPlayerObject;
     public GameObject cineCam;
 
+    private bool environmentPaused;
+
     private string currentRoom = "Unknown";
     private int currentCheckpoint = 0;
 
@@ -22,6 +24,8 @@ public class GameManager : MonoBehaviour, IDataPersistence
     public List<Vector2> deathLocations;
 
     public string currentPlaytime = "Unknown";
+
+
 
     public static GameManager Instance { get; private set; }
 
@@ -295,6 +299,12 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
     }
 
-
-
+    public void PauseEnvironment(bool state)
+    {
+        environmentPaused = state;
+    }
+    public bool GetEnvironmentPausedStatus()
+    {
+        return environmentPaused;
+    }
 }

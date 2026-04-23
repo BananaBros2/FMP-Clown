@@ -17,6 +17,7 @@ public class PlayerAnimations : MonoBehaviour
         WHIP,
         BALLRIDE,
         BALLFALL,
+        SWIM,
         DEATH
     }
 
@@ -46,11 +47,12 @@ public class PlayerAnimations : MonoBehaviour
         animDict.Add(TargetAnimation.WALLHOOK, "Do_WallHook");
         animDict.Add(TargetAnimation.WHIP, "Do_Whip");
         animDict.Add(TargetAnimation.BALLRIDE, "Do_BallRide");
+        animDict.Add(TargetAnimation.SWIM, "Do_Swim");
         animDict.Add(TargetAnimation.DEATH, "Do_Death");
     }
 
 
-    public void ChangeAnimation(TargetAnimation newAnim)
+    public void ChangeAnimation(TargetAnimation newAnim, int animValue = 0)
     {
         switchAnimation = true;
 
@@ -64,12 +66,21 @@ public class PlayerAnimations : MonoBehaviour
             animator.SetBool("Do_Fall", false);
             //animator.SetBool("Do_FastFall", false);
             animator.SetBool("Do_WallSlide", false);
-            animator.SetBool("Do_WallHook", false);
+            animator.SetInteger("Do_WallHook", 0);
             animator.SetBool("Do_Whip", false);
             animator.SetBool("Do_BallRide", false);
+            animator.SetBool("Do_Swim", false);
             animator.SetBool("Do_Death", false);
 
-            animator.SetBool(animDict[newAnim], true);
+            if (newAnim != TargetAnimation.WALLHOOK)
+            {
+                animator.SetBool(animDict[newAnim], true);
+            }
+            else
+            {
+                animator.SetInteger("Do_WallHook", animValue);
+            }
+                
         }
 
     }

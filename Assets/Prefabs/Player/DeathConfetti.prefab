@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &205929328685032352
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4612291219671207824}
+  - component: {fileID: 4323260054951525601}
+  m_Layer: 0
+  m_Name: DeathConfetti
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4612291219671207824
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205929328685032352}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.875, y: -3.125, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4323260054951525601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205929328685032352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a42102c05825a544b8d93cf63784ac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  confettiObject: {fileID: 1639216486192100957, guid: 4ae766fc30b7e3a4d93516639a2faa25, type: 3}
+  confettiSprites:
+  - {fileID: -1803914462, guid: cdf982f9c26a04b42aee036a4d07d061, type: 3}
+  - {fileID: -874569484, guid: cdf982f9c26a04b42aee036a4d07d061, type: 3}
+  - {fileID: 714852787, guid: cdf982f9c26a04b42aee036a4d07d061, type: 3}
+  - {fileID: 962202247, guid: cdf982f9c26a04b42aee036a4d07d061, type: 3}
+  - {fileID: -522112440, guid: cdf982f9c26a04b42aee036a4d07d061, type: 3}
+  - {fileID: -534212806, guid: cdf982f9c26a04b42aee036a4d07d061, type: 3}
+  - {fileID: -1291784629, guid: cdf982f9c26a04b42aee036a4d07d061, type: 3}
+  - {fileID: 672392761, guid: cdf982f9c26a04b42aee036a4d07d061, type: 3}
+  - {fileID: -100140688, guid: cdf982f9c26a04b42aee036a4d07d061, type: 3}
+  - {fileID: -253334791, guid: cdf982f9c26a04b42aee036a4d07d061, type: 3}
+  spread: {x: 0.6, y: 0.8}
+  amount: 40
+  boost: 6
