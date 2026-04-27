@@ -3,8 +3,12 @@ using UnityEngine;
 
 public class PlayerAnimations : MonoBehaviour
 {
+    [Tooltip("Animator component reference")]
     private Animator animator;
 
+    /// <summary>
+    /// Animation state enumerator
+    /// </summary>
     public enum TargetAnimation
     {
         IDLE,

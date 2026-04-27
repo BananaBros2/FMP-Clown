@@ -11,6 +11,8 @@ public class MovementController : MonoBehaviour
     // ========================================================================#
 
     [Header("References")]
+
+    [Tooltip("Groundcheck object reference")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform wallCheck;
     [SerializeField] private GameObject ballObject;
@@ -125,6 +127,9 @@ public class MovementController : MonoBehaviour
     private float shiftTime = 0.3f;
     private bool attemptHookDetach = false;
 
+    /// <summary>
+    /// Hook surface type enumerator
+    /// </summary>
     enum HookHitType
     {
         None, Wall, Ceiling, Floor
@@ -206,8 +211,6 @@ public class MovementController : MonoBehaviour
     bool inWater;
     Vector2 waterVelocity;
     float timeSinceLastSwim = 0;
-
-    bool debuggerBool = false;
 
     float ignoreGravityTimer = 0;
     float bouncyBlockCooldown = 0;

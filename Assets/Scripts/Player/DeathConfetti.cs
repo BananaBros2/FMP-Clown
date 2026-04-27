@@ -2,14 +2,26 @@ using UnityEngine;
 
 public class DeathConfetti : MonoBehaviour
 {
+    [Tooltip("Reference to confetti prefab")]
     [SerializeField] private GameObject confettiObject;
+    [Tooltip("Array of confetti sprites")]
     [SerializeField] private Sprite[] confettiSprites;
-    [SerializeField] private Vector2 spread;
-    [SerializeField, Range(1,100)] private int amount;
-    [SerializeField] private float boost;
+
+    [Tooltip("Positional spread of confetti pieces")]
+    [SerializeField] private Vector2 spread = new Vector2(0.6f, 0.8f);
+    [Tooltip("Number of confetti pieces spawned")]
+    [SerializeField, Range(1,100)] private int amount = 40;
+    [Tooltip("Initial velocity of confetti pieces (with randomness)")]
+    [SerializeField] private float boost = 6;
+    [Tooltip("Maximum initial angular velocity of confetti pieces")]
+    [SerializeField] private float angularVelocity = 180;
+    [Tooltip("Gravity Range of confetti pieces")]
+    [SerializeField] private Vector2 gravityRange = new Vector2(0.4f, 0.7f);
+
 
     void Start()
     {
+        // Repeat until all confetti pieces have been set up
         for (int i = 0; i < amount; i++) 
         {
             // Location
@@ -29,10 +41,10 @@ public class DeathConfetti : MonoBehaviour
                 new Vector2(Random.Range(-boost / 2, boost / 2), Random.Range(boost / 5, boost));
 
             // Angular Velocity
-            conRb.angularVelocity = Random.Range(-180, 180);
+            conRb.angularVelocity = Random.Range(-angularVelocity, angularVelocity);
 
             // Gravity
-            conRb.gravityScale = Random.Range(0.4f, 0.7f);
+            conRb.gravityScale = Random.Range(gravityRange.x, gravityRange.y);
         }
     }
 

@@ -3,17 +3,12 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 public class LoadDeathLocations : MonoBehaviour
 {
-    public GameObject deathMarkerObject;
+    [SerializeField] private GameObject deathMarkerObject; // Object used to mark death location
 
-    public void MyButtonAction()
-    {
-        Debug.Log("Button clicked!");
-        GenerateMarkers();
-    }
-
-    private void GenerateMarkers()
+    public void GenerateMarkers()
     {
         string path = Path.Combine(Application.persistentDataPath, "Analysis");
 
@@ -52,22 +47,20 @@ public class LoadDeathLocations : MonoBehaviour
             
         }
 
-
-
-
-
-        //        public void LoadData(GameData data)
-        //{
-        //    this.deathCount = data.deathCount;
-        //    this.deathLocations = data.deathLocations;
-        //}
-
-        //public void SaveData(ref GameData data)
-        //{
-        //    data.deathCount = this.deathCount;
-        //    data.deathLocations = this.deathLocations;
-        //}
-
     }
 
+
+    /// <summary>
+    /// Remove all children objects
+    /// </summary>
+    public void RemoveMarkers()
+    {
+        while (transform.childCount > 0) // Keep removing children until none are left
+        {
+            DestroyImmediate(transform.GetChild(0).gameObject);
+        }
+    }
+
+
 }
+#endif

@@ -6,12 +6,15 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu]
 public class RuleTileCombine : RuleTile
 {
-
+    /// <summary>
+    /// Tile grouping enumerator
+    /// </summary>
     public enum SiblingGroup
     {
         Group1,
         Group2,
     }
+
     public SiblingGroup siblingGroup;
 
     public override bool RuleMatch(int neighbor, TileBase other)

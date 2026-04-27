@@ -1678,9 +1678,25 @@ PrefabInstance:
       value: Cannon (1)
       objectReference: {fileID: 0}
     - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_Size.x
+      value: 1.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_Size.y
+      value: 1.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -6809907661698028246, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: cannonDirection.x
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2191,9 +2207,29 @@ PrefabInstance:
       value: Cannon (3)
       objectReference: {fileID: 0}
     - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_Size.x
+      value: 1.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_Size.y
+      value: 1.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -6809907661698028246, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: cannonDirection.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: cannonDirection.y
+      value: -1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -37224,7 +37260,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67bd651fcb36cb24aae89a9b714022ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomCameraManager
-  roomCam: {fileID: 2026764086}
   roomName: 1-6
 --- !u!1 &619394800
 GameObject:
@@ -37430,7 +37465,11 @@ PrefabInstance:
     - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -1544903389, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: cannonType
       value: Locked
@@ -37438,14 +37477,14 @@ PrefabInstance:
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: diagonalSprite
       value: 
-      objectReference: {fileID: -631483463, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: straightSprite
       value: 
-      objectReference: {fileID: -1544903389, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: cannonDirection.x
-      value: -1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: cannonDirection.y
@@ -37519,7 +37558,31 @@ PrefabInstance:
     - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -1544903389, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: cannonType
+      value: Locked
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: diagonalSprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: straightSprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: cannonDirection.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: cannonDirection.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -37691,7 +37754,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67bd651fcb36cb24aae89a9b714022ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomCameraManager
-  roomCam: {fileID: 865670736}
   roomName: 1-4
 --- !u!1001 &746501962
 PrefabInstance:
@@ -45196,9 +45258,21 @@ PrefabInstance:
       value: Cannon (8)
       objectReference: {fileID: 0}
     - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_Size.x
+      value: 1.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_Size.y
+      value: 1.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -631483463, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: cannonType
       value: Locked
@@ -45206,18 +45280,18 @@ PrefabInstance:
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: diagonalSprite
       value: 
-      objectReference: {fileID: -631483463, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: straightSprite
       value: 
-      objectReference: {fileID: -1544903389, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: cannonDirection.x
-      value: -1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: cannonDirection.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -48827,7 +48901,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67bd651fcb36cb24aae89a9b714022ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomCameraManager
-  roomCam: {fileID: 1902172696}
   roomName: 1-5
 --- !u!1001 &1032202395
 PrefabInstance:
@@ -48890,9 +48963,21 @@ PrefabInstance:
       value: Cannon (10)
       objectReference: {fileID: 0}
     - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_Size.x
+      value: 1.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_Size.y
+      value: 1.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -631483463, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: cannonType
       value: Locked
@@ -48900,11 +48985,11 @@ PrefabInstance:
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: diagonalSprite
       value: 
-      objectReference: {fileID: -631483463, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: straightSprite
       value: 
-      objectReference: {fileID: -1544903389, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: cannonDirection.x
       value: 1
@@ -49251,7 +49336,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67bd651fcb36cb24aae89a9b714022ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomCameraManager
-  roomCam: {fileID: 584833760}
   roomName: 1-7
 --- !u!1001 &1138992734
 PrefabInstance:
@@ -53128,21 +53212,33 @@ PrefabInstance:
       value: Cannon (12)
       objectReference: {fileID: 0}
     - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_Size.x
+      value: 1.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_Size.y
+      value: 1.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -6809907661698028246, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: cannonType
-      value: Locked
+      value: Free
       objectReference: {fileID: 0}
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: diagonalSprite
       value: 
-      objectReference: {fileID: -631483463, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: straightSprite
       value: 
-      objectReference: {fileID: -1544903389, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: cannonDirection.x
       value: 1
@@ -55829,7 +55925,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1628607734
 Transform:
   m_ObjectHideFlags: 0
@@ -56145,9 +56241,29 @@ PrefabInstance:
       value: Cannon (2)
       objectReference: {fileID: 0}
     - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_Size.x
+      value: 1.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_Size.y
+      value: 1.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -6809907661698028246, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: cannonDirection.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: cannonDirection.y
+      value: -1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -56210,9 +56326,25 @@ PrefabInstance:
       value: Cannon
       objectReference: {fileID: 0}
     - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_Size.x
+      value: 1.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_Size.y
+      value: 1.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -6809907661698028246, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: cannonDirection.x
+      value: -1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -57164,9 +57296,21 @@ PrefabInstance:
       value: Cannon (11)
       objectReference: {fileID: 0}
     - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_Size.x
+      value: 1.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_Size.y
+      value: 1.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -631483463, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349453503673480349, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: cannonType
       value: Locked
@@ -57174,11 +57318,11 @@ PrefabInstance:
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: diagonalSprite
       value: 
-      objectReference: {fileID: -631483463, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: straightSprite
       value: 
-      objectReference: {fileID: -1544903389, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4973721655777102019, guid: 6c24f12c69f389b4fa0292bac1784de9, type: 3}
       propertyPath: cannonDirection.x
       value: 1
@@ -57791,7 +57935,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67bd651fcb36cb24aae89a9b714022ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomCameraManager
-  roomCam: {fileID: 1049976484}
   roomName: 1-1
 --- !u!1 &2026764086
 GameObject:
@@ -58088,7 +58231,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67bd651fcb36cb24aae89a9b714022ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomCameraManager
-  roomCam: {fileID: 270337390}
   roomName: 1-8
 --- !u!1001 &2059820635
 PrefabInstance:
@@ -58415,7 +58557,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67bd651fcb36cb24aae89a9b714022ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomCameraManager
-  roomCam: {fileID: 1309159911}
   roomName: 1-2
 --- !u!1001 &5720505351325863034
 PrefabInstance:

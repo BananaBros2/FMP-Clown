@@ -10,9 +10,13 @@ public class LoadDeathLocationsEditor : Editor
         DrawDefaultInspector();
 
         LoadDeathLocations deathLocator = (LoadDeathLocations)target;
-        if (GUILayout.Button("Click Me"))
+        if (GUILayout.Button("Generate Markers"))
         {
-            deathLocator.MyButtonAction();
+            deathLocator.GenerateMarkers();
+        }
+        if (GUILayout.Button("Remove Markers"))
+        {
+            deathLocator.RemoveMarkers();
         }
     }
 }

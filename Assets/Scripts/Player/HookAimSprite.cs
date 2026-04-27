@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class HookAimSprite : MonoBehaviour
 {
-    [SerializeField]
-    SpriteRenderer spriteRenderer;
-    [SerializeField]
-    Transform chainTarget;
+    [Tooltip("Hook SpriteRenderer reference")]
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [Tooltip("Object for tracking where chain should connect")]
+    [SerializeField] private Transform chainTarget;
 
-    [SerializeField]
-    Sprite flatHook;
+    [Tooltip("Horizontal/Vertical hook sprite")]
+    [SerializeField] private Sprite flatHook;
+    [Tooltip("Diagonal hook sprite")]
+    [SerializeField] private Sprite diagonalHook;
 
-    [SerializeField]
-    Sprite diagonalHook;
 
     private Vector2 diagonalChainTargetPos = new Vector2(-0.375f, 0.375f);
 
