@@ -678,14 +678,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5507570206f19cc44b853a8dc6ce350a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  waitForPlayer: 1
-  velocitySharers:
-  - {fileID: 4473405806623164708}
   stageTrack:
   - {x: -1, y: 0, z: 0.5}
   - {x: -6, y: 0, z: 0.5}
-  currentPoint: 0
   loop: 0
+  waitForPlayer: 1
+  stopWhenNoPlayer: 0
+  startPoint: 0
   pointSizeDebug: 0.2
 --- !u!1 &3495918385008560350
 GameObject:
@@ -1176,7 +1175,7 @@ GameObject:
   - component: {fileID: 7318146013758705812}
   - component: {fileID: 5035933508879803479}
   - component: {fileID: 6515772488342389927}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Spikes (Moving)
   m_TagString: Hazard
   m_Icon: {fileID: 0}

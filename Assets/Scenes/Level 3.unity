@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 242975925}
   - component: {fileID: 242975927}
   - component: {fileID: 242975928}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Spikes
   m_TagString: Hazard
   m_Icon: {fileID: 0}
@@ -12141,10 +12141,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+    x: 0.27135417
+    y: 0.087037034
+    width: 0.33333334
+    height: 0.3333333
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34

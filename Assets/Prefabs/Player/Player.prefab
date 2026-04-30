@@ -1214,6 +1214,9 @@ MonoBehaviour:
   bouncyLayer:
     serializedVersion: 2
     m_Bits: 512
+  hazardLayer:
+    serializedVersion: 2
+    m_Bits: 1024
   gravity: -0.981
   runSpeed: 5
   jumpPower: 12
@@ -1226,6 +1229,8 @@ MonoBehaviour:
   nullVelocityOnThrow: 1
   activeHookSprite: {fileID: -5517353292423753829, guid: dbdeb597a93725f40988cd05706aaa40, type: 3}
   inactiveHookSprite: {fileID: 1481795184, guid: dbdeb597a93725f40988cd05706aaa40, type: 3}
+  maxHookSpeed: 8
+  maxHookWaterSpeedReduction: 2
   attemptingWallHook: 0
   stuckOnHook: 0
   hookOnWall: 0

@@ -38,6 +38,7 @@ public class MovementController : MonoBehaviour
     [SerializeField] private LayerMask semiSolidLayer;
     [SerializeField] private LayerMask metallicLayer;
     [SerializeField] private LayerMask bouncyLayer;
+    [SerializeField] private LayerMask hazardLayer;
     private float wallCheckOffset;
     private float pixelSize = 1 / 16f;
 
@@ -956,12 +957,20 @@ public class MovementController : MonoBehaviour
         if (!(rb.linearVelocity.y > -3 && rb.linearVelocity.y < 2)) { return; }
 
 
-        Vector2 rayStart = new Vector2(transform.position.x + (boxColi.size.x / 2 + Pixel()) * GetMoveDir(), transform.position.y + (boxColi.size.y / 2));
+        Vector2 rayStart = new Vector2(transform.position.x + (boxColi.size.x / 2 + Pixel()) * GetMoveDir(), transform.position.y);
+        if (Physics2D.OverlapBox(rayStart, new Vector2(Pixel(), Pixel(16)), 0, hazardLayer))
+        {
+            print("Hazardous Surface");
+            return;
+        }
 
+        rayStart = new Vector2(transform.position.x + (boxColi.size.x / 2 + Pixel()) * GetMoveDir(), transform.position.y + (boxColi.size.y / 2));
         if (!Physics2D.OverlapBox(rayStart, new Vector2(Pixel(), Pixel()), 0, solidGroundLayer))
         {
 
+
             RaycastHit2D hit = Physics2D.Raycast(rayStart, -Vector2.up, boxColi.size.y + Pixel(), solidGroundLayer);
+
 
             if (hit)
             {
