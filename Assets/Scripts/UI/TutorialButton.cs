@@ -3,6 +3,9 @@ using UnityEngine.InputSystem;
 
 public class TutorialButton : MonoBehaviour
 {
+    // Abandoned for now
+
+
     [SerializeField] private string actionName;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

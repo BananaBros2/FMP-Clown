@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu]
 public class RuleTileCombine : RuleTile
 {
+
     /// <summary>
     /// Tile grouping enumerator
     /// </summary>

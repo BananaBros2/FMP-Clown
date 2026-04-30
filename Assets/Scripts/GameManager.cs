@@ -3,20 +3,27 @@ using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour, IDataPersistence
 {
+    /// <summary>
+    /// Make GameManager an instance
+    /// </summary>
+    public static GameManager Instance { get; private set; }
+
+    [Tooltip("Player Prefab to spawn")]
     [SerializeField] GameObject playerPrefab;
 
     
     private GameObject currentPlayerObject;
+    public GameObject GetPlayerObject() { return currentPlayerObject; }
+
     public GameObject cineCam;
     public UIHandler uiHandler;
     [SerializeField] private GameObject blackSquareOfDoom;
 
     private bool environmentPaused;
+    public bool GetEnvironmentPausedStatus() { return environmentPaused; }
 
     private string currentRoom = "Unknown";
     private int currentCheckpoint = 0;
@@ -24,14 +31,14 @@ public class GameManager : MonoBehaviour, IDataPersistence
     private bool sceneLoading = false;
 
 
-    private int deathCount = 0;
-    public List<Vector2> deathLocations;
-
-    public string currentPlaytime = "Unknown";
+    private int currentLevelID = 0;
 
 
 
-    public static GameManager Instance { get; private set; }
+
+    GameData unsavedGameData;
+
+    bool canAlterSaveData = true;
 
     void Awake()
     {
@@ -41,26 +48,24 @@ public class GameManager : MonoBehaviour, IDataPersistence
             return;
         }
         Instance = this;
-        currentPlaytime = System.DateTime.Now.Second.ToString() + "s" 
-            + System.DateTime.Now.Minute.ToString() + "m"
-            + System.DateTime.Now.Hour.ToString() + "h"
-            + System.DateTime.Now.Day.ToString() + "d.log";
-        print(currentPlaytime);
+
         DontDestroyOnLoad(gameObject);
+
+        try
+        {
+            LoadData(DataPersistenceManager.instance.currentLoadedData);
+        }
+        catch
+        {
+            Debug.LogWarning("No DataPersistenceManager, saving/loading is disabled");
+            canAlterSaveData = false;
+        }
+
         StartLevel();
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    #region LEVEL HANDLING
 
     private void StartLevel()
     {
@@ -86,11 +91,13 @@ public class GameManager : MonoBehaviour, IDataPersistence
         blackSquareOfDoom.SetActive(activity);
     }
 
-    public void IHateScreenTransitioning()
+    /// <summary>
+    /// Method for specifically turning off the black box blocking the screen 
+    /// </summary>
+    public void IHateScreenTransitioning() // Name is staying
     {
         ControlDoomSquare(false);
     }
-
 
     public void UpdateCheckpoint(int newCheckpoint)
     {
@@ -99,16 +106,11 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
     public void RespawnAtCheckpoint()
     {
-
-        deathCount++;
-        print(deathCount);
-
         if (sceneLoading) { return; }
 
         StartCoroutine(ReloadScene());
 
     }
-
 
 
     IEnumerator ReloadScene()
@@ -165,6 +167,36 @@ public class GameManager : MonoBehaviour, IDataPersistence
         SpawnPlayerCharacter(spawnPosition);
     }
 
+    public void SwitchLevel(int levelID = 0)
+    {
+        string levelName = "Level 1";
+
+        switch (levelID)
+        {
+            case 0:
+                currentLevelID = 0;
+                levelName = "Tutorial";
+                break;
+            case 1:
+                currentLevelID = 1;
+                levelName = "Level 1";
+                break;
+            case 2:
+                currentLevelID = 2;
+                levelName = "Level 2";
+                break;
+            case 3:
+                currentLevelID = 3;
+                levelName = "Level 3";
+                break;
+            default:
+                Debug.LogError("You and I both know this level doesn't exist");
+                break;
+        }
+
+        StartCoroutine(LoadScene(levelName));
+
+    }
 
     IEnumerator LoadScene(string levelName)
     {
@@ -207,30 +239,13 @@ public class GameManager : MonoBehaviour, IDataPersistence
         SpawnPlayerCharacter(startPosition);
     }
 
-
     private void SpawnPlayerCharacter(Vector3 startPosition)
     {
         currentPlayerObject = Instantiate(playerPrefab, startPosition, Quaternion.identity);
         SetupCameras();
         StartCoroutine(TEMPTOLETPLAYERMOVE());
-        
-    }
-
-    IEnumerator TEMPTOLETPLAYERMOVE()
-    {
-        yield return new WaitForSeconds(0.5f);
-        currentPlayerObject.transform.GetComponent<MovementController>().DisablePlayerControls(false);
-        cineCam.GetComponent<CinemachineBrain>().DefaultBlend.Time = 0.45f;
-    }
-
-    IEnumerator RoomTransition()
-    {
-        yield return new WaitForSeconds(0.5f);
-
-        currentPlayerObject.GetComponent<MovementController>().ResumeMomentum();
 
     }
-
 
     private void SetupCameras()
     {
@@ -241,6 +256,13 @@ public class GameManager : MonoBehaviour, IDataPersistence
         }
     }
 
+
+    #endregion LEVEL HANDLING
+
+
+    #region GAME FUNCTIONALITY
+
+
     public void HandleRoomTransition(string sourceRoom)
     {
         if (currentRoom == sourceRoom) { return; }
@@ -249,60 +271,13 @@ public class GameManager : MonoBehaviour, IDataPersistence
         StartCoroutine(RoomTransition());
     }
 
-
-
-
-    public GameObject GetPlayerObject()
+    IEnumerator RoomTransition()
     {
-        return currentPlayerObject;
-    }
+        yield return new WaitForSeconds(0.5f);
 
-    public void ChangeRoomNameDisplay(string roomName)
-    {
+        currentPlayerObject.GetComponent<MovementController>().ResumeMomentum();
 
     }
-
-    public void SwitchLevel(int levelID = 0)
-    {
-        string levelName = "Level 1";
-
-        switch (levelID)
-        {
-            case 0:
-                levelName = "Tutorial";
-                break;
-            case 1:
-                levelName = "Level 1";
-                break;
-            case 2:
-                levelName = "Level 2";
-                break;
-            case 3:
-                levelName = "Level 3";
-                break;
-            default:
-                Debug.LogError("You and I both know this level doesn't exist");
-                break;
-        }
-
-        StartCoroutine(LoadScene(levelName));
-
-    }
-
-
-    public void LoadData(GameData data)
-    {
-        this.deathCount = data.deathCount;
-        this.deathLocations = data.deathLocations;
-    }
-
-    public void SaveData(ref GameData data) 
-    {
-        data.deathCount = this.deathCount;
-        data.deathLocations = this.deathLocations;
-    }
-
-
 
     public void DoHitFreeze(float duration = 0.125f)
     {
@@ -320,8 +295,123 @@ public class GameManager : MonoBehaviour, IDataPersistence
     {
         environmentPaused = state;
     }
-    public bool GetEnvironmentPausedStatus()
+
+
+    #endregion GAME FUNCTIONALITY
+
+
+
+    #region DATA
+
+
+    public void LoadData(GameData data)
     {
-        return environmentPaused;
+        if (!canAlterSaveData) { return; }
+
+        this.unsavedGameData = data;
     }
+
+    public void SaveData(ref GameData data)
+    {
+        if (!canAlterSaveData) { return; }
+
+        DataPersistenceManager.instance.currentLoadedData = this.unsavedGameData;
+    }
+
+    #region MANUSCRIPT DATA
+
+    /// <summary>
+    /// Get collection status of manuscript in level
+    /// </summary>
+    /// <param name="ManuID">ID of manuscript in level</param>
+    public bool GetManuscriptStatus(int ManuID)
+    {
+        if (!canAlterSaveData) { return false; }
+
+        return DataPersistenceManager.instance.GetManuscriptData(currentLevelID, ManuID);
+    }
+
+    /// <summary>
+    /// Save collected manuscript 
+    /// </summary>
+    /// <param name="ManuID">ID of the manuscript in the current level</param>
+    public void CollectManuscript(int ManuID)
+    {
+        if (!canAlterSaveData) { return; }
+
+        switch (currentLevelID)
+        {
+            case 0: // Tutorial
+                currentLevelID = 0;
+                unsavedGameData.tutorialData.manuscriptsCollected[ManuID] = true;
+                break;
+            case 1: // Level 1
+                currentLevelID = 1;
+                unsavedGameData.level1Data.manuscriptsCollected[ManuID] = true;
+                break;
+            case 2: // Level 2
+                currentLevelID = 2;
+                unsavedGameData.level2Data.manuscriptsCollected[ManuID] = true;
+                break;
+            case 3: // Level 3
+                currentLevelID = 3;
+                unsavedGameData.level3Data.manuscriptsCollected[ManuID] = true;
+                break;
+        }
+
+        SaveData(ref unsavedGameData);
+    }
+
+    #endregion MANUSCRIPT DATA
+
+
+    #endregion DATA
+
+
+
+
+    IEnumerator TEMPTOLETPLAYERMOVE()
+    {
+        yield return new WaitForSeconds(0.5f);
+        currentPlayerObject.transform.GetComponent<MovementController>().DisablePlayerControls(false);
+        cineCam.GetComponent<CinemachineBrain>().DefaultBlend.Time = 0.45f;
+    }
+
+
+
+    public void AddDeathLocation(Vector2 location)
+    {
+        if (!canAlterSaveData) { return; }
+
+        switch (currentLevelID)
+        {
+            case 0: // Tutorial
+                currentLevelID = 0;
+                unsavedGameData.tutorialData.deathLocations.Add(location);
+                unsavedGameData.tutorialData.deathCount = unsavedGameData.tutorialData.deathLocations.Count;
+                break;
+            case 1: // Level 1
+                currentLevelID = 1;
+                unsavedGameData.level1Data.deathLocations.Add(location);
+                unsavedGameData.level1Data.deathCount = unsavedGameData.level1Data.deathLocations.Count;
+                break;
+            case 2: // Level 2
+                currentLevelID = 2;
+                unsavedGameData.level2Data.deathLocations.Add(location);
+                unsavedGameData.level2Data.deathCount = unsavedGameData.level2Data.deathLocations.Count;
+                break;
+            case 3: // Level 3
+                currentLevelID = 3;
+                unsavedGameData.level3Data.deathLocations.Add(location);
+                unsavedGameData.level3Data.deathCount = unsavedGameData.level3Data.deathLocations.Count;
+                break;
+        }
+
+        SaveData(ref unsavedGameData);
+    }
+
+
+
+
+
 }

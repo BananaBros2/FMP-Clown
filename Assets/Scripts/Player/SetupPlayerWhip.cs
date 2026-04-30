@@ -2,27 +2,38 @@ using UnityEngine;
 
 public class SetupPlayerWhip : MonoBehaviour
 {
-    SpriteRenderer spriteRenderer;
-    SpriteRenderer outlineSpriteRenderer;
+    [Tooltip("Reference to hook sprite renderer")]
+    private SpriteRenderer spriteRenderer;
+    [Tooltip("Reference to hook shadow sprite renderer")]
+    private SpriteRenderer outlineSpriteRenderer;
 
-    [SerializeField] Sprite exactOutline;
-    [SerializeField] Sprite thickOutline;
+    [Tooltip("Sprite for thin outline")]
+    [SerializeField] private Sprite exactOutline;
+    [Tooltip("Sprite for thick outline")]
+    [SerializeField] private Sprite thickOutline;
 
-    public Transform targetPoint;
-    public Transform playerTransform;
+    [Tooltip("Reference to the target of the hook")]
+    [HideInInspector] public Transform targetPoint;
+    [Tooltip("Reference to the player's transform")]
+    [HideInInspector] public Transform playerTransform;
 
     private void Start()
     {
+        // Setup references
         spriteRenderer = GetComponent<SpriteRenderer>();
         outlineSpriteRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
+
         SetChainProperties();
     }
 
     private void FixedUpdate()
     {
-        SetChainProperties();
+        SetChainProperties(); // Update chain every fixed frame
     }
 
+    /// <summary>
+    /// Alter size and appearance of chain depending on connected points
+    /// </summary>
     private void SetChainProperties()
     {
         // Set Position

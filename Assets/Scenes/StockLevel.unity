@@ -713,52 +713,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!1 &254274807
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 254274809}
-  - component: {fileID: 254274808}
-  m_Layer: 0
-  m_Name: DataPersistenceManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &254274808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 254274807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44bc9404ba2c9f44e9400dc2cc27fcd9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DataPersistenceManager
-  fileName: data.game
-  allowSaving: 0
---- !u!4 &254274809
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 254274807}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &299034686
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12223,8 +12177,8 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.17916667
-    y: 0.02037037
+    x: 0.1890625
+    y: 0.0787037
     width: 0.33333334
     height: 0.3333333
   near clip plane: 0.3
@@ -13114,7 +13068,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a9eab1812cf8b1449ca4288efb11a95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  oneTime: 1
   playerTriggered:
     m_PersistentCalls:
       m_Calls:
@@ -13130,6 +13083,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  oneTime: 1
 --- !u!212 &1389287151
 SpriteRenderer:
   serializedVersion: 2
@@ -13846,7 +13800,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67bd651fcb36cb24aae89a9b714022ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomCameraManager
-  roomCam: {fileID: 1049976484}
   roomName: 1-1
 --- !u!1001 &2026373796
 PrefabInstance:
@@ -14092,7 +14045,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67bd651fcb36cb24aae89a9b714022ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomCameraManager
-  roomCam: {fileID: 1309159911}
   roomName: 1-2
 --- !u!1001 &7508986262815269509
 PrefabInstance:
@@ -14167,7 +14119,6 @@ SceneRoots:
   - {fileID: 980471952}
   - {fileID: 619394802}
   - {fileID: 344035231}
-  - {fileID: 254274809}
   - {fileID: 2020989146}
   - {fileID: 2007775743}
   - {fileID: 1836157691}

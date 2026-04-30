@@ -13,6 +13,8 @@ public class DeathConfetti : MonoBehaviour
     [SerializeField, Range(1,100)] private int amount = 40;
     [Tooltip("Initial velocity of confetti pieces (with randomness)")]
     [SerializeField] private float boost = 6;
+    [Tooltip("Additional velocity added on top")]
+    [HideInInspector] public Vector2 addBoost;
     [Tooltip("Maximum initial angular velocity of confetti pieces")]
     [SerializeField] private float angularVelocity = 180;
     [Tooltip("Gravity Range of confetti pieces")]
@@ -35,10 +37,15 @@ public class DeathConfetti : MonoBehaviour
             int conColour = Random.Range(0, confettiSprites.Length - 1);
             confPiece.GetComponent<SpriteRenderer>().sprite = confettiSprites[conColour];
 
+            // Additional force randomised
+            Vector2 addBoostRandomised = new Vector2();
+            addBoostRandomised.x = Random.Range(0, addBoost.x);
+            addBoostRandomised.y = Random.Range(0, addBoost.y);
+
             // Velocity
             Rigidbody2D conRb = confPiece.GetComponent<Rigidbody2D>();
             conRb.linearVelocity =
-                new Vector2(Random.Range(-boost / 2, boost / 2), Random.Range(boost / 5, boost));
+                new Vector2(Random.Range(-boost / 2, boost / 2) + addBoostRandomised.x, Random.Range(boost / 5, boost) + addBoostRandomised.y);
 
             // Angular Velocity
             conRb.angularVelocity = Random.Range(-angularVelocity, angularVelocity);

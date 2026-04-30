@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-
-//using System.Drawing; // Stop adding this god damn clanker
 using UnityEngine;
 using UnityEngine.InputSystem;
+//using System.Drawing; // Stop adding this god damn clanker
 
 public class MovementController : MonoBehaviour
 {
@@ -118,6 +117,10 @@ public class MovementController : MonoBehaviour
     private int hookDurability = 6;
     private int curHookDurability;
 
+    [SerializeField] float maxHookSpeed = 8f;
+    [SerializeField] float maxHookWaterSpeedReduction = 2;
+
+
 
     [Header("Hook Climbing")]
     public bool attemptingWallHook = false;
@@ -214,6 +217,9 @@ public class MovementController : MonoBehaviour
 
     float ignoreGravityTimer = 0;
     float bouncyBlockCooldown = 0;
+
+    bool isNearLeftWall;
+    bool isNearRightWall;
 
     // ========================================================================#
     #endregion VARIABLES
@@ -317,14 +323,15 @@ public class MovementController : MonoBehaviour
 
         if (jump.started)
         {
-            // Handle jump with jumpBuffer timer, longer timer if falling quickly
-            jumpBufferCurTime = Mathf.Min(minJumpBuffer * Mathf.Max(-rb.linearVelocityY / 10, 1), maxJumpBuffer);
-            jumpHeld = true;
-
             if (usingCannon)
             {
                 triggerCannon = true;
+                return;
             }
+
+            // Handle jump with jumpBuffer timer, longer timer if falling quickly
+            jumpBufferCurTime = Mathf.Min(minJumpBuffer * Mathf.Max(-rb.linearVelocityY / 10, 1), maxJumpBuffer);
+            jumpHeld = true;
 
         }
 
@@ -443,6 +450,8 @@ public class MovementController : MonoBehaviour
         WasGrounded(); // Handle Coyote Time
         coyoteCurTime -= Time.fixedDeltaTime;
         MoveWallCheck(GetMoveDir());
+        isNearLeftWall = IsNearWall(1);
+        isNearRightWall = IsNearWall(-1);
 
         placementVelocity = (Vector2)transform.position - lastPosition; // Track player's position relative to the world
         lastPosition = transform.position;
@@ -454,15 +463,6 @@ public class MovementController : MonoBehaviour
         PreserveVelocity(ref preservedVelList, ref preservedVelCurIndex, ref preservedVel, rb.linearVelocity); // Store movement velocity
 
         TrackSurfaceOn();
-
-        //surfaceVel = Vector2.zero;
-        //if (surfaceVelRef != null)
-        //{
-        //    Vector2 calcSurfaceVel = surfaceVelRef.GetVelocity() * 50;
-        //    PreserveVelocity(ref presSurfaceVelList, ref presSurfaceVelCurIndex, ref presSurfaceVel, calcSurfaceVel); // Store surface velocity
-        //    surfaceVel = presSurfaceVel;
-        //    print(presSurfaceVel);
-        //}
 
 
         if (HandleWallHook()) { return; } // Wall Hooking
@@ -505,8 +505,6 @@ public class MovementController : MonoBehaviour
         HandleHorizontalMovement();
 
 
-
-
         HandleJump();
         HandleCeilingBump();
         HandleGravity();
@@ -519,7 +517,7 @@ public class MovementController : MonoBehaviour
             {
                 if (!ballin && !inWater)
                 {
-                    WallSlide(); // mmm nestihg
+                    WallSlide(); // mmm nesting
                 }
 
                 LedgeClimb();
@@ -538,7 +536,6 @@ public class MovementController : MonoBehaviour
 
     private void TrackSurfaceOn()
     {
-        bool detachedFromSurface = true;
 
         // Physics2D.boxcast is so ass ;(
 
@@ -560,9 +557,6 @@ public class MovementController : MonoBehaviour
 
             if (hit.transform.CompareTag("ComplexSurface"))
             {
-                detachedFromSurface = false; // Detected to still be on same (complex) surface
-
-
                 SurfaceVelocity surfaceObject = hit.transform.GetComponent<SurfaceVelocity>();
                 if (surfaceObject != surfaceVelRef)
                 {
@@ -603,7 +597,6 @@ public class MovementController : MonoBehaviour
 
                 if (hit.transform.CompareTag("ComplexSurface"))
                 {
-                    detachedFromSurface = false; // Detected to still be on same (complex) surface
 
                     SurfaceVelocity surfaceObject = hit.transform.GetComponent<SurfaceVelocity>();
                     if (surfaceObject != surfaceVelRef)
@@ -623,14 +616,11 @@ public class MovementController : MonoBehaviour
             surfaceVelRef.playerToMove = null;
             surfaceVelRef = null;
         }
-        //if (detachedFromSurface && surfaceVelRef != null)
-        //{
-        //    rb.linearVelocity = presSurfaceVel;
-        //    horizontalVel = rb.linearVelocity.x;
-        //    surfaceVelRef.playerToMove = null;
-        //    surfaceVelRef = null;
 
-        //}
+        if (surfaceVelRef == null)
+        {
+            surfaceVel = Vector2.zero;
+        }
 
 
     }
@@ -655,7 +645,13 @@ public class MovementController : MonoBehaviour
 
     private void HandleHorizontalMovement()
     {
-        if (endDashFloatiness) { return; }
+        print(horizontalVel);
+        if (endDashFloatiness) 
+        {
+            print("heyey");
+            rb.linearVelocity = new Vector2(horizontalVel * runSpeed, rb.linearVelocityY);
+            return; 
+        }
 
         if (noHorMovementTimer > 0)
         {
@@ -663,16 +659,11 @@ public class MovementController : MonoBehaviour
             return;
         }
 
+        //return;
 
+        // Check running status for animation
         isRunning = Mathf.Abs(horizontalMov) > 0 ? true : false;
 
-        float slowdown = 0;
-
-        // Quick Turn-around
-        if (groundedState && ((horizontalMov > 0 && horizontalVel < 0) || (horizontalMov < 0 && horizontalVel > 0)))
-        {
-            horizontalVel = (horizontalVel * -1) * 0.5f;
-        }
 
         // Acceleration
         float accAmount = groundedState ? 1 : 0.75f; // Less control if airborne
@@ -683,7 +674,6 @@ public class MovementController : MonoBehaviour
         }
         accAmount *= ballin ? 0.7f : 1f;
 
-
         limitedMovementTimer += Time.fixedDeltaTime * 4;
         if (groundedState) { limitedMovementTimer = 1; }
         if (limitedMovementTimer < 1)
@@ -692,16 +682,20 @@ public class MovementController : MonoBehaviour
         }
 
 
-        horizontalVel += (horizontalMov / 3) * acceleration * accAmount;
+        //Deceleration 
+        float slowdown = 0;
+        if (groundedState) 
+        {
+            slowdown = 0.3f;
+        }
 
-        horizontalVel = Mathf.Clamp(horizontalVel, -1, 1);
-
-        //Deceleration
         if (horizontalMov == 0)
         {
-            float decAmount = groundedState ? 1 : 0.2f;
-            slowdown = 0.5f;
 
+
+
+
+            float decAmount = groundedState ? 1 : 0.2f;
             if (horizontalVel > 0)
             {
                 horizontalVel = Mathf.Max(horizontalVel - 0.15f * decAmount, 0);
@@ -714,44 +708,97 @@ public class MovementController : MonoBehaviour
 
         }
 
-        if (groundedState) { slowdown = 0.3f; }
+        //Fast Movement Deceleration
+        if (Mathf.Abs(horizontalVel) > 1f && groundedState)
+        {
+            if (horizontalVel > 0)
+            {
+                horizontalVel = Mathf.Max(horizontalVel - 0.04f, horizontalVel / 1.1f);
+
+            }
+            else
+            {
+                horizontalVel = Mathf.Min(horizontalVel + 0.04f, horizontalVel / 1.1f);
+            }
+             
+        }
+
+
+        // Calculating wanted speed
+        if ((horizontalMov > rb.linearVelocityX && horizontalMov > 0)
+        || (horizontalMov < rb.linearVelocityX && horizontalMov < 0))
+        {
+            if (!IsAgainstWall())
+            {
+                horizontalVel += (horizontalMov / 3) * acceleration * accAmount;
+            }
+
+        }
+        else if (Mathf.Abs(horizontalVel) > 1f)
+        {
+            if (horizontalVel > 0)
+            {
+                horizontalVel = Mathf.Max(horizontalVel - 0.01f, 0);
+
+            }
+            else
+            {
+                horizontalVel = Mathf.Min(horizontalVel + 0.01f, 0);
+            }
+        }
+        else if (Mathf.Abs(horizontalVel) < 0.8f)
+        {
+            horizontalVel += (horizontalMov / 3) * acceleration * accAmount;
+        }
 
 
         // Final Horizontal Velocity
         //print(slowdown);
         float newHorizontalSpeed = horizontalVel * runSpeed;
 
-        if (newHorizontalSpeed > rb.linearVelocityX && newHorizontalSpeed > 0) // If right movement surpasses current right velocity
+        if (newHorizontalSpeed > rb.linearVelocityX && newHorizontalSpeed > 0) // Player is moving slower than they want to be (positive)
         {
             rb.linearVelocity = new Vector2(newHorizontalSpeed, rb.linearVelocityY);
         }
-        else if (newHorizontalSpeed < rb.linearVelocityX && newHorizontalSpeed < 0) // If left movement surpasses current left velocity
+        else if (newHorizontalSpeed < rb.linearVelocityX && newHorizontalSpeed < 0) // Player is moving slower than they want to be (negative)
         {
             rb.linearVelocity = new Vector2(newHorizontalSpeed, rb.linearVelocityY);
         }
         else if (slowdown > 0)
         {
-            if (rb.linearVelocityX > newHorizontalSpeed + 1) // Intended speed is slower than current speed (positive)
+            if (rb.linearVelocityX > newHorizontalSpeed + 1) // Player is moving faster than they should be (positive)
             {
                 //print("hec");
                 newHorizontalSpeed = Mathf.Max(rb.linearVelocityX - (10 * slowdown), 0);
                 rb.linearVelocity = new Vector2(newHorizontalSpeed, rb.linearVelocityY);
             }
-            else if (rb.linearVelocityX < newHorizontalSpeed - 1)  // Intended speed is slower than current speed (negative)
+            else if (rb.linearVelocityX < newHorizontalSpeed - 1)  // Player is moving faster than they should be (negative)
             {
                 //print("option 222");
                 newHorizontalSpeed = Mathf.Min(rb.linearVelocityX + (10 * slowdown), 0);
                 rb.linearVelocity = new Vector2(newHorizontalSpeed, rb.linearVelocityY);
             }
-            else
+            else // Player isn't pressing direction keys
             {
-                //print("third");
                 rb.linearVelocity = new Vector2(newHorizontalSpeed, rb.linearVelocityY);
             }
 
 
         }
 
+
+        // Quick Turn-around
+        if (groundedState && ((horizontalMov > 0 && horizontalVel < 0) || (horizontalMov < 0 && horizontalVel > 0)))
+        {
+            print("turn");
+            if (Mathf.Abs(horizontalVel) < 0.4f)
+            {
+                horizontalVel = (horizontalVel * -1);
+            }
+
+        }
+
+        //print(horizontalVel);
     }
 
     private void HandleJump()
@@ -776,6 +823,9 @@ public class MovementController : MonoBehaviour
 
                 GameObject newDust = Instantiate(dustPrefab, groundCheck.position, Quaternion.identity);
                 newDust.GetComponent<Rigidbody2D>().linearVelocity = surfaceVel;
+
+                if (horizontalVel > 0.2f) { horizontalVel += 0.1f; }
+                else if (horizontalVel < -0.2f) { horizontalVel -= 0.1f; }
             }
             else if (WasGrounded() && (jumpBufferCurTime > 0) && !stuckOnHook)
             {
@@ -787,6 +837,9 @@ public class MovementController : MonoBehaviour
 
                 GameObject newDust = Instantiate(dustPrefab, groundCheck.position, Quaternion.identity);
                 newDust.GetComponent<Rigidbody2D>().linearVelocity = surfaceVel;
+
+                if (horizontalVel > 0.2f) { horizontalVel += 0.1f; }
+                else if (horizontalVel < -0.2f) { horizontalVel -= 0.1f; }
             }
             else if (stuckOnHook && jumpBufferCurTime > 0)
             {
@@ -797,22 +850,59 @@ public class MovementController : MonoBehaviour
                 jumpStartVel = new Vector2(rb.linearVelocity.x, surfaceVel.y);
 
                 attemptHookDetach = true;
+
+                rb.linearVelocityX += -directionFacing / 4;
+                horizontalVel = -directionFacing / 2;
+
+                limitedMovementTimer = 0;
+                jumpStartVel = new Vector2(rb.linearVelocity.x, 0);
             }
-            else if (!groundedState && IsAgainstWall() && jumpBufferCurTime > 0 && rb.linearVelocityY < -1)
+            else if (!groundedState && (isNearLeftWall || isNearRightWall) && jumpBufferCurTime > 0 && limitedMovementTimer > 1)
             {
                 // Jump off wall (No hook)
+
+
+                if (isNearLeftWall && isNearRightWall)
+                {
+                    rb.linearVelocityX += -directionFacing / 2;
+                    horizontalVel = -directionFacing;
+                }
+                else if (isNearLeftWall)
+                {
+                    rb.linearVelocityX += 1 / 2;
+                    horizontalVel = 1;
+                }
+                else
+                {
+                    rb.linearVelocityX += -1 / 2;
+                    horizontalVel = -1;
+                }
+
                 jumpBufferCurTime = 0;
                 jumpStarted = true;
                 jumpPowerRemaining = 1;
 
-                rb.linearVelocityX += -directionFacing * 6f;
-                horizontalVel = rb.linearVelocityX;
-
                 limitedMovementTimer = 0;
+
                 jumpStartVel = new Vector2(rb.linearVelocity.x, 0);
 
                 print("hfd");
             }
+            //else if (!groundedState && IsAgainstWall() && jumpBufferCurTime > 0 && rb.linearVelocityY < -1)
+            //{
+            //    // Jump off wall (No hook)
+            //    jumpBufferCurTime = 0;
+            //    jumpStarted = true;
+            //    jumpPowerRemaining = 1;
+
+            //    rb.linearVelocityX += -directionFacing / 2;
+            //    horizontalVel = -directionFacing;
+
+            //    limitedMovementTimer = 0;
+            //    jumpStartVel = new Vector2(rb.linearVelocity.x, 0);
+
+            //    print("hfd");
+            //}
         }
 
 
@@ -1310,7 +1400,7 @@ public class MovementController : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.08f);
 
 
-        float hookSpeed = 8;
+        float hookSpeed = 6;
 
         while (!triggerEndHook)
         {
@@ -1318,13 +1408,13 @@ public class MovementController : MonoBehaviour
             {
                 if (currentHook == null) { break; }
 
-                float maxHookSpeed = 10;
+                float curMaxHookSpeed = maxHookSpeed;
                 if (inWater)
                 {
-                    maxHookSpeed /= 2;
+                    maxHookSpeed /= maxHookWaterSpeedReduction;
                 }
 
-                hookSpeed = Mathf.Min(hookSpeed + 6, maxHookSpeed);
+                hookSpeed = Mathf.Min(hookSpeed + 4, curMaxHookSpeed);
                 rb.linearVelocity = (currentHook.transform.position - transform.position).normalized * hookSpeed;
 
             }
@@ -1430,26 +1520,26 @@ public class MovementController : MonoBehaviour
 
         if (whipDir.y > 0)
         {
-            rb.linearVelocityY = 5;
+            rb.linearVelocityY = 6;
         }
         else if (whipDir.y < 0)
         {
             rb.linearVelocityY = -4;
         }
 
-        rb.linearVelocityX = whipDir.x * 5;
+
+        horizontalVel = whipDir.x * 1.6f;
+
         if (whipDir.x > 0 && horizontalMov < 0)
         {
             recentDash = 0.1f;
-            rb.linearVelocityX = 4;
+            horizontalVel = 1.2f;
         }
         else if (whipDir.x < 0 && horizontalMov > 0)
         {
             recentDash = 0.1f;
-            rb.linearVelocityX = -4;
+            horizontalVel = -1.2f;
         }
-
-        horizontalVel = rb.linearVelocityX;
 
         if (momentumFrozen)
         {
@@ -1457,7 +1547,15 @@ public class MovementController : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
         }
 
-        if (whipDir.y >= 0 && !groundedState) { rb.linearVelocityY += 5; }
+        if (whipDir.y == 0 && !groundedState && currentOmniDirection.y >= 0)
+        {
+            rb.linearVelocityY += 5;
+            rb.linearVelocityY = 6;
+        }
+        else if (whipDir.y == 0 && !groundedState)
+        {
+            rb.linearVelocityY += 2;
+        }
 
         ignoreGravityChanges = true;
         AlterGravityScale(0.3f, true);
@@ -1644,6 +1742,13 @@ public class MovementController : MonoBehaviour
         }
 
     }
+
+    private void HooklessWhip()
+    {
+
+    }
+
+
 
     public bool CanGetHooks()
     {
@@ -1891,15 +1996,15 @@ public class MovementController : MonoBehaviour
     public void TriggerDeath()
     {
         playerDied = true;
-        rb.linearVelocity = Vector2.zero;
         StartCoroutine(DeathTiming());
     }
 
     IEnumerator DeathTiming()
     {
-        yield return new WaitForSeconds(0.2f);
-        Instantiate(deathConfetti, transform.position, Quaternion.identity);
-
+        GameManager.Instance.DoHitFreeze();
+        DeathConfetti newConfetti = Instantiate(deathConfetti, transform.position, Quaternion.identity).GetComponent<DeathConfetti>();
+        newConfetti.addBoost = -rb.linearVelocity / 2;
+        rb.linearVelocity = Vector2.zero;
 
         yield return new WaitForSeconds(0.1f);
         foreach (SpriteRenderer charSprite in characterVisuals)
@@ -1916,7 +2021,7 @@ public class MovementController : MonoBehaviour
         }
 
         GameManager.Instance.ControlDoomSquare(true);
-        GameManager.Instance.deathLocations.Add(transform.position);
+        GameManager.Instance.AddDeathLocation(transform.position);
         GameManager.Instance.RespawnAtCheckpoint();
     }
 
@@ -1989,7 +2094,8 @@ public class MovementController : MonoBehaviour
         triggerCannon = false;
 
         rb.linearVelocity = currentCannon.GetCannonDirection().normalized * 15;
-        horizontalVel = rb.linearVelocityX;
+        horizontalVel = currentCannon.GetCannonDirection().normalized.x;
+        print(horizontalVel);
 
     }
 
@@ -2086,7 +2192,7 @@ public class MovementController : MonoBehaviour
 
             rb.linearVelocity *= 12;
             rb.linearVelocity += currentVel / 3;
-            horizontalVel = rb.linearVelocity.x;
+            horizontalVel = rb.linearVelocity.x / 4;
 
             ignoreGravityTimer = 0.1f;
             noHorMovementTimer = 0.15f;
@@ -2159,6 +2265,12 @@ public class MovementController : MonoBehaviour
         float reach = extended ? 2 : 1;
 
         return Physics2D.OverlapBox(wallCheck.transform.position, new Vector2(0.2f * reach, boxColi.size.y - 0.1f), 0, solidGroundLayer);
+    }
+
+    private bool IsNearWall(int direction = 1)
+    {
+        return Physics2D.OverlapBox(
+            transform.position + new Vector3(boxColi.size.x / 2 * -direction, boxColi.size.y / 2, 0), new Vector2(0.3f, boxColi.size.y - Pixel(4)), 0, solidGroundLayer);
     }
 
     private bool IsAgainstWallPassive(bool extended = false)

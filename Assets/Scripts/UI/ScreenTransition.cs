@@ -45,7 +45,7 @@ public class ScreenTransition : MonoBehaviour
 
     public void CloseScreen()
     {
-        rectTransform.sizeDelta = new Vector2(100, 100);
+        rectTransform.sizeDelta = new Vector2(150, 150);
         screenClose = true;
     }
 

@@ -1,51 +1,88 @@
-using System;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
+using NUnit.Framework;
+using System.Collections.Generic;
+
+
+
 
 #if UNITY_EDITOR
+using UnityEditor;
 public class LoadDeathLocations : MonoBehaviour
 {
-    [SerializeField] private GameObject deathMarkerObject; // Object used to mark death location
+    [Tooltip("Reference to prefab used to mark death locations")]
+    [SerializeField] private GameObject deathMarkerObject;
 
+    [Tooltip("ID for the level\n0: Tutorial\n1: Level 1\n1: Level 2\n1: Level 3")]
+    [SerializeField, UnityEngine.Range(0,3)] private int currentLevelID;
+
+
+    /// <summary>
+    /// Read death location data from save files and instantiate a marker at each position
+    /// </summary>
     public void GenerateMarkers()
     {
-        string path = Path.Combine(Application.persistentDataPath, "Analysis");
+        string path = Path.Combine(Application.persistentDataPath, "Save Data"); // Create directory filepath
 
-
-        if (!Directory.Exists(path))
+        if (!Directory.Exists(path)) // Ensure location exists
         {
-            Debug.LogWarning("Persistent data path does not exist: " + path);
+            Debug.LogWarning("Save data path does not exist: " + path);
             return;
         }
 
-        print(path);
+        string[] files = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly); // Get all files in the directory
 
-        string[] files = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly);
+        // Check if any files were even in directory, if not; return
+        if (files.Length == 0) { Debug.Log("No Savefiles under \"Analysis\" file path "); return;  }
 
-        foreach (string file in files)
+
+        int totalDeaths = 0;
+
+        foreach (string file in files) // Scan each file
         {
-            Debug.Log(file);
-
-            string fullPath = Path.Combine(path, file);
-
             string dataToLoad = "";
-            using (FileStream stream = new FileStream(fullPath, FileMode.Open))
+            using (FileStream stream = new FileStream(Path.Combine(path, file), FileMode.Open)) // Open file 
             {
-                using (StreamReader reader = new StreamReader(stream))
+                using (StreamReader reader = new StreamReader(stream)) // Read file
                 {
                     dataToLoad = reader.ReadToEnd();
                 }
             }
 
-            GameData loadedData = JsonUtility.FromJson<GameData>(dataToLoad);
 
-            foreach (Vector2 deathLocation in loadedData.deathLocations)
+            GameData loadedData = JsonUtility.FromJson<GameData>(dataToLoad);
+            List<Vector2> deathLocations = new List<Vector2>();
+
+            switch (currentLevelID) // Retrieve correct level death list
             {
-                Instantiate(deathMarkerObject, deathLocation, Quaternion.identity, transform);
+                case 0:
+                    deathLocations = loadedData.tutorialData.deathLocations;
+                    break;
+                case 1:
+                    deathLocations = loadedData.level1Data.deathLocations;
+                    break;
+                case 2:
+                    deathLocations = loadedData.level2Data.deathLocations;
+                    break;
+                case 3:
+                    deathLocations = loadedData.level3Data.deathLocations;
+                    break;
+                default:
+                    Debug.LogError("Invalid Level ID");
+                    break;
             }
-            
+
+
+            foreach (Vector2 deathLocation in deathLocations) // Read death location data
+            {
+                Instantiate(deathMarkerObject, deathLocation, Quaternion.identity, transform); // Place locator at position read
+                totalDeaths++;
+            }
+
         }
+
+        // Confirmation Text
+        Debug.Log(files.Length + " files scanned for a total of " + totalDeaths + " death locators placed");
 
     }
 
@@ -59,6 +96,7 @@ public class LoadDeathLocations : MonoBehaviour
         {
             DestroyImmediate(transform.GetChild(0).gameObject);
         }
+        Debug.Log("Death locators removed");
     }
 
 

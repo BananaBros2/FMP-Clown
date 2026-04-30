@@ -57,5 +57,7 @@ MonoBehaviour:
   - {fileID: -100140688, guid: cdf982f9c26a04b42aee036a4d07d061, type: 3}
   - {fileID: -253334791, guid: cdf982f9c26a04b42aee036a4d07d061, type: 3}
   spread: {x: 0.6, y: 0.8}
-  amount: 40
-  boost: 6
+  amount: 50
+  boost: 15
+  angularVelocity: 180
+  gravityRange: {x: 0.4, y: 0.7}

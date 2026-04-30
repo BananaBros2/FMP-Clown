@@ -285,7 +285,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67bd651fcb36cb24aae89a9b714022ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomCameraManager
-  roomCam: {fileID: 1653930850}
   roomName: 1-6
 --- !u!1 &242975920
 GameObject:
@@ -1557,52 +1556,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!1 &254274807
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 254274809}
-  - component: {fileID: 254274808}
-  m_Layer: 0
-  m_Name: DataPersistenceManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &254274808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 254274807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44bc9404ba2c9f44e9400dc2cc27fcd9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DataPersistenceManager
-  fileName: data.game
-  allowSaving: 0
---- !u!4 &254274809
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 254274807}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &260602290
 GameObject:
   m_ObjectHideFlags: 0
@@ -1925,7 +1878,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67bd651fcb36cb24aae89a9b714022ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomCameraManager
-  roomCam: {fileID: 468789122}
   roomName: 1-7
 --- !u!1 &366963308
 GameObject:
@@ -2093,7 +2045,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67bd651fcb36cb24aae89a9b714022ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomCameraManager
-  roomCam: {fileID: 652291181}
   roomName: 1-4
 --- !u!1 &416450073
 GameObject:
@@ -2231,7 +2182,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a9eab1812cf8b1449ca4288efb11a95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  oneTime: 1
   playerTriggered:
     m_PersistentCalls:
       m_Calls:
@@ -2247,6 +2197,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  oneTime: 1
 --- !u!212 &426426643
 SpriteRenderer:
   serializedVersion: 2
@@ -34450,10 +34401,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   cannonStartDir: 0
   cannonType: 1
-  straightSpriteA: {fileID: 0}
-  diagonalSpriteA: {fileID: 0}
-  straightSpriteB: {fileID: 0}
-  diagonalSpriteB: {fileID: 0}
+  straightFreeSprite: {fileID: 0}
+  diagonalFreeSprite: {fileID: 0}
+  straightLockedSprite: {fileID: 0}
+  diagonalLockedSprite: {fileID: 0}
 --- !u!1 &781946944
 GameObject:
   m_ObjectHideFlags: 0
@@ -35485,8 +35436,8 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.17916667
-    y: 0.02037037
+    x: 0.1890625
+    y: 0.0787037
     width: 0.33333334
     height: 0.3333333
   near clip plane: 0.3
@@ -36311,15 +36262,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5507570206f19cc44b853a8dc6ce350a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  waitForPlayer: 1
-  stopWhenNoPlayer: 0
-  velocitySharers:
-  - {fileID: 1321560382}
   stageTrack:
   - {x: -1, y: 0, z: 0.5}
   - {x: -6, y: 0, z: 0.5}
-  startPoint: 0
   loop: 0
+  waitForPlayer: 1
+  stopWhenNoPlayer: 0
+  startPoint: 0
   pointSizeDebug: 0.2
 --- !u!1 &1180072338
 GameObject:
@@ -36517,15 +36466,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5507570206f19cc44b853a8dc6ce350a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  waitForPlayer: 1
-  stopWhenNoPlayer: 0
-  velocitySharers:
-  - {fileID: 1386331763}
   stageTrack:
   - {x: 0, y: 0, z: 3}
   - {x: 2.5, y: 2, z: 3}
-  startPoint: 0
   loop: 0
+  waitForPlayer: 1
+  stopWhenNoPlayer: 0
+  startPoint: 0
   pointSizeDebug: 0.2
 --- !u!156049354 &1238046692
 Grid:
@@ -37543,7 +37490,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67bd651fcb36cb24aae89a9b714022ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomCameraManager
-  roomCam: {fileID: 1618145795}
   roomName: 1-3
 --- !u!1001 &1370020443
 PrefabInstance:
@@ -39537,7 +39483,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67bd651fcb36cb24aae89a9b714022ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomCameraManager
-  roomCam: {fileID: 1049976484}
   roomName: 1-1
 --- !u!1001 &2026373796
 PrefabInstance:
@@ -39778,7 +39723,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67bd651fcb36cb24aae89a9b714022ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomCameraManager
-  roomCam: {fileID: 843637254}
   roomName: 1-5
 --- !u!1001 &2127153780
 PrefabInstance:
@@ -40003,7 +39947,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67bd651fcb36cb24aae89a9b714022ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomCameraManager
-  roomCam: {fileID: 1309159911}
   roomName: 1-2
 --- !u!1001 &3000002875203297033
 PrefabInstance:
@@ -40356,7 +40299,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 2127153780}
-  - {fileID: 254274809}
   - {fileID: 980471952}
   - {fileID: 619394802}
   - {fileID: 2007775743}

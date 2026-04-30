@@ -7,39 +7,32 @@ public class PlayerAnimations : MonoBehaviour
     private Animator animator;
 
     /// <summary>
-    /// Animation state enumerator
+    /// Animation state enumerator used to request animations
     /// </summary>
     public enum TargetAnimation
     {
-        IDLE,
-        RUNNING,
-        JUMP,
-        FALL,
-        FASTFALL,
-        WALLSLIDE,
-        WALLHOOK,
+        IDLE, RUNNING,
+        JUMP, FALL, FASTFALL,
+        WALLSLIDE, WALLHOOK,
         WHIP,
-        BALLRIDE,
-        BALLFALL,
+        BALLRIDE, BALLFALL,
         SWIM,
         DEATH
     }
 
+    [Tooltip("Dictionary for converting animation target into a string readable by animator")]
     Dictionary<TargetAnimation, string> animDict = new Dictionary<TargetAnimation, string>();
-
-    private bool switchAnimation = false;
-
 
 
     private void Awake()
     {
         animator = transform.GetComponent<Animator>(); // Set animator component
-
         SetupAnimationDictionary();
-
     }
 
-
+    /// <summary>
+    /// Setup animation dictionary
+    /// </summary>
     private void SetupAnimationDictionary()
     {
         animDict.Add(TargetAnimation.IDLE, "Do_Idle");
@@ -55,15 +48,16 @@ public class PlayerAnimations : MonoBehaviour
         animDict.Add(TargetAnimation.DEATH, "Do_Death");
     }
 
-
+    /// <summary>
+    /// Set animation of player
+    /// </summary>
+    /// <param name="newAnim">Target animation to switch to</param>
+    /// <param name="animValue">Integer for animations that require values</param>
     public void ChangeAnimation(TargetAnimation newAnim, int animValue = 0)
     {
-        switchAnimation = true;
-
-        // Switch to new animation (if not done already)
-        if (!animator.GetBool(animDict[newAnim]))
+        // Switch to new animation
+        if (!animator.GetBool(animDict[newAnim])) // Check if already switched, (doesn't check for integers, still seems to work?)
         {
-            //print("Chang9ing animation");
             animator.SetBool("Do_Idle", false);
             animator.SetBool("Do_Run", false);
             animator.SetBool("Do_Jump", false);
@@ -76,11 +70,11 @@ public class PlayerAnimations : MonoBehaviour
             animator.SetBool("Do_Swim", false);
             animator.SetBool("Do_Death", false);
 
-            if (newAnim != TargetAnimation.WALLHOOK)
+            if (newAnim != TargetAnimation.WALLHOOK) // Update animation 
             {
                 animator.SetBool(animDict[newAnim], true);
             }
-            else
+            else // Update wall hook animation
             {
                 animator.SetInteger("Do_WallHook", animValue);
             }

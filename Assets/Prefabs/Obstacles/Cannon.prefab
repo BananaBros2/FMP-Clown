@@ -158,10 +158,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SetEditorCannon
   cannonStartDir: 1
   cannonType: 1
-  straightSpriteA: {fileID: -7488512282933653102, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
-  diagonalSpriteA: {fileID: -6809907661698028246, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
-  straightSpriteB: {fileID: -1544903389, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
-  diagonalSpriteB: {fileID: -631483463, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+  straightFreeSprite: {fileID: -7488512282933653102, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+  diagonalFreeSprite: {fileID: -6809907661698028246, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+  straightLockedSprite: {fileID: -1544903389, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
+  diagonalLockedSprite: {fileID: -631483463, guid: 7264fc778acf2c04598f369f6ad9e414, type: 3}
 --- !u!50 &2407021060282283289
 Rigidbody2D:
   serializedVersion: 5
